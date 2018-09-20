@@ -31,6 +31,8 @@ Este es el documento de diseño de DarkMaze, un videojuego multijugador para PC.
   
   En DarkMaze se juega como Ícaro (perseguido) o como el Minotauro (perseguidor), cada uno funciona de la siguiente manera:
   
+  ![Idea de la jugabilidad del juego](https://i.imgur.com/1FevQQ1.png)
+  
   <b>Minotauro:</b> El minotauro ha de buscar a Ícaro a traves de un laberinto muy oscuro, el Minotauro tiene una fuente de luz que le permite ver un poco a su alrededor. Su visibilidad reducida se ve recompensada con una mayor velocidad. 
   El minotauro posee un botón de ataque, con él, podrá pillar a Ícaro y destrozar las rocas del camino.
   Entre sus habilidades especiales, el Minotauro puede poner dos faros en el mapa, que iluminarán una zona permanentemente. Los faros pueden ser recogidos para poder ser puestos en otras zonas del mapa.
@@ -49,3 +51,7 @@ Este es el documento de diseño de DarkMaze, un videojuego multijugador para PC.
   # 1.7. Alcance
 
 El juego trata de ser una experiencia divertida multijugador en la que se puedan seguir añadiendo estratégicos para aumentar la profundidad de este.
+
+
+
+[¡Gracias!](https://i.imgur.com/62oaFrk.png)
