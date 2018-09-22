@@ -18,7 +18,7 @@ Este es el documento de diseño de DarkMaze, un videojuego multijugador para PC.
  
   # 1.3. Género
   
-  Se trata de un juego Arcade de Sigilo y multijugador. El que juegue como minotauro será el perseguidor y el que juegue como Ícaro será el perseguido
+  Se trata de un juego Arcade de sigilo y multijugador. El que juegue como minotauro será el perseguidor y el que juegue como Ícaro será el perseguido
   
   # 1.4. Propósito y público objetivo
   
@@ -32,20 +32,21 @@ Este es el documento de diseño de DarkMaze, un videojuego multijugador para PC.
   
   ![Idea de la jugabilidad del juego](https://i.imgur.com/1FevQQ1.png)
   
-  <b>Minotauro:</b> El minotauro ha de buscar a Ícaro a traves de un laberinto muy oscuro, el Minotauro tiene una fuente de luz que le permite ver un poco a su alrededor. Su visibilidad reducida se ve recompensada con una mayor velocidad. 
-  El minotauro posee un botón de ataque, con él, podrá pillar a Ícaro y destrozar las rocas del camino.
-  Entre sus habilidades especiales, el Minotauro puede poner dos faros en el mapa, que iluminarán una zona permanentemente. Los faros pueden ser recogidos para poder ser puestos en otras zonas del mapa.
-  Finalmente, el Minotauro posee una barra que al cargarse, podrá usar para iluminar durante un breve periodo de tiempo su fuente de luz, ayudando así a encontrar a Ícaro.
+  <b>Minotauro:</b> El minotauro ha de buscar a Ícaro a traves de un laberinto muy oscuro, el Minotauro tiene una fuente de luz que le permite ver un poco a su alrededor. Su visibilidad reducida se ve recompensada con una mayor velocidad.
+  La visibilidad reducida implica que no ve la posición de ícaro a menos que este corra pero sí que es capaz de ver en la penumbra las paredes del laberinto completo, es decir, su estructura, y podrá basarse en esta para crear una estrategia.
+  El minotauro posee un botón de ataque, con él, podrá atrapar a Ícaro y destrozar las rocas del camino que coloque Ícaro al huír.
+  Entre sus habilidades especiales, el Minotauro puede poner dos faros en el mapa que iluminarán una zona permanentemente. Los faros podrán ser regogidos por el Minotauro si este se desplaza hasta su posición para poder ser puestos en otras zonas del mapa.
+  Finalmente, el Minotauro posee una barra que al cargarse, podrá usar para iluminar durante un breve periodo de tiempo su fuente de luz aumentando el rango de esta, ayudando así a encontrar a Ícaro con más facilidad.
   
-  <b>Ícaro:</b> Ícaro es el jugador que debe esconderse. Su fuente de luz es mucho más amplia que la del Minotauro, por lo que puede verlo desde mucha más distancia. En cambio, su velocidad es menor y por defecto caminará.
+  <b>Ícaro:</b> Ícaro es el jugador que debe esconderse. Su fuente de luz es mucho más amplia que la del Minotauro, por lo que puede verlo desde mucha más distancia, también puede ver la estructura del laberinto en la penumbra. En cambio, su velocidad es menor y por defecto caminará.
   Ícaro puede correr, pero esto generará un pulso que puede ser visto por el Minotauro, alertando así la posición de Ícaro.
-  Finalmente, puede poner una roca durante la partida a sus espaldas, cortando así el paso al minotauro. Esta roca es destructible.
+  Finalmente, puede poner una roca durante la partida a sus espaldas, cortando así el paso al minotauro. Solo puede colocar una roca por partida.
   
   # 1.6. Estilo visual
   
   ![Concept del Minotauro](https://i.imgur.com/ENoZsPI.png)
   
-  El juego está ambientado en el Laberinto de Creta, de la mitología griega. Por tanto, el juego tiene una estética griega, con personajes como el Minotauro y otros personajes típicos de mitología
+  El juego está ambientado en el Laberinto de Creta, de la mitología griega. Por tanto, el juego tiene una estética griega, con personajes como el Minotauro y otros personajes típicos de mitología.
   
   # 1.7. Alcance
 
@@ -58,7 +59,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
 
   # 2.1. Jugabilidad
   
-  <b>Escenarios:</b> Todos los posibles escenarios del juego son distintos laberintos en los que pueden transcurrir las partidas. Cada laberinto tendrá un diseño distinto para conseguir que cada partida sea distinta y transcurra de distinta forma.
+  <b>Escenarios:</b> Todos los posibles escenarios del juego son distintos laberintos en los que pueden transcurrir las partidas. Cada laberinto tendrá un diseño distinto para conseguir que cada partida sea distinta y transcurra de forma diferente.
   
   <b>Habilidades:</b> Cada jugador tiene una habilidad distinta. El Minotauro tiene la capacidad de utilizar dos antorchas en cualquier lugar del escenario para iluminar parte del laberinto y encontrar a Ícaro con mayor facilidad, mientras que Ícaro tiene las habilidades de colocar rocas que le permitan bloquear el camino y aumentar su velocidad para huir con mayor facilidad.
   
@@ -72,10 +73,13 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
   Una vez comienza la partida, el personaje de Ícaro y del Minotauro aparecerán en esquinas opuestas del escenario y comenzará un contador que servirá para saber cuánto tiempo ha sobrevivido Ícaro.
   El personaje del Minotauro tiene su propio rango de visión, pero tendrá disponibles desde el comienzo de la partida dos antorchas que puede colocar en cualquier parte del escenario para detectar a Ícaro si pasa por esas zonas, y su objetivo será buscar a Ícaro por todo el escenario para atraparlo.
-  En caso de que el Minotauro encuentre a Ícaro, éste último podrá colocar rocas que bloqueen el camino o correr para intentar huir.
+  En caso de que el Minotauro encuentre a Ícaro, éste último podrá colocar una roca que que bloquee el camino o correr para intentar huir.
   
   Una vez el Minotauro haya atrapado a Ícaro, parará el contador y se guardará el tiempo que haya transcurrido. Después, se intercambiarán los roles y el jugador que haya manejado al Minotauro en la primera ronda tendrá que manejar a Ícaro y viceversa.
+  
   Cuando haya terminado la segunda ronda, se compararán los dos tiempos y ganará la partida el jugador que haya aguantado más tiempo con vida manejando a Ícaro.
+  
+  Se les propondrá a los jugadores iniciar una partida nueva en un mapa distinto, en cuyo caso se repite el flujo de juego o abandonar.
   
   # 2.3. Personajes
   
@@ -104,9 +108,8 @@ Carlos Padina González
 GitHub: (nombre de la cuenta de github)
 
 Laura Suonpera Lozano
-(correo de la universidad)
-GitHub: (nombre de la cuenta de github)
-
+l.suonpera@gmail.com
+GitHub: lauraluna96
 Guillermo Mena Molina
 g.menam@alumnos.urjc.es
 GitHub: guillermomena
