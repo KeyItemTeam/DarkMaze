@@ -108,7 +108,7 @@ Carlos Padina González
 GitHub: (nombre de la cuenta de github)
 
 Laura Suonpera Lozano
-l.suonpera@gmail.com
+l.suonpera@alumnos.urjc.es
 GitHub: lauraluna96
 
 Guillermo Mena Molina
