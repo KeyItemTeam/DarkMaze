@@ -4,11 +4,11 @@
 
 Este es el documento de diseño de DarkMaze, un videojuego multijugador para PC. Aquí quedarán plasmados todos los elementos incluidos en DarkMaze.
 
-  # 1.1. Concepto del juego
+  ## 1.1. Concepto del juego
   
   DarkMaze es un juego multijugador basado en el Laberinto de Creta de la mitología griega. Los dos personajes principales del juego son Ícaro y el minotauro. Durante las partidas cada jugador manejará a uno de los dos personajes, el propósito del minotauro es atrapar a Ícaro, mientras que Ícaro debe intentar aguantar con vida el máximo tiempo posible. Los roles se intercambiarán en una segunda ronda.
   
-  # 1.2. Características principales
+  ##  1.2. Características principales
   
   <b>Partidas dinámicas:</b> Ambos jugadores intercambian roles, las partidas son fluidas.
   
@@ -16,17 +16,17 @@ Este es el documento de diseño de DarkMaze, un videojuego multijugador para PC.
   
   <b>Posibilidad de más contenido:</b> Sobre el juego se pueden añadir fácilmente más personajes, la posibilidad de jugar con más jugadores, nuevas habilidades u objetos, etc...
  
-  # 1.3. Género
+  ##  1.3. Género
   
   Se trata de un juego Arcade de sigilo y multijugador. El que juegue como minotauro será el perseguidor y el que juegue como Ícaro será el perseguido
   
-  # 1.4. Propósito y público objetivo
+  ##  1.4. Propósito y público objetivo
   
   El propósito del juego es intentar aportar una experiencia multijugar divertida. Cada partida del juego es diferente para que este pueda disfrutarse una y otra vez.
   
   El juego va dirigido a cualquier jugador que quiera disfrutar de una partida rápida con amigos en un juego de reglas sencillas pero que puede llegar a resultar bastante estratégico.
   
-  # 1.5. Jugabilidad
+  ##  1.5. Jugabilidad
   
   <b>Escenarios:</b> Todos los posibles escenarios del juego son distintos laberintos en los que pueden transcurrir las partidas. Cada laberinto tendrá un diseño distinto para conseguir que cada partida sea distinta y transcurra de forma diferente.
   
@@ -35,13 +35,13 @@ Este es el documento de diseño de DarkMaze, un videojuego multijugador para PC.
   <b>Pulsos:</b> Los pulsos serán pequeñas luces rojas que aparecerán en la posición de Ícaro si éste decide correr para aumentar su velocidad, de esta forma el Minotauro podrá ver durante un instante en qué posición se encuentra Ícaro en ese momento.
   
   
-  # 1.6. Estilo visual
+  ##  1.6. Estilo visual
   
   ![Concept del Minotauro](https://i.imgur.com/ENoZsPI.png)
   
   El juego está ambientado en el Laberinto de Creta, de la mitología griega. Por tanto, el juego tiene una estética griega, con personajes como el Minotauro y otros personajes típicos de mitología.
   
-  # 1.7. Alcance
+  ##  1.7. Alcance
 
 El juego trata de ser una experiencia divertida multijugador en la que se puedan seguir añadiendo estratégicos para aumentar la profundidad de este.
 
@@ -49,7 +49,7 @@ El juego trata de ser una experiencia divertida multijugador en la que se puedan
 
 En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los elementos básicos de la jugabilidad y las acciones  que puede realizar cada jugador durante una partida.
 
-  # 2.1. Jugabilidad
+  ##  2.1. Jugabilidad
   
   En DarkMaze se juega como Ícaro (perseguido) o como el Minotauro (perseguidor), cada uno funciona de la siguiente manera:
   
@@ -80,7 +80,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
    ![Idea de la jugabilidad del juego](https://i.imgur.com/VROj7h2.png)
   
-  # 2.2. Flujo de juego
+  ##  2.2. Flujo de juego
   
   En este apartado se detalla el transcurso de una partida de DarkMaze y se describen todos los pasos que puede seguir cada jugador hasta finalizar la partida.
   
@@ -96,7 +96,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
   Se les propondrá a los jugadores iniciar una partida nueva en un mapa distinto, en cuyo caso se repite el flujo de juego o abandonar.
   
-  # 2.3. Personajes
+  ##  2.3. Personajes
   
   En este apartado describiremos los personajes de DarkMaze y sus habilidades.
   
@@ -104,7 +104,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
     
   <b>Minotauro:</b> El Minotauro debe intentar atrapar a Ícaro en el menor tiempo posible. Tiene una única habilidad, que consiste en colocar dos antorchas en cualquier lugar del escenario que le permitan encontrar a Ícaro con mayor facilidad.
   
-  # 2.4. Controles
+  ##  2.4. Controles
   
   Los jugadores tendrán la posibilidad de moverse por el escenario y de utilizar habilidades. Además, el personaje de Ícaro tendrá la posibilidad de correr para aumentar su velocidad.
   
@@ -115,7 +115,29 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
 # 3. Interfaz
 
-
+  ##  3.1. Diagrama de flujo
+  
+  ![Interfaz](https://i.imgur.com/4lloNuV.png)
+  
+  ##  3.2. Menú Principal
+  
+  ![Interfaz](https://i.imgur.com/3cTREkr.png)
+  
+  ##  3.3. Selección de nivel
+  
+  ![Interfaz](https://i.imgur.com/BEdsnSu.png)
+  
+  ##  3.4. Juego (Minotauro)
+  
+  ![Interfaz](https://i.imgur.com/5YuaMW1.png)
+  
+  ##  3.5. Juego (Ícaro)
+  
+  ![Interfaz](https://i.imgur.com/ahNnoJo.png)
+  
+  ##  3.6. Resultados
+  
+  ![Interfaz](https://i.imgur.com/pXmlUR2.png)
 
 # 4. Equipo de desarrollo
 
