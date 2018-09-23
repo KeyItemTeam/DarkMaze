@@ -28,19 +28,12 @@ Este es el documento de diseño de DarkMaze, un videojuego multijugador para PC.
   
   # 1.5. Jugabilidad
   
-  En DarkMaze se juega como Ícaro (perseguido) o como el Minotauro (perseguidor), cada uno funciona de la siguiente manera:
+  <b>Escenarios:</b> Todos los posibles escenarios del juego son distintos laberintos en los que pueden transcurrir las partidas. Cada laberinto tendrá un diseño distinto para conseguir que cada partida sea distinta y transcurra de forma diferente.
   
-  ![Idea de la jugabilidad del juego](https://i.imgur.com/1FevQQ1.png)
+  <b>Habilidades:</b> Cada jugador tiene una habilidad distinta. El Minotauro tiene la capacidad de utilizar dos antorchas en cualquier lugar del escenario para iluminar parte del laberinto y encontrar a Ícaro con mayor facilidad, mientras que Ícaro tiene las habilidades de colocar rocas que le permitan bloquear el camino y aumentar su velocidad para huir con mayor facilidad.
   
-  <b>Minotauro:</b> El minotauro ha de buscar a Ícaro a traves de un laberinto muy oscuro, el Minotauro tiene una fuente de luz que le permite ver un poco a su alrededor. Su visibilidad reducida se ve recompensada con una mayor velocidad.
-  La visibilidad reducida implica que no ve la posición de ícaro a menos que este corra pero sí que es capaz de ver en la penumbra las paredes del laberinto completo, es decir, su estructura, y podrá basarse en esta para crear una estrategia.
-  El minotauro posee un botón de ataque, con él, podrá atrapar a Ícaro y destrozar las rocas del camino que coloque Ícaro al huír.
-  Entre sus habilidades especiales, el Minotauro puede poner dos faros en el mapa que iluminarán una zona permanentemente. Los faros podrán ser regogidos por el Minotauro si este se desplaza hasta su posición para poder ser puestos en otras zonas del mapa.
-  Finalmente, el Minotauro posee una barra que al cargarse, podrá usar para iluminar durante un breve periodo de tiempo su fuente de luz aumentando el rango de esta, ayudando así a encontrar a Ícaro con más facilidad.
+  <b>Pulsos:</b> Los pulsos serán pequeñas luces rojas que aparecerán en la posición de Ícaro si éste decide correr para aumentar su velocidad, de esta forma el Minotauro podrá ver durante un instante en qué posición se encuentra Ícaro en ese momento.
   
-  <b>Ícaro:</b> Ícaro es el jugador que debe esconderse. Su fuente de luz es mucho más amplia que la del Minotauro, por lo que puede verlo desde mucha más distancia, también puede ver la estructura del laberinto en la penumbra. En cambio, su velocidad es menor y por defecto caminará.
-  Ícaro puede correr, pero esto generará un pulso que puede ser visto por el Minotauro, alertando así la posición de Ícaro.
-  Finalmente, puede poner una roca durante la partida a sus espaldas, cortando así el paso al minotauro. Solo puede colocar una roca por partida.
   
   # 1.6. Estilo visual
   
@@ -59,11 +52,35 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
 
   # 2.1. Jugabilidad
   
-  <b>Escenarios:</b> Todos los posibles escenarios del juego son distintos laberintos en los que pueden transcurrir las partidas. Cada laberinto tendrá un diseño distinto para conseguir que cada partida sea distinta y transcurra de forma diferente.
+
+  En DarkMaze se juega como Ícaro (perseguido) o como el Minotauro (perseguidor), cada uno funciona de la siguiente manera:
   
-  <b>Habilidades:</b> Cada jugador tiene una habilidad distinta. El Minotauro tiene la capacidad de utilizar dos antorchas en cualquier lugar del escenario para iluminar parte del laberinto y encontrar a Ícaro con mayor facilidad, mientras que Ícaro tiene las habilidades de colocar rocas que le permitan bloquear el camino y aumentar su velocidad para huir con mayor facilidad.
+  ![Idea de la jugabilidad del juego](https://i.imgur.com/evlhutw.png)
   
-  <b>Pulsos:</b> Los pulsos serán pequeñas luces rojas que aparecerán en la posición de Ícaro si éste decide correr para aumentar su velocidad, de esta forma el Minotauro podrá ver durante un instante en qué posición se encuentra Ícaro en ese momento.
+  <b>Minotauro:</b> El minotauro ha de buscar a Ícaro a traves de un laberinto muy oscuro, el Minotauro tiene una fuente de luz que le permite ver un poco a su alrededor. Su visibilidad reducida se ve recompensada con una mayor velocidad.
+  La visibilidad reducida implica que no ve la posición de Ícaro a menos que este corra pero sí que es capaz de ver en la penumbra las paredes del laberinto completo, es decir, su estructura, y podrá basarse en esta para crear una estrategia.
+  El minotauro posee un botón de ataque, con él, podrá atrapar a Ícaro y destrozar las rocas del camino que coloque Ícaro al huír.
+  
+   ![Idea de la jugabilidad del juego](https://i.imgur.com/7Riyi0i.png)
+    
+   ![Idea de la jugabilidad del juego](https://i.imgur.com/nt1DePd.png)
+    
+  Entre sus habilidades especiales, el Minotauro puede poner dos faros en el mapa que iluminarán una zona permanentemente. Los faros podrán ser recogidos por el Minotauro si este se desplaza hasta su posición para poder ser puestos en otras zonas del mapa.
+  
+   ![Idea de la jugabilidad del juego](https://i.imgur.com/NDJeX4x.png)
+    
+  Finalmente, el Minotauro posee una barra que al cargarse, podrá usar para iluminar durante un breve periodo de tiempo su fuente de luz aumentando el rango de esta, ayudando así a encontrar a Ícaro con más facilidad.
+  
+   ![Idea de la jugabilidad del juego](https://i.imgur.com/6zOPAf7.png)
+  
+  <b>Ícaro:</b> Ícaro es el jugador que debe esconderse. Su fuente de luz es mucho más amplia que la del Minotauro, por lo que puede verlo desde mucha más distancia, también puede ver la estructura del laberinto en la penumbra. En cambio, su velocidad es menor y por defecto caminará.
+  Ícaro puede correr, pero esto generará un pulso que puede ser visto por el Minotauro, alertando así la posición de Ícaro.
+  
+   ![Idea de la jugabilidad del juego](https://i.imgur.com/InJwfs6.png)
+  
+  Finalmente, puede poner una roca durante la partida a sus espaldas, cortando así el paso al minotauro. Solo puede colocar una roca por partida.
+  
+   ![Idea de la jugabilidad del juego](https://i.imgur.com/VROj7h2.png)
   
   # 2.2. Flujo de juego
   
