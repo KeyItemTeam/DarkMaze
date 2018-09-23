@@ -139,7 +139,53 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
   ![Interfaz](https://i.imgur.com/pXmlUR2.png)
 
-# 4. Equipo de desarrollo
+# 4. Arte
+
+El principal objetivo del arte de DarkMaze es provocar sensación de tensión en los jugadores, tanto en el apartado visual como auditivo. Esto lo conseguiremos haciendo que los jugadores tengan poco rango de visión y añadiendo música que genere tensión durante el transcurso de las partidas.
+
+  ## 4.1. Arte 2D
+  
+  Los dos personajes jugables tendrán las siguientes animaciones: 
+  
+  <b>Ícaro:</b> Quieto, andar, correr, usar habilidad, recibir daño.
+  <b>Minotauro:</b> Quieto, andar, atacar, usar habilidad.
+  
+  Además, estos son algunos de los elementos (que se irán ampliando) que se diseñarán para el juego:
+  
+  <b>Menú</b>
+  - Logotipo
+  - Botón Jugar
+  - Botón Opciones
+  - Botón Salir
+  - Flecha Izquierda/Derecha: Usadas para la selección de mapa antes de iniciar la partida.
+  
+  <b>Partida</b>
+  - Escenario: Suelo.
+  - Escenario: Pared.
+  - Escenario: Esquina.
+  - Antorcha.
+  - Roca.
+  - Pulso.
+  
+  ## 4.2. Audio
+  
+  Estos serán los elementos de audio que se utilicen para el juego:
+  
+  <b>Música</b>
+  - Menú principal: Será música de aventura y tensión, aunque más relajada que la música que habrá durante las partidas.
+  - Partida: Música que genere tensión en el jugador, especialmente en el jugador que maneje a Ícaro.
+  - Victoria: Será la música que escuche el jugador que gane la partida, ésta será más alegre que la escuchada durante la partida.
+  - Derrota: Música triste que escuchará el jugador que pierda.
+  
+  <b>Efectos de sonido</b>
+  - Ataque: Golpe producido por el Minotauro al atacar.
+  - Antorcha: Sonido provocado al colocar una antorcha en el escenario.
+  - Roca: Sonido al colocar una roca en el suelo del escenario.
+  - Pulso: Sonido de radar que el Minotauro puede escuchar cuando Ícaro corra.
+  - Correr: Sonido de los pasos de Ícaro al correr.
+  
+
+# 5. Equipo de desarrollo
 
 Carlos Padina González
 cv.padina@alumnos.urjc.es
