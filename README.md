@@ -6,7 +6,7 @@ Este es el documento de diseño de DarkMaze, un videojuego multijugador para PC.
 
   # 1.1. Concepto del juego
   
-  DarkMaze es un juego multijugador basado en el Laberinto de Creta de la mitología griega. Los dos personajes principales del juego son Ícaro y el minotauro. Durante las partidas cada jugador manejará a uno de los dos personajes, con el propósito de que el minotauro tenga que alcanzar a Ícaro, mientras que Ícaro debe intentar aguantar con vida el máximo tiempo posible.
+  DarkMaze es un juego multijugador basado en el Laberinto de Creta de la mitología griega. Los dos personajes principales del juego son Ícaro y el minotauro. Durante las partidas cada jugador manejará a uno de los dos personajes, el propósito del minotauro es atrapar a Ícaro, mientras que Ícaro debe intentar aguantar con vida el máximo tiempo posible. Los roles se intercambiarán en una segunda ronda.
   
   # 1.2. Características principales
   
@@ -24,7 +24,7 @@ Este es el documento de diseño de DarkMaze, un videojuego multijugador para PC.
   
   El propósito del juego es intentar aportar una experiencia multijugar divertida. Cada partida del juego es diferente para que este pueda disfrutarse una y otra vez.
   
-  El juego va dirigido a cualquier jugador que quiera disfrutar de una partida rápida con amigos en un juego de reglas sencillas pero que puede ser bastante estratégico.
+  El juego va dirigido a cualquier jugador que quiera disfrutar de una partida rápida con amigos en un juego de reglas sencillas pero que puede llegar a resultar bastante estratégico.
   
   # 1.5. Jugabilidad
   
@@ -45,14 +45,12 @@ Este es el documento de diseño de DarkMaze, un videojuego multijugador para PC.
 
 El juego trata de ser una experiencia divertida multijugador en la que se puedan seguir añadiendo estratégicos para aumentar la profundidad de este.
 
-
 # 2. Mecánicas de juego
 
 En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los elementos básicos de la jugabilidad y las acciones  que puede realizar cada jugador durante una partida.
 
   # 2.1. Jugabilidad
   
-
   En DarkMaze se juega como Ícaro (perseguido) o como el Minotauro (perseguidor), cada uno funciona de la siguiente manera:
   
   ![Idea de la jugabilidad del juego](https://i.imgur.com/evlhutw.png)
