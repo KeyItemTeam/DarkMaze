@@ -120,8 +120,8 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
 # 4. Equipo de desarrollo
 
 Carlos Padina González
-(correo de la universidad)
-GitHub: (nombre de la cuenta de github)
+cv.padina@alumnos.urjc.es
+GitHub: twisterloop
 
 Laura Suonpera Lozano
 l.suonpera@alumnos.urjc.es
