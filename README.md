@@ -94,7 +94,8 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   Los jugadores tendrán la posibilidad de moverse por el escenario y de utilizar habilidades. Además, el personaje de Ícaro tendrá la posibilidad de correr para aumentar su velocidad.
   
   - Movimiento: Teclas W,A,S,D
-  - Usar habilidad: Tecla R
+  - Usar habilida activa (ícaro colocar bloque y minotauro atacar): barra espaciadora
+  - Colocar linternas (en el caso del minotauro): tecla R
   - Correr: Tecla Mayús
   
 # 3. Interfaz
