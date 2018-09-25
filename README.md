@@ -6,15 +6,15 @@ Este es el documento de diseño de DarkMaze, un videojuego multijugador para PC.
 
   ## 1.1. Concepto del juego
   
-  DarkMaze es un juego multijugador basado en el Laberinto de Creta de la mitología griega. Los dos personajes principales del juego son Teseo y el Minotauro. Durante las partidas cada jugador manejará a uno de los dos personajes, el propósito del Minotauro es atrapar a Teseo, mientras que Teseo debe intentar aguantar con vida el máximo tiempo posible. Los roles se intercambiarán en una segunda ronda.
+  DarkMaze es un juego multijugador basado en el Laberinto de Creta de la mitología griega. Los dos tipos de personajes son Buscadores y Perseguidos. Durante las partidas cada jugador manejará a uno de los dos tipos de personaje. El propósito del Buscador es atrapar a los Perseguidores, mientras que cada Perseguidor debe intentar aguantar con vida el máximo tiempo posible. Los roles se intercambiarán en una segunda ronda.
   
   ##  1.2. Características principales
   
-  <b>Partidas dinámicas:</b> Ambos jugadores intercambian roles, las partidas son fluidas.
+  <b>Partidas dinámicas:</b> Los jugadores intercambian roles, las partidas son fluidas.
   
   <b>Toque estratégico:</b> Las dintintas habilidades y mecánicas aportan un toque de estrategia que hace a cada partida diferente.
   
-  <b>Posibilidad de más contenido:</b> Sobre el juego se pueden añadir fácilmente más personajes, la posibilidad de jugar con más jugadores, nuevas habilidades u objetos, etc...
+  <b>Posibilidad de más contenido:</b> Sobre el juego se pueden añadir fácilmente más personajes, nuevas habilidades u objetos, etc...
  
   ##  1.3. Género
   
@@ -30,11 +30,11 @@ Este es el documento de diseño de DarkMaze, un videojuego multijugador para PC.
   
   <b>Escenarios:</b> Todos los posibles escenarios del juego son distintos laberintos en los que pueden transcurrir las partidas. Cada laberinto tendrá un diseño distinto para conseguir que cada partida sea distinta y transcurra de forma diferente.
   
-  <b>Habilidades:</b> Cada jugador tiene una habilidad distinta. El Minotauro tiene la capacidad de utilizar dos antorchas en cualquier lugar del escenario para iluminar parte del laberinto y encontrar a Ícaro con mayor facilidad, mientras que Teseo tiene las habilidades de colocar rocas que le permitan bloquear el camino y aumentar su velocidad para huir con mayor facilidad.
+  <b>Habilidades:</b> Cada jugador tiene una habilidad distinta. El Minotauro tiene la capacidad de utilizar dos antorchas en cualquier lugar del escenario para iluminar parte del laberinto y encontrar a los Perseguidores con mayor facilidad, mientras que Teseo tiene la habilidad de colocar una roca que le permite bloquear el camino y aumentar su velocidad para huir con mayor facilidad.
   
   <b>Habilidades Especiales:</b> Estas habilidades se cargan y son grandes habilidades que hacen grandes cambios en el modo de juego, además, permite mayor diferenciación entre personajes, pues cada personaje tiene una distinta. Un aviso especial aparecerá en las pantallas de todos los jugadores cuando se usen.
   
-  <b>Pulsos:</b> Los pulsos serán pequeñas luces rojas que aparecerán en la posición de Ícaro si éste decide correr para aumentar su velocidad, de esta forma el Minotauro podrá ver durante un instante en qué posición se encuentra Ícaro en ese momento.
+  <b>Pulsos:</b> Los pulsos serán pequeñas luces rojas que aparecerán en la posición de los Perseguidos si estos deciden correr para aumentar su velocidad, de esta forma, los Buscadores podrán ver durante un instante en qué posición se encuentran los Perseguidos en ese momento.
   
   
   ##  1.6. Estilo visual
@@ -86,7 +86,20 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
   En este apartado se detalla el transcurso de una partida de DarkMaze y se describen todos los pasos que puede seguir cada jugador hasta finalizar la partida.
   
-  Al iniciar el juego se presenta el Menú Principal, donde el jugador tiene disponible la opción Jugar para empezar una partida. Antes de comenzar, se elige un personaje tipo "Buscador" y un personaje tipo "Perseguido", también se elige en qué escenario transcurrirá la partida.
+  Al iniciar el juego se presenta el Menú Principal, donde el jugador tiene disponible la opción Jugar para empezar una partida.
+  Se debe especificar el número de jugadores que quiere que haya en la partida, siempre en números pares.
+  A continuación se presenta una tabla con el número total de jugadores y cuántos Bucadores habrá en la partida:
+  
+| Nº Jugadores | Buscador | Perseguidos |
+|--------------|----------|-------------|
+| 2            | 1        | 1           |
+| 4            | 2        | 2           |
+| 6            | 3        | 3           |
+  
+ También dependiendo del número de jugadores, se regulará el número de antorchas y rocas.
+ 
+ Antes de comenzar, se elige un personaje tipo "Buscador" y un personaje tipo "Perseguido", también se elige en qué escenario
+  transcurrirá la partida. 
   
   Una vez comienza la partida, el personaje Perseguido y el Buscador aparecerán en esquinas opuestas del escenario y comenzará un contador que servirá para saber cuánto tiempo ha sobrevivido el Perseguido.
   El Buscador tiene su propio rango de visión, pero tendrá disponibles desde el comienzo de la partida dos antorchas que puede colocar en cualquier parte del escenario para detectar al Perseguido si pasa por esas zonas, y su objetivo será buscar al Perseguido por todo el escenario para atraparlo.
@@ -95,6 +108,8 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   Una vez el Buscador haya atrapado al Perseguido, parará el contador y se guardará el tiempo que haya transcurrido. Después, se intercambiarán los roles y el jugador que haya manejado a un Buscador en la primera ronda tendrá que manejar a un Perseguido y viceversa.
   
   Cuando haya terminado la segunda ronda, se compararán los dos tiempos y ganará la partida el jugador que haya aguantado más tiempo con vida manejando a un Perseguidor.
+  
+  Todo lo explicado anteriormente se aplica a equipos si hay más de 2 jugadores.
   
   Se les propondrá a los jugadores iniciar una partida nueva en un mapa distinto, en cuyo caso se repite el flujo de juego o abandonar.
 
@@ -110,7 +125,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
     Stats
     * Velocidad: Media
-    * Rocas: Pocas
+    * Rocas: 1
     * Visión: Alta
   
   _Camuflaje_: Teseo puede hacerse invisible durante un periodo de tiempo, pero no puede moverse sin quitarse su invisibilidad.
@@ -121,7 +136,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
      Stats
      * Velocidad: Poca
-     * Rocas: Muchas
+     * Rocas: 3
      * Visión: Normal
   
   _Hilo brillante_: Revela la posición del Buscador durante un periodo de tiempo.
@@ -132,7 +147,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
      Stats
      * Velocidad: Alta
-     * Rocas: Normal
+     * Rocas: 2
      * Visión: Poca
   
   _Alas temporales_: Ícaro puede saltar una pared con esta habilidad, siempre que haya suelo al otro lado.
@@ -145,7 +160,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
      Stats
      * Velocidad: Alta
-     * Faro: Normal
+     * Faro: 2
      * Visión: Poca
   
   _Instinto_: Permite aumentar bastante su campo de visión durante un breve periodo de tiempo. 
@@ -156,7 +171,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
     
      Stats
      * Velocidad: Poca
-     * Faros: Muchos
+     * Faros: 3
      * Visión: Normal
   
   _Vigilante_: Permite a una de sus antorchas cobrar vida y desplazarse en linea recta por el escenario. Si la antorcha ve a un Perseguidor, será atacado por la misma. 
@@ -167,7 +182,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
     
      Stats
      * Velocidad: Normal
-     * Faros: Pocos
+     * Faros: 1
      * Visión: Mucha
   
   _Mirada Pétrea_: Si la usa cuando alguien pasa en su campo de visión (o el de su faro) el Perseguidor se converitá en piedra durante unos segundos.
