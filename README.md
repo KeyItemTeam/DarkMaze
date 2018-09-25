@@ -6,7 +6,7 @@ Este es el documento de diseño de DarkMaze, un videojuego multijugador para PC.
 
   ## 1.1. Concepto del juego
   
-  DarkMaze es un juego multijugador basado en el Laberinto de Creta de la mitología griega. Los dos personajes principales del juego son Ícaro y el minotauro. Durante las partidas cada jugador manejará a uno de los dos personajes, el propósito del minotauro es atrapar a Ícaro, mientras que Ícaro debe intentar aguantar con vida el máximo tiempo posible. Los roles se intercambiarán en una segunda ronda.
+  DarkMaze es un juego multijugador basado en el Laberinto de Creta de la mitología griega. Los dos personajes principales del juego son Teseo y el Minotauro. Durante las partidas cada jugador manejará a uno de los dos personajes, el propósito del Minotauro es atrapar a Teseo, mientras que Teseo debe intentar aguantar con vida el máximo tiempo posible. Los roles se intercambiarán en una segunda ronda.
   
   ##  1.2. Características principales
   
@@ -18,7 +18,7 @@ Este es el documento de diseño de DarkMaze, un videojuego multijugador para PC.
  
   ##  1.3. Género
   
-  Se trata de un juego Arcade de sigilo y multijugador. El que juegue como minotauro será el perseguidor y el que juegue como Ícaro será el perseguido
+  Se trata de un juego Arcade de sigilo y multijugador. El que juegue como Minotauro será el Buscador y el que juegue como Teseo será el Perseguido.
   
   ##  1.4. Propósito y público objetivo
   
@@ -30,7 +30,9 @@ Este es el documento de diseño de DarkMaze, un videojuego multijugador para PC.
   
   <b>Escenarios:</b> Todos los posibles escenarios del juego son distintos laberintos en los que pueden transcurrir las partidas. Cada laberinto tendrá un diseño distinto para conseguir que cada partida sea distinta y transcurra de forma diferente.
   
-  <b>Habilidades:</b> Cada jugador tiene una habilidad distinta. El Minotauro tiene la capacidad de utilizar dos antorchas en cualquier lugar del escenario para iluminar parte del laberinto y encontrar a Ícaro con mayor facilidad, mientras que Ícaro tiene las habilidades de colocar rocas que le permitan bloquear el camino y aumentar su velocidad para huir con mayor facilidad.
+  <b>Habilidades:</b> Cada jugador tiene una habilidad distinta. El Minotauro tiene la capacidad de utilizar dos antorchas en cualquier lugar del escenario para iluminar parte del laberinto y encontrar a Ícaro con mayor facilidad, mientras que Teseo tiene las habilidades de colocar rocas que le permitan bloquear el camino y aumentar su velocidad para huir con mayor facilidad.
+  
+  <b>Habilidades Especiales:</b> Estas habilidades se cargan y son grandes habilidades que hacen grandes cambios en el modo de juego, además, permite mayor diferenciación entre personajes, pues cada personaje tiene una distinta. Un aviso especial aparecerá en las pantallas de todos los jugadores cuando se usen.
   
   <b>Pulsos:</b> Los pulsos serán pequeñas luces rojas que aparecerán en la posición de Ícaro si éste decide correr para aumentar su velocidad, de esta forma el Minotauro podrá ver durante un instante en qué posición se encuentra Ícaro en ese momento.
   
@@ -51,28 +53,28 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
 
   ##  2.1. Jugabilidad
   
-  En DarkMaze se juega como Ícaro (perseguido) o como el Minotauro (perseguidor), cada uno funciona de la siguiente manera:
+  En DarkMaze se juega como Perseguido o como Buscador, cada uno funciona de la siguiente manera:
   
   ![Idea de la jugabilidad del juego](https://i.imgur.com/evlhutw.png)
   
-  <b>Minotauro:</b> El minotauro ha de buscar a Ícaro a traves de un laberinto muy oscuro, el Minotauro tiene una fuente de luz que le permite ver un poco a su alrededor. Su visibilidad reducida se ve recompensada con una mayor velocidad.
-  La visibilidad reducida implica que no ve la posición de Ícaro a menos que este corra pero sí que es capaz de ver en la penumbra las paredes del laberinto completo, es decir, su estructura, y podrá basarse en esta para crear una estrategia.
-  El minotauro posee un botón de ataque, con él, podrá atrapar a Ícaro y destrozar las rocas del camino que coloque Ícaro al huír.
+  <b>Buscador:</b> El Buscador ha de buscar al Perseguido a traves de un laberinto muy oscuro, el Buscador tiene una fuente de luz que le permite ver un poco a su alrededor. Su visibilidad reducida se ve recompensada con una mayor velocidad.
+  La visibilidad reducida implica que no ve la posición del Perseguido a menos que este corra, pero sí que es capaz de ver en la penumbra las paredes del laberinto completo, es decir, su estructura, y podrá basarse en esta para crear una estrategia.
+  El Buscador posee un botón de ataque, con él, podrá atrapar al Perseguido y destrozar las rocas del camino que coloque el Perseguido al huir.
   
    ![Idea de la jugabilidad del juego](https://i.imgur.com/7Riyi0i.png)
     
    ![Idea de la jugabilidad del juego](https://i.imgur.com/nt1DePd.png)
     
-  Entre sus habilidades especiales, el Minotauro puede poner dos faros en el mapa que iluminarán una zona permanentemente. Los faros podrán ser recogidos por el Minotauro si este se desplaza hasta su posición para poder ser puestos en otras zonas del mapa.
+  Entre sus habilidades especiales, el Buscador puede poner dos faros en el mapa que iluminarán una zona permanentemente. Los faros podrán ser recogidos por el Buscador si este se desplaza hasta su posición para poder ser puestos en otras zonas del mapa.
   
    ![Idea de la jugabilidad del juego](https://i.imgur.com/NDJeX4x.png)
     
-  Finalmente, el Minotauro posee una barra que al cargarse, podrá usar para iluminar durante un breve periodo de tiempo su fuente de luz aumentando el rango de esta, ayudando así a encontrar a Ícaro con más facilidad.
+  Finalmente, el Buscador posee una barra que al cargarse, podrá usar desatar una poderosa habilidad especial, ayudando así a encontrar al Perseguido con más facilidad.
   
    ![Idea de la jugabilidad del juego](https://i.imgur.com/6zOPAf7.png)
   
-  <b>Ícaro:</b> Ícaro es el jugador que debe esconderse. Su fuente de luz es mucho más amplia que la del Minotauro, por lo que puede verlo desde mucha más distancia, también puede ver la estructura del laberinto en la penumbra. En cambio, su velocidad es menor y por defecto caminará.
-  Ícaro puede correr, pero esto generará un pulso que puede ser visto por el Minotauro, alertando así la posición de Ícaro.
+  <b>Perseguido:</b> Es el jugador que debe esconderse. Su fuente de luz es mucho más amplia que la del Buscador, por lo que puede verlo desde mucha más distancia, también puede ver la estructura del laberinto en la penumbra. En cambio, su velocidad es menor y por defecto caminará.
+  Ícaro puede correr, pero esto generará un pulso que puede ser visto por el Buscador, alertando así la posición del Perseguido.
   
    ![Idea de la jugabilidad del juego](https://i.imgur.com/InJwfs6.png)
   
@@ -84,25 +86,92 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
   En este apartado se detalla el transcurso de una partida de DarkMaze y se describen todos los pasos que puede seguir cada jugador hasta finalizar la partida.
   
-  Al iniciar el juego se presenta el Menú Principal, donde el jugador tiene disponible la opción Jugar para empezar una partida. Antes de comenzar, se elige aleatoriamente qué personaje manejará inicialmente el jugador y en qué escenario transcurrirá la partida.
+  Al iniciar el juego se presenta el Menú Principal, donde el jugador tiene disponible la opción Jugar para empezar una partida. Antes de comenzar, se elige un personaje tipo "Buscador" y un personaje tipo "Perseguido", también se elige en qué escenario transcurrirá la partida.
   
-  Una vez comienza la partida, el personaje de Ícaro y del Minotauro aparecerán en esquinas opuestas del escenario y comenzará un contador que servirá para saber cuánto tiempo ha sobrevivido Ícaro.
-  El personaje del Minotauro tiene su propio rango de visión, pero tendrá disponibles desde el comienzo de la partida dos antorchas que puede colocar en cualquier parte del escenario para detectar a Ícaro si pasa por esas zonas, y su objetivo será buscar a Ícaro por todo el escenario para atraparlo.
-  En caso de que el Minotauro encuentre a Ícaro, éste último podrá colocar una roca que que bloquee el camino o correr para intentar huir.
+  Una vez comienza la partida, el personaje Perseguido y el Buscador aparecerán en esquinas opuestas del escenario y comenzará un contador que servirá para saber cuánto tiempo ha sobrevivido el Perseguido.
+  El Buscador tiene su propio rango de visión, pero tendrá disponibles desde el comienzo de la partida dos antorchas que puede colocar en cualquier parte del escenario para detectar al Perseguido si pasa por esas zonas, y su objetivo será buscar al Perseguido por todo el escenario para atraparlo.
+  En caso de que el Buscador encuentre al Perseguido, éste último podrá colocar una roca que que bloquee el camino o correr para intentar huir.
   
-  Una vez el Minotauro haya atrapado a Ícaro, parará el contador y se guardará el tiempo que haya transcurrido. Después, se intercambiarán los roles y el jugador que haya manejado al Minotauro en la primera ronda tendrá que manejar a Ícaro y viceversa.
+  Una vez el Buscador haya atrapado al Perseguido, parará el contador y se guardará el tiempo que haya transcurrido. Después, se intercambiarán los roles y el jugador que haya manejado a un Buscador en la primera ronda tendrá que manejar a un Perseguido y viceversa.
   
-  Cuando haya terminado la segunda ronda, se compararán los dos tiempos y ganará la partida el jugador que haya aguantado más tiempo con vida manejando a Ícaro.
+  Cuando haya terminado la segunda ronda, se compararán los dos tiempos y ganará la partida el jugador que haya aguantado más tiempo con vida manejando a un Perseguidor.
   
   Se les propondrá a los jugadores iniciar una partida nueva en un mapa distinto, en cuyo caso se repite el flujo de juego o abandonar.
-  
+
   ##  2.3. Personajes
   
   En este apartado describiremos los personajes de DarkMaze y sus habilidades.
   
-  <b>Ícaro:</b> Ícaro es el personaje que debe intentar huir. Su objetivo es sobrevivir el mayor tiempo posible para ganar la partida. Este personaje tiene dos habilidades que puede utilizar: Colocar rocas para bloquear el camino y correr para aumentar su velocidad.
+  ### 2.3.1 Perseguidos
+   
+   __Teseo:__
+  
+  Héroe ofrecido voluntario para luchar contra el minotauro, pero que se ha perdido un poco.
+  
+    Stats
+    * Velocidad: Media
+    * Rocas: Pocas
+    * Visión: Alta
+  
+  _Camuflaje_: Teseo puede hacerse invisible durante un periodo de tiempo, pero no puede moverse sin quitarse su invisibilidad.
+  
+  __Ariadna:__
+  
+  Princesa Cretense, ha ido al laberinto en busca de Teseo.
+  
+     Stats
+     * Velocidad: Poca
+     * Rocas: Muchas
+     * Visión: Normal
+  
+  _Hilo brillante_: Revela la posición del Buscador durante un periodo de tiempo.
+  
+  <b>Ícaro:</b> 
+  
+  Joven hijo de Dédalo que intentó huir del laberinto, pero que ha vuelto a caer en él.
+  
+     Stats
+     * Velocidad: Alta
+     * Rocas: Normal
+     * Visión: Poca
+  
+  _Alas temporales_: Ícaro puede saltar una pared con esta habilidad, siempre que haya suelo al otro lado.
+  
+  ### 2.3.2 Buscadores
+  
+  <b>Minotauro:</b> 
+  
+  Guardián del laberinto, es mitad hombre, mitad toro.
+  
+     Stats
+     * Velocidad: Alta
+     * Faro: Normal
+     * Visión: Poca
+  
+  _Instinto_: Permite aumentar bastante su campo de visión durante un breve periodo de tiempo. 
+  
+  <b>Cíclope:</b>
+  
+  Miembro de la familia de los gigantes que posee un solo ojo. 
     
-  <b>Minotauro:</b> El Minotauro debe intentar atrapar a Ícaro en el menor tiempo posible. Tiene una única habilidad, que consiste en colocar dos antorchas en cualquier lugar del escenario que le permitan encontrar a Ícaro con mayor facilidad.
+     Stats
+     * Velocidad: Poca
+     * Faros: Muchos
+     * Visión: Normal
+  
+  _Vigilante_: Permite a una de sus antorchas cobrar vida y desplazarse en linea recta por el escenario. Si la antorcha ve a un Perseguidor, será atacado por la misma. 
+   
+  <b>Medusa:</b>
+    
+  Monstruo capaz de convertir, con su mirada, en piedra.
+    
+     Stats
+     * Velocidad: Normal
+     * Faros: Pocos
+     * Visión: Mucha
+  
+  _Mirada Pétrea_: Si la usa cuando alguien pasa en su campo de visión (o el de su faro) el Perseguidor se converitá en piedra durante unos segundos.
+  
   
   ##  2.4. Controles
   
@@ -145,10 +214,10 @@ El principal objetivo del arte de DarkMaze es provocar sensación de tensión en
 
   ## 4.1. Arte 2D
   
-  Los dos personajes jugables tendrán las siguientes animaciones: 
+  Los personajes jugables tendrán las siguientes animaciones: 
   
-  <b>Ícaro:</b> Quieto, andar, correr, usar habilidad, recibir daño.
-  <b>Minotauro:</b> Quieto, andar, atacar, usar habilidad.
+  <b>Perseguidos:</b> Quieto, andar, correr, usar habilidad, recibir daño.
+  <b>Buscadores:</b> Quieto, andar, atacar, usar habilidad.
   
   Además, estos son algunos de los elementos (que se irán ampliando) que se diseñarán para el juego:
   
@@ -178,11 +247,11 @@ El principal objetivo del arte de DarkMaze es provocar sensación de tensión en
   - Derrota: Música triste que escuchará el jugador que pierda.
   
   <b>Efectos de sonido</b>
-  - Ataque: Golpe producido por el Minotauro al atacar.
+  - Ataque: Golpe producido al atacar.
   - Antorcha: Sonido provocado al colocar una antorcha en el escenario.
   - Roca: Sonido al colocar una roca en el suelo del escenario.
-  - Pulso: Sonido de radar que el Minotauro puede escuchar cuando Ícaro corra.
-  - Correr: Sonido de los pasos de Ícaro al correr.
+  - Pulso: Sonido generado al correr que solo puede escuchar el Buscador.
+  - Correr: Sonido de los pasosal correr que solo puede escuchar el Perseguido.
   
 
 # 5. Equipo de desarrollo
