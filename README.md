@@ -203,6 +203,24 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   - Colocar linternas (en el caso del minotauro): tecla R
   - Correr: Tecla Mayús
   
+  ## 2.5. Escenas
+  
+  En este apartado quedan descritas todas las escenas que habrá en el juego:
+  
+  <b>Menú principal:</b> Es la primera escena que aparece al iniciar el juego. En esta opción el jugador tiene la opción de empezar una partida, entrar en las opciones del juego o salir del juego.
+  
+  <b>Opciones:</b>
+  
+  <b>Selección de mapa:</b> En esta escena el jugador puede elegir en qué escenario quiere jugar su siguiente partida. Habrá dos flechas para ir pasando de un mapa a otro hasta que encuentre el que quiera jugar.
+  
+  <b>Selección de personaje:</b> Los jugadores tendrán la posibilidad de elegir con qué personaje quieren jugar la partida. Los que tengan que huir podrán elegir entre Ícaro, Teseo y Ariadna, mientras que los perseguidores podrán elegir entre el Minotauro, Cíclope y Medusa.
+  
+  <b>Distribución de equipos:</b> Los jugadores serán distribuídos en dos equipos (perseguidos y perseguidores) en base a su rango, que es calculado con el número de victorias y derrotas de las partidas que han jugado. Los equipos estarán equilibrados entre ellos para lograr una experiencia de juego más justa y entretenida.
+  
+  <b>Juego:</b> Es la escena en la que transcurrirán las partidas, durará hasta que el perseguidor (o alguno de los perseguidores en caso de que haya más) alcance al jugador (o jugadores) que tiene que huir. Los tiempos de cada ronda se guardarán para hacer la tabla de resultados de la escena siguiente.
+  
+  <b>Tabla de resultados:</b> Aparecerá cuando termina la escena de juego, y es donde se mostrarán los resultados de cada jugador para determinar quién ha ganado.
+  
 # 3. Interfaz
   
   El juego dispondrá de un chat entre todos los jugadores desde el menú de selección del personaje hasta el inicio de la partida, una     vez dentro de la partida el chat será entre miembros del mismo equipo para poder planificar sus estrategias sin ser descubiertos por     sus rivales.
