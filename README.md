@@ -120,6 +120,8 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   ### 2.3.1 Perseguidos
    
    __Teseo:__
+   
+  ![Personaje](Teseo.png)
   
   Héroe ofrecido voluntario para luchar contra el minotauro, pero que se ha perdido un poco.
   
@@ -131,6 +133,8 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   _Camuflaje_: Teseo puede hacerse invisible durante un periodo de tiempo, pero no puede moverse sin quitarse su invisibilidad.
   
   __Ariadna:__
+  
+  ![Personaje](ariadna.png)
   
   Princesa Cretense, ha ido al laberinto en busca de Teseo.
   
@@ -155,6 +159,8 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   ### 2.3.2 Buscadores
   
   <b>Minotauro:</b> 
+  
+  ![Personaje](minotauro.png)
   
   Guardián del laberinto, es mitad hombre, mitad toro.
   
