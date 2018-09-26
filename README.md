@@ -183,6 +183,8 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   _Vigilante_: Permite a una de sus antorchas cobrar vida y desplazarse en linea recta por el escenario. Si la antorcha ve a un Perseguidor, será atacado por la misma. 
    
   <b>Medusa:</b>
+  
+  ![Personaje](medusa.png)
     
   Monstruo capaz de convertir, con su mirada, en piedra.
     
