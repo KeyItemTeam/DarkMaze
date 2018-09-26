@@ -198,7 +198,9 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   - Correr: Tecla Mayús
   
 # 3. Interfaz
-
+  
+  El juego dispondrá de un chat entre todos los jugadores desde el menú de selección del personaje hasta el inicio de la partida, una     vez dentro de la partida el chat será entre miembros del mismo equipo para poder planificar sus estrategias sin ser descubiertos por     sus rivales.
+  
   ##  3.1. Diagrama de flujo
   
   ![Interfaz](https://i.imgur.com/4lloNuV.png)
@@ -207,19 +209,25 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
   ![Interfaz](https://i.imgur.com/3cTREkr.png)
   
-  ##  3.3. Selección de nivel
+  ## 3.3. Selección de personaje
+  
+  ## 3.4. Distribución de equipos
+  
+  Los jugadores serán distribuídos en dos equipos (perseguidos y perseguidores) en base a su rango, que es calculado con el número de     victorias y derrotas de las partidas que han jugado. Los equipos estarán equilibrados entre ellos para lograr una experiencia de juego   más justa y entretenida.
+  
+  ##  3.5. Selección de nivel
   
   ![Interfaz](https://i.imgur.com/BEdsnSu.png)
   
-  ##  3.4. Juego (Minotauro)
+  ##  3.6. Juego (Minotauro)
   
   ![Interfaz](https://i.imgur.com/5YuaMW1.png)
   
-  ##  3.5. Juego (Ícaro)
+  ##  3.7. Juego (Ícaro)
   
   ![Interfaz](https://i.imgur.com/ahNnoJo.png)
   
-  ##  3.6. Resultados
+  ##  3.8. Resultados
   
   ![Interfaz](https://i.imgur.com/pXmlUR2.png)
 
