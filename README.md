@@ -160,7 +160,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
   <b>Minotauro:</b> 
   
-  ![Personaje](minotauro.png)
+  ![Personaje](minotauro2.png)
   
   Guardián del laberinto, es mitad hombre, mitad toro.
   
