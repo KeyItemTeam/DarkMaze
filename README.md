@@ -184,7 +184,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
    
   <b>Medusa:</b>
   
-  ![Personaje](medusa.png)
+  ![Personaje](medusa1.png)
     
   Monstruo capaz de convertir, con su mirada, en piedra.
     
