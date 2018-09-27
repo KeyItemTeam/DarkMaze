@@ -147,7 +147,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
   <b>Ícaro:</b> 
   
-   ![Personaje](Icaro.png)
+   ![Personaje](icaro.png)
   
   Joven hijo de Dédalo que intentó huir del laberinto, pero que ha vuelto a caer en él.
   
