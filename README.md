@@ -175,6 +175,8 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
   <b>Cíclope:</b>
   
+  ![Personaje](ciclope.png)
+  
   Miembro de la familia de los gigantes que posee un solo ojo. 
     
      Stats
