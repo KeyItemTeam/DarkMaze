@@ -215,7 +215,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
   <b>Menú principal:</b> Es la primera escena que aparece al iniciar el juego. En esta opción el jugador tiene la opción de empezar una partida, entrar en las opciones del juego o salir del juego.
   
-  <b>Opciones:</b>
+  <b>Opciones:</b> En la escena de Opciones el jugador tiene la opción de activar o desactivar el sonido del juego y, en caso de tenerlo activado, ajustar el volumen.
   
   <b>Selección de mapa:</b> En esta escena el jugador puede elegir en qué escenario quiere jugar su siguiente partida. Habrá dos flechas para ir pasando de un mapa a otro hasta que encuentre el que quiera jugar.
   
