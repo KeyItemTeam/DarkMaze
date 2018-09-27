@@ -6,7 +6,7 @@ Este es el documento de diseño de DarkMaze, un videojuego multijugador para PC.
 
   ## 1.1. Concepto del juego
   
-  DarkMaze es un juego multijugador basado en el Laberinto de Creta de la mitología griega. Los dos tipos de personajes son Buscadores y Perseguidos. Durante las partidas cada jugador manejará a uno de los dos tipos de personaje. El propósito del Buscador es atrapar a los Perseguidores, mientras que cada Perseguidor debe intentar aguantar con vida el máximo tiempo posible. Los roles se intercambiarán en una segunda ronda.
+  DarkMaze es un juego multijugador basado en el Laberinto de Creta de la mitología griega. Los dos tipos de personajes son Buscadores y Perseguidos. Durante las partidas cada jugador manejará a uno de los dos tipos de personaje. El propósito del Buscador es atrapar a los Perseguidores, mientras que cada Perseguido debe intentar aguantar con vida el máximo tiempo posible. Los roles se intercambiarán en una segunda ronda.
   
   ##  1.2. Características principales
   
@@ -34,7 +34,7 @@ Este es el documento de diseño de DarkMaze, un videojuego multijugador para PC.
   
   <b>Habilidades Especiales:</b> Estas habilidades se cargan y son grandes habilidades que hacen grandes cambios en el modo de juego, además, permite mayor diferenciación entre personajes, pues cada personaje tiene una distinta. Un aviso especial aparecerá en las pantallas de todos los jugadores cuando se usen.
   
-  <b>Pulsos:</b> Los pulsos serán pequeñas luces rojas que aparecerán en la posición de los Perseguidos si estos deciden correr para aumentar su velocidad, de esta forma, los Buscadores podrán ver durante un instante en qué posición se encuentran los Perseguidos en ese momento.
+  <b>Pulsos:</b> Los pulsos serán pequeñas luces rojas que aparecerán en la posición de los Perseguidos si estos deciden correr para aumentar su velocidad. De esta forma, los Buscadores podrán ver durante un instante en qué posición se encuentran los Perseguidos en ese momento.
   
   
   ##  1.6. Estilo visual
@@ -215,49 +215,58 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
   <b>Menú principal:</b> Es la primera escena que aparece al iniciar el juego. En esta opción el jugador tiene la opción de empezar una partida, entrar en las opciones del juego o salir del juego.
   
-  <b>Opciones:</b> En la escena de Opciones el jugador tiene la opción de activar o desactivar el sonido del juego y, en caso de tenerlo activado, ajustar el volumen.
+  <b>Opciones: Las opciones del juego serán para subir o bajar el volumen y para desactivar el sonido por completo. Habrá un botón que deje volver al menú principal.</b>
   
-  <b>Selección de mapa:</b> En esta escena el jugador puede elegir en qué escenario quiere jugar su siguiente partida. Habrá dos flechas para ir pasando de un mapa a otro hasta que encuentre el que quiera jugar.
+   <b>Distribución de equipos:</b> Los jugadores serán distribuídos en dos equipos en base a su rango, que es calculado con el número de victorias y derrotas de las partidas que han jugado. Los equipos estarán equilibrados entre ellos para lograr una experiencia de juego más justa y entretenida. Uno de los equipos jugará la primera ronda como Buscador y otro como Perseguido. Luego se intercambiarán los roles. Hay un botón para buscar partida y otro para seleccionar el número de jugadores de la partida. Hay también un botón que dejea volver al menú principal. 
   
-  <b>Selección de personaje:</b> Los jugadores tendrán la posibilidad de elegir con qué personaje quieren jugar la partida. Los que tengan que huir podrán elegir entre Ícaro, Teseo y Ariadna, mientras que los perseguidores podrán elegir entre el Minotauro, Cíclope y Medusa.
+  <b>Selección de mapa:</b> En esta escena el jugador puede elegir en qué escenario quiere jugar su siguiente partida. Habrá dos flechas para ir pasando de un mapa a otro hasta que encuentre el que quiera jugar. El mapa final se elgirá de forma aleatoria entre los seleccionados.
   
-  <b>Distribución de equipos:</b> Los jugadores serán distribuídos en dos equipos (perseguidos y perseguidores) en base a su rango, que es calculado con el número de victorias y derrotas de las partidas que han jugado. Los equipos estarán equilibrados entre ellos para lograr una experiencia de juego más justa y entretenida.
+  <b>Selección de personaje:</b> Los jugadores tendrán la posibilidad de elegir con qué personaje quieren jugar la partida. Los jugadores podrán elegir entre Ícaro, Teseo y Ariadna para jugar como Perseguidos y deberán elegir a su vez entre el Minotauro, Cíclope y Medusa para jugar como Buscadores. No se pueden elegir personajes repetidos dentro del mismo equipo.
   
-  <b>Juego:</b> Es la escena en la que transcurrirán las partidas, durará hasta que el perseguidor (o alguno de los perseguidores en caso de que haya más) alcance al jugador (o jugadores) que tiene que huir. Los tiempos de cada ronda se guardarán para hacer la tabla de resultados de la escena siguiente.
+  <b>Juego:</b> Es la escena en la que transcurrirán las partidas, durará hasta que el Buscador (o alguno de los Buscadores en caso de que haya más) alcance al jugador (o jugadores) que tiene que huir. Los tiempos de cada ronda se guardarán para hacer la tabla de resultados de la escena siguiente.
+  En el juego los jugadores pueden moverse, usar objetos u habilidades, y atacat/correr. Lo que no pueden hacer los jugadores es ver lo que está viendo el otro equipo en su campo de visión, tampoco saber cuándo tiene el otro equipo las habilidades cargadas ni cuantas rocas/antorchas les quedan.
+  Si algún equipo se queda sin miembros por abandono, se pondrá al equipo que aún le quedan miembros como ganador.
+  Si la partida dura mucho (se va midiendo el tiempo, unos 7 minutos), se pasará a la siguiente ronda automáticamente.
   
-  <b>Tabla de resultados:</b> Aparecerá cuando termina la escena de juego, y es donde se mostrarán los resultados de cada jugador para determinar quién ha ganado.
+  <b>Tabla de resultados:</b> Aparecerá cuando termina la escena de juego, y es donde se mostrarán los resultados de cada jugador para determinar quién ha ganado. Se da la opción de seguir jugando o volver al menú. La ventaja de seguir jugando es que no hay que buscar a nuevos jugadores si todos deciden darle a esta opción.
   
 # 3. Interfaz
   
-  El juego dispondrá de un chat entre todos los jugadores desde el menú de selección del personaje hasta el inicio de la partida, una     vez dentro de la partida el chat será entre miembros del mismo equipo para poder planificar sus estrategias sin ser descubiertos por     sus rivales.
+  El juego dispondrá de un chat entre todos los jugadores desde el menú de selección del personaje hasta el inicio de la partida. Una vez dentro de la partida el chat será entre miembros del mismo equipo para poder planificar sus estrategias sin ser descubiertos por sus rivales.
   
   ##  3.1. Diagrama de flujo
   
-  ![Interfaz](https://i.imgur.com/4lloNuV.png)
+  ![Interfaz](flujo2.png)
   
   ##  3.2. Menú Principal
   
   ![Interfaz](https://i.imgur.com/3cTREkr.png)
   
-  ## 3.3. Selección de personaje
+  ## 3.3. Opciones
+  
+  ![Interfaz](opciones.png)
   
   ## 3.4. Distribución de equipos
-  
-  Los jugadores serán distribuídos en dos equipos (perseguidos y perseguidores) en base a su rango, que es calculado con el número de     victorias y derrotas de las partidas que han jugado. Los equipos estarán equilibrados entre ellos para lograr una experiencia de juego   más justa y entretenida.
-  
+ 
+  ![Interfaz](teammaking.png) 
+ 
   ##  3.5. Selección de nivel
   
   ![Interfaz](https://i.imgur.com/BEdsnSu.png)
   
-  ##  3.6. Juego (Minotauro)
+  ##  3.6. Selección de personaje
+  
+  ![Interfaz](personaje.png) 
+  
+  ##  3.7. Juego (Minotauro)
   
   ![Interfaz](https://i.imgur.com/5YuaMW1.png)
   
-  ##  3.7. Juego (Ícaro)
+  ##  3.8. Juego (Ícaro)
   
   ![Interfaz](https://i.imgur.com/ahNnoJo.png)
   
-  ##  3.8. Resultados
+  ##  3.9. Resultados
   
   ![Interfaz](https://i.imgur.com/pXmlUR2.png)
 
