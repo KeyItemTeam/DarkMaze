@@ -1,0 +1,7 @@
+body {
+    background-image: url("assets/images/placeholders/fondoweb.jpg");
+}
+
+#gameDiv {
+    float: left;
+}
