@@ -121,7 +121,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
    
    __Teseo:__
    
-  ![Personaje](Teseo.png)
+  ![Personaje](concept/Teseo.png)
   
   Héroe ofrecido voluntario para luchar contra el minotauro, pero que se ha perdido un poco.
   
@@ -134,7 +134,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
   __Ariadna:__
   
-  ![Personaje](ariadna.png)
+  ![Personaje](concept/ariadna.png)
   
   Princesa Cretense, ha ido al laberinto en busca de Teseo.
   
@@ -147,7 +147,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
   <b>Ícaro:</b> 
   
-   ![Personaje](icaro.png)
+   ![Personaje](concept/icaro.png)
   
   Joven hijo de Dédalo que intentó huir del laberinto, pero que ha vuelto a caer en él.
   
@@ -162,7 +162,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
   <b>Minotauro:</b> 
   
-  ![Personaje](minotauro2.png)
+  ![Personaje](concept/minotauro2.png)
   
   Guardián del laberinto, es mitad hombre, mitad toro.
   
@@ -175,7 +175,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
   <b>Cíclope:</b>
   
-  ![Personaje](ciclope.png)
+  ![Personaje](concept/ciclope.png)
   
   Miembro de la familia de los gigantes que posee un solo ojo. 
     
@@ -188,7 +188,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
    
   <b>Medusa:</b>
   
-  ![Personaje](medusa1.png)
+  ![Personaje](concept/medusa1.png)
     
   Monstruo capaz de convertir, con su mirada, en piedra.
     
@@ -236,7 +236,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
   ##  3.1. Diagrama de flujo
   
-  ![Interfaz](flujo2.png)
+  ![Interfaz](concept/flujo2.png)
   
   ##  3.2. Menú Principal
   
@@ -244,11 +244,11 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
   ## 3.3. Opciones
   
-  ![Interfaz](opciones.png)
+  ![Interfaz](concept/opciones.png)
   
   ## 3.4. Distribución de equipos
  
-  ![Interfaz](teammaking.png) 
+  ![Interfaz](concept/teammaking.png) 
  
   ##  3.5. Selección de nivel
   
@@ -256,7 +256,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
   ##  3.6. Selección de personaje
   
-  ![Interfaz](personaje.png) 
+  ![Interfaz](concept/personaje.png) 
   
   ##  3.7. Juego (Minotauro)
   
