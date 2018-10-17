@@ -14,13 +14,15 @@ DarkMaze.preloadState.prototype = {
         game.load.image('minotauro','assets/images/placeholders/minotauro.png'); //Minotauro
         game.load.image('teseo','assets/images/placeholders/teseo.png'); //Teseo
         game.load.image('button','assets/images/placeholders/button.png'); //Botón
+        game.load.tilemap('map', 'assets/laberinto.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.image('tiles', 'assets/tiles.png');
         //Podrían añadirse aquí el resto de imágenes del mismo modo
 
         // game.load.audio('nombre','url'); Si quisiésemos añadir música se carga aquí
     },
 
     create: function() {
-        game.state.start('menuppal');
+        this.state.start('menuppal');
     },
 
     update: function() {
