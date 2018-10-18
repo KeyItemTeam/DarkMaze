@@ -48,15 +48,15 @@ DarkMaze.partidaState.prototype = {
         this.minotauro = game.add.sprite(32, 32, 'minotauro');
 
         game.physics.enable(this.minotauro,Phaser.Physics.ARCADE);
-        this.minotauro.body.setSize(32, 32, 0, 0);
+        this.minotauro.body.setSize(24, 24, 20, 40);
         this.minotauro.body.collideWorldBounds = true;
-        this.minotauro.scale.setTo(0.7,0.7);
+        
 
         //Añade el sprite de teseo y activa las físicas
-        this.teseo = game.add.sprite(300, 350, 'teseo');;
+        this.teseo = game.add.sprite(352, 352, 'teseo');;
         game.physics.enable(this.teseo,Phaser.Physics.ARCADE);
-        this.teseo.body.setSize(32, 32, 0, 0);
-        this.teseo.scale.setTo(0.7,0.7);
+        this.teseo.body.setSize(24, 24, 4, 4);
+        
         
 
     },
