@@ -14,9 +14,9 @@ DarkMaze.menuppalState.prototype = {
 
     create: function() {
 
-        var nombrejuego = game.add.text(100, 200, 'Dark Maze', {font: '50px Courier', fill: '#f44242'});
-        var instrucinicio = game.add.text(200, 300, 'Pulsa W para iniciar la partida directamente [debug]', {font: '30px Courier', fill: '#ffffff'});
-        var instrucmenu = game.add.text(200, 400, 'Pulsa A para acceder al menú de selección de equipos', {font: '30px Courier', fill: '#ffffff'});
+        var nombrejuego = game.add.text(100, 100, 'Dark Maze', {font: '40px Courier', fill: '#f44242'});
+        var instrucinicio = game.add.text(100, 250, 'Pulsa W para iniciar la partida directamente [debug]', {font: '15px Courier', fill: '#ffffff'});
+        var instrucmenu = game.add.text(100, 300, 'Pulsa A para acceder al menú de selección de equipos', {font: '15px Courier', fill: '#ffffff'});
 
         var wkey = game.input.keyboard.addKey(Phaser.Keyboard.W);
         var akey= game.input.keyboard.addKey(Phaser.Keyboard.A);

@@ -29,6 +29,7 @@ DarkMaze.partidaState.prototype = {
         this.downKey = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
         this.leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
         this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+        this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         //Movimiento teseo
         this.wKey = game.input.keyboard.addKey(Phaser.Keyboard.W);
         this.sKey = game.input.keyboard.addKey(Phaser.Keyboard.S);
@@ -46,16 +47,19 @@ DarkMaze.partidaState.prototype = {
 
 
         //Añade el sprite del minotauro y activa las físicas
-        this.minotauro = game.add.sprite(32, 32, 'minotauro');
+        this.minotauro = game.add.sprite(48, 80, 'minotauro');
 
         game.physics.enable(this.minotauro,Phaser.Physics.ARCADE);
+        //this.minotauro.body.immovable = true;
+        this.minotauro.anchor.setTo(0.5);
         this.minotauro.body.setSize(24, 24, 20, 40);
         this.minotauro.body.collideWorldBounds = true;
-        
 
         //Añade el sprite de teseo y activa las físicas
-        this.teseo = game.add.sprite(352, 352, 'teseo');;
+        this.teseo = game.add.sprite(352, 368, 'teseo');;
         game.physics.enable(this.teseo,Phaser.Physics.ARCADE);
+        //this.teseo.body.immovable = true;
+        this.teseo.anchor.setTo(0.5);
         this.teseo.body.setSize(24, 24, 4, 4);
         
         
@@ -70,18 +74,10 @@ DarkMaze.partidaState.prototype = {
     
         this.physics.arcade.collide(this.teseo, this.layer);
         this.physics.arcade.collide(this.minotauro, this.layer);
-        /*this.pos.x = this.math.snapToFloor(Math.floor(this.minotauro.x), 32) / 32;
-        this.pos.y = this.math.snapToFloor(Math.floor(this.minotauro.y), 32) / 32;
-
-        this.directions[1] = this.map.getTileLeft(this.layer.index, this.pos.x, this.pos.y);
-        this.directions[2] = this.map.getTileRight(this.layer.index, this.pos.x, this.pos.y);
-        this.directions[3] = this.map.getTileAbove(this.layer.index, this.pos.x, this.pos.y);
-        this.directions[4] = this.map.getTileBelow(this.layer.index, this.pos.x, this.pos.y);*/
 
         if (this.wKey.isDown)
     {
        this.teseo.body.velocity.y = -this.speed2;
-       
        
 
     }
@@ -105,25 +101,26 @@ DarkMaze.partidaState.prototype = {
     if (this.upKey.isDown)
     {
        this.minotauro.body.velocity.y = -this.speed;
-       // this.add.tween(this.minotauro).to({ y: (this.pos.y*32)-32 }, this.speed, "Linear", true)
        
 
     }
     else if (this.downKey.isDown)
     {
         this.minotauro.body.velocity.y = this.speed;
-        //this.add.tween(this.minotauro).to({ y: (this.pos.y*32)+32 }, this.speed, "Linear", true)
     }
 
     if (this.leftKey.isDown)
     {
         this.minotauro.body.velocity.x = -this.speed;
-        //this.add.tween(this.minotauro).to({ x: (this.pos.x*32)-32 }, this.speed, "Linear", true)
     }
     else if (this.rightKey.isDown)
     {
-        //this.add.tween(this.minotauro).to({ x: (this.pos.x*32)+32 }, this.speed, "Linear", true)
         this.minotauro.body.velocity.x = this.speed;
+    }
+
+    if ((Phaser.Math.distance(this.minotauro.x, this.minotauro.y, this.teseo.x, this.teseo.y)<50) && this.spaceKey.isDown ) {
+        console.log("atrapado");
+        game.state.start('win');
     }
 
     game.physics.arcade.collide(this.minotauro, this.teseo, collisionHandler, null, this);
@@ -136,8 +133,9 @@ DarkMaze.partidaState.prototype = {
     },
     render: function() {
 
-        /*game.debug.body(this.minotauro);
+        game.debug.body(this.minotauro);
         game.debug.body(this.teseo);
+        /*
        game.debug.spriteCoords(this.minotauro, 32, 130);
        for (var t = 1; t < 5; t++)
        {
