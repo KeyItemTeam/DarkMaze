@@ -36,11 +36,12 @@ DarkMaze.partidaState.prototype = {
         this.dKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
 
         this.map = this.add.tilemap('map');
-        this.map.addTilesetImage('tiles', 'tiles');
+        this.map.addTilesetImage('tileset', 'tiles');
 
-        this.layer = this.map.createLayer('Capa1');
+        this.layer = this.map.createLayer('Capa2');
+        this.layer2 = this.map.createLayer('Capa1');
        
-        this.map.setCollision(2, true, this.layer);
+        this.map.setCollision(14, true, this.layer);
         
 
 

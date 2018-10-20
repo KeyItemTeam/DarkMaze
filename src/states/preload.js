@@ -15,7 +15,7 @@ DarkMaze.preloadState.prototype = {
         game.load.image('teseo','assets/images/placeholders/teseo.png'); //Teseo
         game.load.image('button','assets/images/placeholders/button.png'); //Botón
         game.load.tilemap('map', 'assets/laberinto.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.image('tiles', 'assets/tiles.png');
+        game.load.image('tiles', 'assets/tileset.png');
         //Podrían añadirse aquí el resto de imágenes del mismo modo
 
         // game.load.audio('nombre','url'); Si quisiésemos añadir música se carga aquí
