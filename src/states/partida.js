@@ -12,13 +12,21 @@ DarkMaze.partidaState = function(game) {
 
 
 DarkMaze.partidaState.prototype = {
+    init: function(){
+        // scale the game 4x
+        game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
+        game.scale.setUserScale(2, 2);
 
+        // enable crisp rendering
+        game.renderer.renderSession.roundPixels = true;
+        Phaser.Canvas.setImageRenderingCrisp(this.game.canvas)
+    },
     preload: function() {
 
     },
-
+    
     create: function() {
-
+        game.world.setBounds(0, 0, 1400, 1400);
      /* //Para añadir música
         music = game.add.audio('musica');
         music.play();
@@ -62,7 +70,7 @@ DarkMaze.partidaState.prototype = {
         this.teseo.anchor.setTo(0.5);
         this.teseo.body.setSize(24, 24, 4, 4);
         
-        
+        game.camera.follow(this.minotauro, Phaser.Camera.FOLLOW_TOPDOWN_TIGHT);
 
     },
 
