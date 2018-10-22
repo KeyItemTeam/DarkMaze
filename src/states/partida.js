@@ -74,8 +74,8 @@ DarkMaze.partidaState.prototype = {
         this.teseo.anchor.setTo(0.5);
         this.teseo.body.setSize(24, 24, 4, 4);
         
-        game.camera.follow(this.minotauro, Phaser.Camera.FOLLOW_TOPDOWN_TIGHT);
-
+        game.camera.follow(this.minotauro);
+        game.camera.deadzone = new Phaser.Rectangle(100, 100, 100, 50);
     },
 
     update: function() {
