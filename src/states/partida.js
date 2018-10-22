@@ -62,7 +62,7 @@ DarkMaze.partidaState.prototype = {
         this.minotauro = game.add.sprite(48, 80, 'minotauro');
 
         game.physics.enable(this.minotauro,Phaser.Physics.ARCADE);
-        this.minotauro.body.immovable = true;
+        //this.minotauro.body.immovable = true;
         this.minotauro.anchor.setTo(0.5);
         this.minotauro.body.setSize(24, 24, 20, 40);
         this.minotauro.body.collideWorldBounds = true;
