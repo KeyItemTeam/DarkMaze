@@ -53,7 +53,9 @@ DarkMaze.partidaState.prototype = {
 
         this.layer = this.map.createLayer('Capa2');
         this.layer2 = this.map.createLayer('Capa1');
-       
+        this.layer3 = this.map.createLayer('Capa3');
+        this.layer3.alpha = 0.7;
+        
         this.map.setCollision(14, true, this.layer);
         
 
@@ -167,7 +169,34 @@ DarkMaze.partidaState.prototype = {
 
         game.stage.backgroundColor = '#992d2d' ;
     }
+        
+    this.map.removeTile(Math.trunc(this.minotauro.x / 32), Math.trunc(this.minotauro.y / 32), 'Capa3');
+    this.map.removeTile(Math.trunc(this.minotauro.x / 32) + 1, Math.trunc(this.minotauro.y / 32), 'Capa3');
+    this.map.removeTile(Math.trunc(this.minotauro.x / 32) - 1, Math.trunc(this.minotauro.y / 32), 'Capa3');
+    this.map.removeTile(Math.trunc(this.minotauro.x / 32) + 1, Math.trunc(this.minotauro.y / 32) + 1, 'Capa3');
+    this.map.removeTile(Math.trunc(this.minotauro.x / 32), Math.trunc(this.minotauro.y / 32) + 1, 'Capa3');
+    this.map.removeTile(Math.trunc(this.minotauro.x / 32) - 1, Math.trunc(this.minotauro.y / 32) + 1, 'Capa3');
+    this.map.removeTile(Math.trunc(this.minotauro.x / 32) - 1, Math.trunc(this.minotauro.y / 32) - 1, 'Capa3');
+    this.map.removeTile(Math.trunc(this.minotauro.x / 32), Math.trunc(this.minotauro.y / 32) - 1, 'Capa3');
+    this.map.removeTile(Math.trunc(this.minotauro.x / 32) + 1, Math.trunc(this.minotauro.y / 32) - 1, 'Capa3');
 
+    this.map.removeTile(Math.trunc(this.minotauro.x / 32) - 2, Math.trunc(this.minotauro.y / 32), 'Capa3');
+    this.map.removeTile(Math.trunc(this.minotauro.x / 32) - 2, Math.trunc(this.minotauro.y / 32) - 1, 'Capa3');
+    this.map.removeTile(Math.trunc(this.minotauro.x / 32) - 2, Math.trunc(this.minotauro.y / 32) - 2, 'Capa3');
+    this.map.removeTile(Math.trunc(this.minotauro.x / 32) - 2, Math.trunc(this.minotauro.y / 32) + 1, 'Capa3');
+    this.map.removeTile(Math.trunc(this.minotauro.x / 32) - 2, Math.trunc(this.minotauro.y / 32) + 2, 'Capa3');
+    this.map.removeTile(Math.trunc(this.minotauro.x / 32), Math.trunc(this.minotauro.y / 32) + 2, 'Capa3');
+    this.map.removeTile(Math.trunc(this.minotauro.x / 32), Math.trunc(this.minotauro.y / 32) - 2, 'Capa3');
+    this.map.removeTile(Math.trunc(this.minotauro.x / 32) + 2, Math.trunc(this.minotauro.y / 32), 'Capa3');
+    this.map.removeTile(Math.trunc(this.minotauro.x / 32) + 2, Math.trunc(this.minotauro.y / 32) - 1, 'Capa3');
+    this.map.removeTile(Math.trunc(this.minotauro.x / 32) + 2, Math.trunc(this.minotauro.y / 32) - 2, 'Capa3');
+    this.map.removeTile(Math.trunc(this.minotauro.x / 32) + 2, Math.trunc(this.minotauro.y / 32) + 1, 'Capa3');
+    this.map.removeTile(Math.trunc(this.minotauro.x / 32) + 2, Math.trunc(this.minotauro.y / 32) + 2, 'Capa3');
+    this.map.removeTile(Math.trunc(this.minotauro.x / 32) - 1, Math.trunc(this.minotauro.y / 32) - 2, 'Capa3');
+    this.map.removeTile(Math.trunc(this.minotauro.x / 32) + 1, Math.trunc(this.minotauro.y / 32) - 2, 'Capa3');
+    this.map.removeTile(Math.trunc(this.minotauro.x / 32) - 1, Math.trunc(this.minotauro.y / 32) + 2, 'Capa3');
+    this.map.removeTile(Math.trunc(this.minotauro.x / 32) + 1, Math.trunc(this.minotauro.y / 32) + 2, 'Capa3');
+        
     },
     render: function() {
 
