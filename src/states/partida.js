@@ -3,8 +3,10 @@
 
 DarkMaze.partidaState = function(game) {
     this.directions = [ null, null, null, null, null ];
-    this.speed = 500;
-    this.speed2 = 400;
+    this.speed = 200; // velocidad al andar
+    this.run = 500; // velocidad al correr
+    this.speed2 = 100;
+    this.run2 = 400;
     this.pos = new Phaser.Point();
     
 };
@@ -15,7 +17,7 @@ DarkMaze.partidaState.prototype = {
     init: function(){
         // scale the game 4x
         game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
-        game.scale.setUserScale(2, 2);
+        game.scale.setUserScale(2,2);
 
         // enable crisp rendering
         game.renderer.renderSession.roundPixels = true;
@@ -32,12 +34,14 @@ DarkMaze.partidaState.prototype = {
         music.play();
         music.loopFull(0.6); //pone el volumen a 0.6 */
 
+
         //Prepara el teclado para que el jugador humano pueda mover al minotauro
         this.upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
         this.downKey = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
         this.leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
         this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
         this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        this.shiftKey = game.input.keyboard.addKey(Phaser.Keyboard.SHIFT);
         //Movimiento teseo
         this.wKey = game.input.keyboard.addKey(Phaser.Keyboard.W);
         this.sKey = game.input.keyboard.addKey(Phaser.Keyboard.S);
@@ -58,7 +62,7 @@ DarkMaze.partidaState.prototype = {
         this.minotauro = game.add.sprite(48, 80, 'minotauro');
 
         game.physics.enable(this.minotauro,Phaser.Physics.ARCADE);
-        //this.minotauro.body.immovable = true;
+        this.minotauro.body.immovable = true;
         this.minotauro.anchor.setTo(0.5);
         this.minotauro.body.setSize(24, 24, 20, 40);
         this.minotauro.body.collideWorldBounds = true;
@@ -83,47 +87,73 @@ DarkMaze.partidaState.prototype = {
         this.physics.arcade.collide(this.teseo, this.layer);
         this.physics.arcade.collide(this.minotauro, this.layer);
 
+
         if (this.wKey.isDown)
     {
        this.teseo.body.velocity.y = -this.speed2;
+       if (this.shiftKey.isDown) {
+        this.teseo.body.velocity.y = -this.run2; 
+    }
        
-
     }
     else if (this.sKey.isDown)
     {
         this.teseo.body.velocity.y = this.speed2;
+        if (this.shiftKey.isDown) {
+            this.teseo.body.velocity.y = this.run2; 
+        }
         
     }
 
     if (this.aKey.isDown)
     {
         this.teseo.body.velocity.x = -this.speed2;
+        if (this.shiftKey.isDown) {
+            this.teseo.body.velocity.x = -this.run2; 
+        }
         
     }
     else if (this.dKey.isDown)
     {
-        
         this.teseo.body.velocity.x = this.speed2;
+        if (this.shiftKey.isDown) {
+            this.teseo.body.velocity.x = this.run2; 
+        }
+
     }
 
     if (this.upKey.isDown)
     {
        this.minotauro.body.velocity.y = -this.speed;
+       if (this.shiftKey.isDown) {
+        this.minotauro.body.velocity.y = -this.run; 
+    }
        
 
     }
     else if (this.downKey.isDown)
     {
         this.minotauro.body.velocity.y = this.speed;
+        if (this.shiftKey.isDown) {
+            this.minotauro.body.velocity.y = this.run; 
+        }
+
     }
 
     if (this.leftKey.isDown)
     {
         this.minotauro.body.velocity.x = -this.speed;
+        if (this.shiftKey.isDown) {
+            this.minotauro.body.velocity.x = -this.run; 
+        }
     }
     else if (this.rightKey.isDown)
     {
         this.minotauro.body.velocity.x = this.speed;
+        if (this.shiftKey.isDown) {
+            this.minotauro.body.velocity.x = this.run; 
+        }
+
     }
 
     if ((Phaser.Math.distance(this.minotauro.x, this.minotauro.y, this.teseo.x, this.teseo.y)<50) && this.spaceKey.isDown ) {
