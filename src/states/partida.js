@@ -77,13 +77,19 @@ DarkMaze.partidaState.prototype = {
 
         //Añade el sprite de teseo y activa las físicas
         this.teseo = game.add.sprite(352, 368, 'teseo');
+        this.teseo.animations.add('idle',[0,1,2,3], 6, true);
+        this.teseo.animations.add('idleBack',[4,5,6,7], 6, true);
+        this.teseo.animations.add('idleLeft',[8,9,10,11], 6, true);
+        this.teseo.animations.add('idleRight',[12,13,14,15], 6, true);
+        this.teseo.animations.play("idle");
+        
         game.physics.enable(this.teseo,Phaser.Physics.ARCADE);
         //this.teseo.body.immovable = true;
         this.teseo.anchor.setTo(0.5);
         this.teseo.body.setSize(24, 24, 4, 4);
 
         //Rocas
-        this.roca= game.add.sprite(0, 0, 'teseo');
+        this.roca= game.add.sprite(0, 0, 'roca');
         game.physics.enable(this.roca,Phaser.Physics.ARCADE);
         this.roca.exists = false;
         this.roca.visible = false;
@@ -106,6 +112,7 @@ DarkMaze.partidaState.prototype = {
         if (this.wKey.isDown)
     {
        this.teseo.body.velocity.y = -this.speed2;
+       this.teseo.animations.play("idleBack");
        if (this.shiftKey.isDown) {
         this.teseo.body.velocity.y = -this.run2; 
     }
@@ -114,6 +121,7 @@ DarkMaze.partidaState.prototype = {
     else if (this.sKey.isDown)
     {
         this.teseo.body.velocity.y = this.speed2;
+        this.teseo.animations.play("idle");
         if (this.shiftKey.isDown) {
             this.teseo.body.velocity.y = this.run2; 
         }
@@ -123,6 +131,13 @@ DarkMaze.partidaState.prototype = {
     if (this.aKey.isDown)
     {
         this.teseo.body.velocity.x = -this.speed2;
+        if(this.downKey.isDown){
+            this.teseo.animations.play("idle");
+        }else if(this.upKey.isDown){
+            this.teseo.animations.play("idleBack");
+        }else{
+            this.teseo.animations.play("idleLeft");
+        }
         if (this.shiftKey.isDown) {
             this.teseo.body.velocity.x = -this.run2; 
         }
@@ -131,6 +146,13 @@ DarkMaze.partidaState.prototype = {
     else if (this.dKey.isDown)
     {
         this.teseo.body.velocity.x = this.speed2;
+        if(this.downKey.isDown){
+            this.teseo.animations.play("idle");
+        }else if(this.upKey.isDown){
+            this.teseo.animations.play("idleBack");
+        }else{
+            this.teseo.animations.play("idleRight");
+        }
         if (this.shiftKey.isDown) {
             this.teseo.body.velocity.x = this.run2; 
         }

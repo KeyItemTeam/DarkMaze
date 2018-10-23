@@ -13,7 +13,8 @@ DarkMaze.preloadState.prototype = {
         //Se cargan los sprites
         
         game.load.spritesheet('minotauro', 'assets/sprites/minotauro.png', 64, 64,);//Minotauro
-        game.load.image('teseo','assets/images/placeholders/teseo.png'); //Teseo
+        game.load.spritesheet('teseo', 'assets/sprites/teseo.png', 64, 64,); //Teseo
+        game.load.image('roca','assets/images/placeholders/roca.png'); 
         game.load.image('button','assets/images/placeholders/button.png'); //Botón
         game.load.tilemap('map', 'assets/laberinto.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('tiles', 'assets/tileset.png');
