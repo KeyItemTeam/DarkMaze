@@ -248,32 +248,19 @@ DarkMaze.partidaState.prototype = {
         }
     }
         
-    this.map.removeTile(Math.trunc(this.minotauro.x / 32), Math.trunc(this.minotauro.y / 32), 'Capa3');
-    this.map.removeTile(Math.trunc(this.minotauro.x / 32) + 1, Math.trunc(this.minotauro.y / 32), 'Capa3');
-    this.map.removeTile(Math.trunc(this.minotauro.x / 32) - 1, Math.trunc(this.minotauro.y / 32), 'Capa3');
-    this.map.removeTile(Math.trunc(this.minotauro.x / 32) + 1, Math.trunc(this.minotauro.y / 32) + 1, 'Capa3');
-    this.map.removeTile(Math.trunc(this.minotauro.x / 32), Math.trunc(this.minotauro.y / 32) + 1, 'Capa3');
-    this.map.removeTile(Math.trunc(this.minotauro.x / 32) - 1, Math.trunc(this.minotauro.y / 32) + 1, 'Capa3');
-    this.map.removeTile(Math.trunc(this.minotauro.x / 32) - 1, Math.trunc(this.minotauro.y / 32) - 1, 'Capa3');
-    this.map.removeTile(Math.trunc(this.minotauro.x / 32), Math.trunc(this.minotauro.y / 32) - 1, 'Capa3');
-    this.map.removeTile(Math.trunc(this.minotauro.x / 32) + 1, Math.trunc(this.minotauro.y / 32) - 1, 'Capa3');
+    //Luz minotauro
+    for (var i = -2; i < 3; i++) {
+        for (var j = -2; j < 3; j++) {
+            this.map.removeTile(Math.trunc(this.minotauro.x / 32) + i, Math.trunc(this.minotauro.y / 32) + j, 'Capa3');
+        }
+    }
 
-    this.map.removeTile(Math.trunc(this.minotauro.x / 32) - 2, Math.trunc(this.minotauro.y / 32), 'Capa3');
-    this.map.removeTile(Math.trunc(this.minotauro.x / 32) - 2, Math.trunc(this.minotauro.y / 32) - 1, 'Capa3');
-    this.map.removeTile(Math.trunc(this.minotauro.x / 32) - 2, Math.trunc(this.minotauro.y / 32) - 2, 'Capa3');
-    this.map.removeTile(Math.trunc(this.minotauro.x / 32) - 2, Math.trunc(this.minotauro.y / 32) + 1, 'Capa3');
-    this.map.removeTile(Math.trunc(this.minotauro.x / 32) - 2, Math.trunc(this.minotauro.y / 32) + 2, 'Capa3');
-    this.map.removeTile(Math.trunc(this.minotauro.x / 32), Math.trunc(this.minotauro.y / 32) + 2, 'Capa3');
-    this.map.removeTile(Math.trunc(this.minotauro.x / 32), Math.trunc(this.minotauro.y / 32) - 2, 'Capa3');
-    this.map.removeTile(Math.trunc(this.minotauro.x / 32) + 2, Math.trunc(this.minotauro.y / 32), 'Capa3');
-    this.map.removeTile(Math.trunc(this.minotauro.x / 32) + 2, Math.trunc(this.minotauro.y / 32) - 1, 'Capa3');
-    this.map.removeTile(Math.trunc(this.minotauro.x / 32) + 2, Math.trunc(this.minotauro.y / 32) - 2, 'Capa3');
-    this.map.removeTile(Math.trunc(this.minotauro.x / 32) + 2, Math.trunc(this.minotauro.y / 32) + 1, 'Capa3');
-    this.map.removeTile(Math.trunc(this.minotauro.x / 32) + 2, Math.trunc(this.minotauro.y / 32) + 2, 'Capa3');
-    this.map.removeTile(Math.trunc(this.minotauro.x / 32) - 1, Math.trunc(this.minotauro.y / 32) - 2, 'Capa3');
-    this.map.removeTile(Math.trunc(this.minotauro.x / 32) + 1, Math.trunc(this.minotauro.y / 32) - 2, 'Capa3');
-    this.map.removeTile(Math.trunc(this.minotauro.x / 32) - 1, Math.trunc(this.minotauro.y / 32) + 2, 'Capa3');
-    this.map.removeTile(Math.trunc(this.minotauro.x / 32) + 1, Math.trunc(this.minotauro.y / 32) + 2, 'Capa3');
+    //Luz teseo
+    for (var i = -4; i < 5; i++) {
+        for (var j = -4; j < 5; j++) {
+            this.map.removeTile(Math.trunc(this.teseo.x / 32) + i, Math.trunc(this.teseo.y / 32) + j, 'Capa3');
+        }
+    }
         
     },
     render: function() {
