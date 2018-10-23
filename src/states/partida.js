@@ -2,13 +2,13 @@
 // var loopCount;  <-- Ambas variables son para la música
 
 DarkMaze.partidaState = function(game) {
-    this.directions = [ null, null, null, null, null ];
     this.speed = 200; // velocidad al andar
     this.run = 500; // velocidad al correr
     this.speed2 = 100;
     this.run2 = 400;
-    this.pos = new Phaser.Point();
-    
+    this.rocaTime = 0;
+    this.rocaSalud= 3;
+    this.rocaTrue = true;
 };
 
 
@@ -16,8 +16,8 @@ DarkMaze.partidaState = function(game) {
 DarkMaze.partidaState.prototype = {
     init: function(){
         // scale the game 4x
-        game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
-        game.scale.setUserScale(2,2);
+       // game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
+       // game.scale.setUserScale(2,2);
 
         // enable crisp rendering
         game.renderer.renderSession.roundPixels = true;
@@ -47,6 +47,7 @@ DarkMaze.partidaState.prototype = {
         this.sKey = game.input.keyboard.addKey(Phaser.Keyboard.S);
         this.aKey = game.input.keyboard.addKey(Phaser.Keyboard.A);
         this.dKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
+        this.qKey = game.input.keyboard.addKey(Phaser.Keyboard.Q);
 
         this.map = this.add.tilemap('map');
         this.map.addTilesetImage('tileset', 'tiles');
@@ -75,11 +76,17 @@ DarkMaze.partidaState.prototype = {
         this.minotauro.body.collideWorldBounds = true;
 
         //Añade el sprite de teseo y activa las físicas
-        this.teseo = game.add.sprite(352, 368, 'teseo');;
+        this.teseo = game.add.sprite(352, 368, 'teseo');
         game.physics.enable(this.teseo,Phaser.Physics.ARCADE);
         //this.teseo.body.immovable = true;
         this.teseo.anchor.setTo(0.5);
         this.teseo.body.setSize(24, 24, 4, 4);
+
+        //Rocas
+        this.roca= game.add.sprite(0, 0, 'teseo');
+        game.physics.enable(this.roca,Phaser.Physics.ARCADE);
+        this.roca.exists = false;
+        this.roca.visible = false;
         
         game.camera.follow(this.minotauro);
         game.camera.deadzone = new Phaser.Rectangle(100, 100, 100, 50);
@@ -90,6 +97,7 @@ DarkMaze.partidaState.prototype = {
         this.minotauro.body.velocity.y = 0;
         this.teseo.body.velocity.x = 0;
         this.teseo.body.velocity.y = 0;
+        
     
         this.physics.arcade.collide(this.teseo, this.layer);
         this.physics.arcade.collide(this.minotauro, this.layer);
@@ -127,6 +135,15 @@ DarkMaze.partidaState.prototype = {
             this.teseo.body.velocity.x = this.run2; 
         }
 
+    }
+    if (this.qKey.isDown&&this.rocaTrue)
+    {
+        this.roca.reset((this.math.snapToFloor(Math.floor(this.teseo.x), 32) / 32)*32, (this.math.snapToFloor(Math.floor(this.teseo.y), 32) / 32)*32);
+        this.roca.exists = true;
+        this.roca.visible = true;
+        this.roca.body.inmovable = true;
+        this.roca.body.moves=false;
+        this.rocaTrue=false;
     }
 
     if (this.upKey.isDown)
@@ -184,8 +201,18 @@ DarkMaze.partidaState.prototype = {
         console.log("atrapado");
         game.state.start('win');
     }
+    if ((Phaser.Math.distance(this.minotauro.x, this.minotauro.y, this.roca.x, this.roca.y)<50) && this.spaceKey.isDown &&(game.time.now > this.rocaTime)) {
+        this.rocaTime = game.time.now + 500;
+        this.rocaSalud--;
+        console.log(this.rocaSalud);
+    }
 
+    if(this.rocaSalud < 1){
+        this.roca.kill();
+        }
     game.physics.arcade.collide(this.minotauro, this.teseo, collisionHandler, null, this);
+    game.physics.arcade.collide(this.teseo, this.roca, collisionHandler, null, this);
+    game.physics.arcade.collide(this.minotauro, this.roca, collisionHandler, null, this);
 
     function  collisionHandler(obj1, obj2) {
 
@@ -231,32 +258,6 @@ DarkMaze.partidaState.prototype = {
 
         game.debug.body(this.minotauro);
         game.debug.body(this.teseo);
-        /*
-       game.debug.spriteCoords(this.minotauro, 32, 130);
-       for (var t = 1; t < 5; t++)
-       {
-           if (this.directions[t] === null)
-           {
-               continue;
-           }
-
-           var color = 'rgba(0,255,0,0.3)';
-
-           if (this.directions[t].index !== this.safetile)
-           {
-               color = 'rgba(255,0,0,0.3)';
-           }
-
-           if (t === this.current)
-           {
-               color = 'rgba(255,255,255,0.3)';
-           }
-
-           this.game.debug.geom(new Phaser.Rectangle(this.directions[t].worldX, this.directions[t].worldY, 32, 32), color, true);
-       }*/
-
-       
-
     },
 
 }
