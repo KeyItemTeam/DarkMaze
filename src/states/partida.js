@@ -170,6 +170,13 @@ DarkMaze.partidaState.prototype = {
         game.stage.backgroundColor = '#992d2d' ;
     }
         
+    //LUZ
+    for (var i = 0; i < 27; i++) {
+        for (var j = 0; j < 18; j++) {
+            this.map.putTile(21, i, j, 'Capa3');
+        }
+    }
+        
     this.map.removeTile(Math.trunc(this.minotauro.x / 32), Math.trunc(this.minotauro.y / 32), 'Capa3');
     this.map.removeTile(Math.trunc(this.minotauro.x / 32) + 1, Math.trunc(this.minotauro.y / 32), 'Capa3');
     this.map.removeTile(Math.trunc(this.minotauro.x / 32) - 1, Math.trunc(this.minotauro.y / 32), 'Capa3');
