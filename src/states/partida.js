@@ -62,7 +62,12 @@ DarkMaze.partidaState.prototype = {
 
         //Añade el sprite del minotauro y activa las físicas
         this.minotauro = game.add.sprite(48, 80, 'minotauro');
-
+        this.minotauro.animations.add('idle',[0,1,2,3], 6, true);
+        this.minotauro.animations.add('idleBack',[4,5,6,7], 6, true);
+        this.minotauro.animations.add('idleLeft',[8,9,10,11], 6, true);
+        this.minotauro.animations.add('idleRight',[12,13,14,15], 6, true);
+        this.minotauro.animations.play("idle");
+        
         game.physics.enable(this.minotauro,Phaser.Physics.ARCADE);
         //this.minotauro.body.immovable = true;
         this.minotauro.anchor.setTo(0.5);
@@ -127,6 +132,7 @@ DarkMaze.partidaState.prototype = {
     if (this.upKey.isDown)
     {
        this.minotauro.body.velocity.y = -this.speed;
+       this.minotauro.animations.play("idleBack");
        if (this.shiftKey.isDown) {
         this.minotauro.body.velocity.y = -this.run; 
     }
@@ -136,6 +142,7 @@ DarkMaze.partidaState.prototype = {
     else if (this.downKey.isDown)
     {
         this.minotauro.body.velocity.y = this.speed;
+        this.minotauro.animations.play("idle");
         if (this.shiftKey.isDown) {
             this.minotauro.body.velocity.y = this.run; 
         }
@@ -145,6 +152,14 @@ DarkMaze.partidaState.prototype = {
     if (this.leftKey.isDown)
     {
         this.minotauro.body.velocity.x = -this.speed;
+        if(this.downKey.isDown){
+            this.minotauro.animations.play("idle");
+        }else if(this.upKey.isDown){
+            this.minotauro.animations.play("idleBack");
+        }else{
+            this.minotauro.animations.play("idleLeft");
+        }
+
         if (this.shiftKey.isDown) {
             this.minotauro.body.velocity.x = -this.run; 
         }
@@ -152,6 +167,13 @@ DarkMaze.partidaState.prototype = {
     else if (this.rightKey.isDown)
     {
         this.minotauro.body.velocity.x = this.speed;
+        if(this.downKey.isDown){
+            this.minotauro.animations.play("idle");
+        }else if(this.upKey.isDown){
+            this.minotauro.animations.play("idleBack");
+        }else{
+            this.minotauro.animations.play("idleRight");
+        }
         if (this.shiftKey.isDown) {
             this.minotauro.body.velocity.x = this.run; 
         }

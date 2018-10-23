@@ -11,7 +11,8 @@ DarkMaze.preloadState.prototype = {
         var loadinglabel = game.add.text(200, 200, "Cargando...", {font : '50px Courier', fill: '#ffffff'});
 
         //Se cargan los sprites
-        game.load.image('minotauro','assets/images/placeholders/minotauro.png'); //Minotauro
+        
+        game.load.spritesheet('minotauro', 'assets/sprites/minotauro.png', 64, 64,);//Minotauro
         game.load.image('teseo','assets/images/placeholders/teseo.png'); //Teseo
         game.load.image('button','assets/images/placeholders/button.png'); //Botón
         game.load.tilemap('map', 'assets/laberinto.json', null, Phaser.Tilemap.TILED_JSON);
