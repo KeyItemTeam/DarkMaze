@@ -3,9 +3,9 @@
 
 DarkMaze.partidaState = function(game) {
     this.speedMin = 200; // velocidad al andar Minotauro
-    this.runMin = 500; // velocidad al correr Minotauro
+    this.runMin = 400; // velocidad al correr Minotauro
     this.speedTes = 100; // velocidad al andar Teseo
-    this.runTes = 400; // velocidad al correr Teseo
+    this.runTes = 300; // velocidad al correr Teseo
     this.rocaTime = 0; // tiempo hasta que se le pueda dar el siguiente golpe a la roca
     this.rocaSalud= 3; // puntos de salud de la roca
     this.rocaTrue = true; // sirve para saber si a Teseo ha usado ya su roca 
@@ -113,9 +113,7 @@ DarkMaze.partidaState.prototype = {
     {
        this.teseo.body.velocity.y = -this.speedTes;
        this.teseo.animations.play("idleBack");
-       if (this.shiftKey.isDown) {
-        this.teseo.body.velocity.y = -this.runTes; 
-    }
+      
        
     }
     else if (this.sKey.isDown)
@@ -175,74 +173,66 @@ DarkMaze.partidaState.prototype = {
 
     if (this.upKey.isDown)
     {
-       this.minotauro.body.velocity.y = -this.speedMin;
-       this.minotauro.animations.play("walkBack");
-       if (this.shiftKey.isDown) {
-        this.minotauro.body.velocity.y = -this.runMin; 
-    }
         this.direccionMin = 0; 
         this.movMin = true;
+        
     }
-    else if (this.downKey.isDown)
+
+    if (this.downKey.isDown)
     {
-        this.minotauro.body.velocity.y = this.speedMin;
-        this.minotauro.animations.play("walk");
-        if (this.shiftKey.isDown) {
-            this.minotauro.body.velocity.y = this.runMn; 
-        }
         this.direccionMin = 1;
         this.movMin = true;
     }
 
     if (this.leftKey.isDown)
     {
-        this.minotauro.body.velocity.x = -this.speedMin;
         if(this.downKey.isDown){
-            this.minotauro.animations.play("walk");
+            this.direccionMin = 4;
         }else if(this.upKey.isDown){
-            this.minotauro.animations.play("walkBack");
+            this.direccionMin = 5;
         }else{
-            this.minotauro.animations.play("walkLeft");
+            this.direccionMin = 2;
         }
-
-        if (this.shiftKey.isDown) {
-            this.minotauro.body.velocity.x = -this.runMin; 
-        }
-        this.direccionMin = 2;
         this.movMin = true;
+        
     }
-    else if (this.rightKey.isDown)
+    if (this.rightKey.isDown)
     {
-        this.minotauro.body.velocity.x = this.speedMin;
         if(this.downKey.isDown){
-            this.minotauro.animations.play("walk");
+            this.direccionMin = 6;
         }else if(this.upKey.isDown){
-            this.minotauro.animations.play("walkBack");
+            this.direccionMin = 7;
         }else{
-            this.minotauro.animations.play("walkRight");
+            this.direccionMin = 3;
         }
-        if (this.shiftKey.isDown) {
-            this.minotauro.body.velocity.x = this.runMin; 
-        }
-        this.direccionMin = 3;
         this.movMin = true;
+        
     }
     if(this.movMin ===false)
     {
-    if (this.direccionMin === 1) this.minotauro.animations.play("idle");
-    if (this.direccionMin === 0) this.minotauro.animations.play("idleBack");
+    if (this.direccionMin === 0||this.direccionMin === 4||this.direccionMin === 6) this.minotauro.animations.play("idleBack");
+    if (this.direccionMin === 1||this.direccionMin === 5||this.direccionMin === 7) this.minotauro.animations.play("idle");
     if (this.direccionMin === 2) this.minotauro.animations.play("idleLeft");
     if (this.direccionMin === 3) this.minotauro.animations.play("idleRight");
+    }else{
+
+        if (this.shiftKey.isDown) {
+            mover(this.minotauro, this.direccionMin, this.runMin);
+         }
+        else 
+        {
+        mover(this.minotauro, this.direccionMin, this.speedMin);
+        }
     }
 
     //Sire para atrapar a Teseo al pulsar espacio
-    if ((Phaser.Math.distance(this.minotauro.x, this.minotauro.y, this.teseo.x, this.teseo.y)<50) && this.spaceKey.isDown ) {
+    if (estaCerca(this.minotauro, this.teseo, 50) && this.spaceKey.isDown ) {
         console.log("atrapado");
         game.state.start('win');
     }
 
     //Sirve para que el minotauro pueda destrozar la roca de Teseo
-    if ((Phaser.Math.distance(this.minotauro.x, this.minotauro.y, this.roca.x, this.roca.y)<50) && this.spaceKey.isDown &&(game.time.now > this.rocaTime)) {
+    if (estaCerca(this.minotauro, this.roca, 50) && this.spaceKey.isDown &&(game.time.now > this.rocaTime)) {
         this.rocaTime = game.time.now + 500;
         this.rocaSalud--;
         console.log(this.rocaSalud);
@@ -266,19 +256,11 @@ DarkMaze.partidaState.prototype = {
     }
         
     //Luz minotauro
-    for (var i = -2; i < 3; i++) {
-        for (var j = -2; j < 3; j++) {
-            this.map.removeTile(Math.trunc(this.minotauro.x / 32) + i, Math.trunc(this.minotauro.y / 32) + j, 'Capa3');
-        }
-    }
+    luz(3, this.minotauro, this.map);
 
     //Luz teseo
-    for (var i = -4; i < 5; i++) {
-        for (var j = -4; j < 5; j++) {
-            this.map.removeTile(Math.trunc(this.teseo.x / 32) + i, Math.trunc(this.teseo.y / 32) + j, 'Capa3');
-        }
-    }
-        
+    luz(5, this.teseo, this.map);
+    
     },
 
     render: function() {
@@ -286,5 +268,61 @@ DarkMaze.partidaState.prototype = {
         //game.debug.body(this.minotauro);
         //game.debug.body(this.teseo);
     },
+}
 
+//Elimina las tiles oscuras al rededor de un personaje "iluminando" el mapa
+function luz (distancia, pj, mapa) {
+    var dist = -(distancia-1);
+    for (var i = dist; i < distancia; i++) {
+        for (var j = dist; j < distancia; j++) {
+           mapa.removeTile(Math.trunc(pj.x / 32) + i, Math.trunc(pj.y / 32) + j, 'Capa3');
+        }
+    }
+
+}
+
+// Devuelve true si el objeto 1 está a la distancia que le pongas del objeto 2
+function estaCerca (pj1, pj2, dist) {
+    if (Phaser.Math.distance(pj1.x, pj1.y, pj2.x, pj2.y)<dist)  return true;
+}
+
+//Mueve al personaje en la dirección asignada
+function mover (pj, direction, vel) {
+
+    
+
+    switch(direction) 
+    {
+        case 1:
+            pj.body.velocity.y = vel;
+            break;
+        case 2:
+            pj.body.velocity.x = -vel;
+            break;
+        case 3:
+            pj.body.velocity.x = vel;
+            break;
+        case 4:
+            pj.body.velocity.x = -vel;
+            pj.body.velocity.y = vel;
+            break;
+        case 5:
+            pj.body.velocity.x = -vel;
+            pj.body.velocity.y = -vel;
+            break;
+        case 6:
+            pj.body.velocity.x = vel;
+            pj.body.velocity.y = vel;
+            break;
+        case 7:
+            pj.body.velocity.x = vel;
+            pj.body.velocity.y = -vel;
+            break;
+        default:
+            pj.body.velocity.y = -vel;
+    }
+    if (direction === 0||direction === 5||direction === 7) pj.animations.play("walkBack");
+    if (direction === 1||direction === 4||direction === 6) pj.animations.play("walk");
+    if (direction === 2) pj.animations.play("walkLeft");
+    if (direction === 3) pj.animations.play("walkRight");
 }
