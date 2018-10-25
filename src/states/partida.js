@@ -11,6 +11,7 @@ DarkMaze.partidaState = function(game) {
     this.rocaTrue = true; // sirve para saber si a Teseo ha usado ya su roca 
     this.direccionMin = 1; //Para saber la direccion del Minotauro
     this.movMin = false; // Detecta si el Minotauro se está moviendo
+    this.tilePulso; // posición del sprite de Pulso
 };
 
 
@@ -89,7 +90,10 @@ DarkMaze.partidaState.prototype = {
         game.physics.enable(this.roca,Phaser.Physics.ARCADE);
         this.roca.exists = false; //La roca no existe hata que Teseo la ponga en el escenario
         this.roca.visible = false;
-
+        
+        //Añade el sprite del pulso
+        this.pulso = game.add.sprite(this.teseo.x, this.teseo.y, 'pulso');
+        this.roca.visible = false;
     },
 
     update: function() {
@@ -107,13 +111,22 @@ DarkMaze.partidaState.prototype = {
         //Se ponen el movimiento a false para camiar la animación al idle si no se mueve el jugador
         this.movMin = false; 
         
+        //El pulso siempre sigue a Teseo pero no es visible si Teseo no está corriendo
+        this.tilePulso = this.map.getTile(Math.trunc(this.teseo.x / 32), Math.trunc(this.teseo.y / 32));
+        this.pulso.x = this.tilePulso.worldX;
+        this.pulso.y = this.tilePulso.worldY;
+        this.pulso.visible = false;
+        
         //Movimiento de Teseo por teclado
 
-        if (this.wKey.isDown)
+    if (this.wKey.isDown)
     {
        this.teseo.body.velocity.y = -this.speedTes;
        this.teseo.animations.play("idleBack");
-      
+       if (this.shiftKey.isDown) {
+            this.teseo.body.velocity.y = -this.runTes;
+            this.pulso.visible = true;
+       }
        
     }
     else if (this.sKey.isDown)
@@ -122,6 +135,7 @@ DarkMaze.partidaState.prototype = {
         this.teseo.animations.play("idle");
         if (this.shiftKey.isDown) {
             this.teseo.body.velocity.y = this.runTes; 
+            this.pulso.visible = true;
         }
         
     }
@@ -138,6 +152,7 @@ DarkMaze.partidaState.prototype = {
         }
         if (this.shiftKey.isDown) {
             this.teseo.body.velocity.x = -this.runTes; 
+            this.pulso.visible = true;
         }
         
     }
@@ -153,6 +168,7 @@ DarkMaze.partidaState.prototype = {
         }
         if (this.shiftKey.isDown) {
             this.teseo.body.velocity.x = this.runTes; 
+            this.pulso.visible = true;
         }
 
     }
