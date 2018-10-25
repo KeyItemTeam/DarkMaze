@@ -2,35 +2,23 @@
 // var loopCount;  <-- Ambas variables son para la música
 
 DarkMaze.partidaState = function(game) {
-    this.speed = 200; // velocidad al andar
-    this.run = 500; // velocidad al correr
-    this.speed2 = 100;
-    this.run2 = 400;
-    this.rocaTime = 0;
-    this.rocaSalud= 3;
-    this.rocaTrue = true;
-    this.direccion=1;
-    this.mov = false;
+    this.speedMin = 200; // velocidad al andar Minotauro
+    this.runMin = 500; // velocidad al correr Minotauro
+    this.speedTes = 100; // velocidad al andar Teseo
+    this.runTes = 400; // velocidad al correr Teseo
+    this.rocaTime = 0; // tiempo hasta que se le pueda dar el siguiente golpe a la roca
+    this.rocaSalud= 3; // puntos de salud de la roca
+    this.rocaTrue = true; // sirve para saber si a Teseo ha usado ya su roca 
+    this.direccionMin = 1; //Para saber la direccion del Minotauro
+    this.movMin = false; // Detecta si el Minotauro se está moviendo
 };
 
 
 
 DarkMaze.partidaState.prototype = {
-    init: function(){
-        // scale the game 4x
-       // game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
-       // game.scale.setUserScale(2,2);
 
-        // enable crisp rendering
-        game.renderer.renderSession.roundPixels = true;
-        Phaser.Canvas.setImageRenderingCrisp(this.game.canvas)
-    },
-    preload: function() {
-
-    },
-    
     create: function() {
-        game.world.setBounds(0, 0, 1400, 1400);
+
      /* //Para añadir música
         music = game.add.audio('musica');
         music.play();
@@ -44,26 +32,29 @@ DarkMaze.partidaState.prototype = {
         this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
         this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         this.shiftKey = game.input.keyboard.addKey(Phaser.Keyboard.SHIFT);
-        //Movimiento teseo
+        //Prepara el teclado para que el jugador humano pueda mover a Teseo (Funciones temporales de prueba)
         this.wKey = game.input.keyboard.addKey(Phaser.Keyboard.W);
         this.sKey = game.input.keyboard.addKey(Phaser.Keyboard.S);
         this.aKey = game.input.keyboard.addKey(Phaser.Keyboard.A);
         this.dKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
         this.qKey = game.input.keyboard.addKey(Phaser.Keyboard.Q);
 
+        //Cargamos el mapa, su tileset y sus capas, también añadimos colisiones
+
         this.map = this.add.tilemap('map');
         this.map.addTilesetImage('tileset', 'tiles');
 
-        this.layer = this.map.createLayer('Capa2');
-        this.layer2 = this.map.createLayer('Capa1');
-        this.layer3 = this.map.createLayer('Capa3');
+        this.layer = this.map.createLayer('Capa2'); // Capa de tiles
+        this.layer2 = this.map.createLayer('Capa1'); // Capa de colisiones
+        this.layer3 = this.map.createLayer('Capa3'); // Capa de oscuridad 
         this.layer3.alpha = 0.7;
         
-        this.map.setCollision(14, true, this.layer);
+        this.map.setCollision(14, true, this.layer); 
         
 
 
-        //Añade el sprite del minotauro y activa las físicas
+        //Añade las animaciones del minotauro y activa sus físicas
+
         this.minotauro = game.add.sprite(48, 80, 'minotauro');
         this.minotauro.animations.add('idle',[0,1,2,3], 6, true);
         this.minotauro.animations.add('idleBack',[4,5,6,7], 6, true);
@@ -76,12 +67,12 @@ DarkMaze.partidaState.prototype = {
         this.minotauro.animations.play("idle");
         
         game.physics.enable(this.minotauro,Phaser.Physics.ARCADE);
-        //this.minotauro.body.immovable = true;
         this.minotauro.anchor.setTo(0.5);
-        this.minotauro.body.setSize(24, 24, 20, 40);
-        this.minotauro.body.collideWorldBounds = true;
+        this.minotauro.body.setSize(24, 24, 20, 30); //Hitbox
+       
 
-        //Añade el sprite de teseo y activa las físicas
+        //Añade las animaciones de Teseo y activa sus físicas
+
         this.teseo = game.add.sprite(352, 368, 'teseo');
         this.teseo.animations.add('idle',[0,1,2,3], 6, true);
         this.teseo.animations.add('idleBack',[4,5,6,7], 6, true);
@@ -90,55 +81,56 @@ DarkMaze.partidaState.prototype = {
         this.teseo.animations.play("idle");
         
         game.physics.enable(this.teseo,Phaser.Physics.ARCADE);
-        //this.teseo.body.immovable = true;
         this.teseo.anchor.setTo(0.5);
-        this.teseo.body.setSize(24, 24, 20, 40);
+        this.teseo.body.setSize(24, 24, 20, 30); //Hitbox
 
-        //Rocas
+        //Añade el sprite de la roca y activa sus físicas
         this.roca= game.add.sprite(0, 0, 'roca');
         game.physics.enable(this.roca,Phaser.Physics.ARCADE);
-        this.roca.exists = false;
+        this.roca.exists = false; //La roca no existe hata que Teseo la ponga en el escenario
         this.roca.visible = false;
-        
-        game.camera.follow(this.minotauro);
-        game.camera.deadzone = new Phaser.Rectangle(100, 100, 100, 50);
+
     },
 
     update: function() {
-        this.minotauro.body.velocity.x = 0;
+
+        //Se ponen las velocidades a 0 para que el movimiento no sea infinito
+        this.minotauro.body.velocity.x = 0; 
         this.minotauro.body.velocity.y = 0;
         this.teseo.body.velocity.x = 0;
         this.teseo.body.velocity.y = 0;
         
-    
+        //Se activan las colisiones con el escenario
         this.physics.arcade.collide(this.teseo, this.layer);
         this.physics.arcade.collide(this.minotauro, this.layer);
 
-        this.mov = false;
+        //Se ponen el movimiento a false para camiar la animación al idle si no se mueve el jugador
+        this.movMin = false; 
         
+        //Movimiento de Teseo por teclado
 
         if (this.wKey.isDown)
     {
-       this.teseo.body.velocity.y = -this.speed2;
+       this.teseo.body.velocity.y = -this.speedTes;
        this.teseo.animations.play("idleBack");
        if (this.shiftKey.isDown) {
-        this.teseo.body.velocity.y = -this.run2; 
+        this.teseo.body.velocity.y = -this.runTes; 
     }
        
     }
     else if (this.sKey.isDown)
     {
-        this.teseo.body.velocity.y = this.speed2;
+        this.teseo.body.velocity.y = this.speedTes;
         this.teseo.animations.play("idle");
         if (this.shiftKey.isDown) {
-            this.teseo.body.velocity.y = this.run2; 
+            this.teseo.body.velocity.y = this.runTes; 
         }
         
     }
 
     if (this.aKey.isDown)
     {
-        this.teseo.body.velocity.x = -this.speed2;
+        this.teseo.body.velocity.x = -this.speedTes;
         if(this.downKey.isDown){
             this.teseo.animations.play("idle");
         }else if(this.upKey.isDown){
@@ -147,13 +139,13 @@ DarkMaze.partidaState.prototype = {
             this.teseo.animations.play("idleLeft");
         }
         if (this.shiftKey.isDown) {
-            this.teseo.body.velocity.x = -this.run2; 
+            this.teseo.body.velocity.x = -this.runTes; 
         }
         
     }
     else if (this.dKey.isDown)
     {
-        this.teseo.body.velocity.x = this.speed2;
+        this.teseo.body.velocity.x = this.speedTes;
         if(this.downKey.isDown){
             this.teseo.animations.play("idle");
         }else if(this.upKey.isDown){
@@ -162,13 +154,16 @@ DarkMaze.partidaState.prototype = {
             this.teseo.animations.play("idleRight");
         }
         if (this.shiftKey.isDown) {
-            this.teseo.body.velocity.x = this.run2; 
+            this.teseo.body.velocity.x = this.runTes; 
         }
 
     }
+
+    //Con q Teseo puede poner rocas
     if (this.qKey.isDown&&this.rocaTrue)
     {
-        this.roca.reset((this.math.snapToFloor(Math.floor(this.teseo.body.x), 32) / 32)*32, (this.math.snapToFloor(Math.floor(this.teseo.body.y), 32) / 32)*32);
+        this.roca.reset((this.math.snapToFloor(Math.floor(this.teseo.body.x), 32) / 32)*32, (this.math.snapToFloor(Math.floor(this.teseo.body.y), 32) / 32)*32); //Pone la ...
+        //... roca en la casilla en la que se encuentre Teseo
         this.roca.exists = true;
         this.roca.visible = true;
         this.roca.body.inmovable = true;
@@ -176,30 +171,32 @@ DarkMaze.partidaState.prototype = {
         this.rocaTrue=false;
     }
 
+    //Movimiento del minotauro
+
     if (this.upKey.isDown)
     {
-       this.minotauro.body.velocity.y = -this.speed;
+       this.minotauro.body.velocity.y = -this.speedMin;
        this.minotauro.animations.play("walkBack");
        if (this.shiftKey.isDown) {
-        this.minotauro.body.velocity.y = -this.run; 
+        this.minotauro.body.velocity.y = -this.runMin; 
     }
-        this.direccion = 0;
-        this.mov = true;
+        this.direccionMin = 0; 
+        this.movMin = true;
     }
     else if (this.downKey.isDown)
     {
-        this.minotauro.body.velocity.y = this.speed;
+        this.minotauro.body.velocity.y = this.speedMin;
         this.minotauro.animations.play("walk");
         if (this.shiftKey.isDown) {
-            this.minotauro.body.velocity.y = this.run; 
+            this.minotauro.body.velocity.y = this.runMn; 
         }
-        this.direccion = 1;
-        this.mov = true;
+        this.direccionMin = 1;
+        this.movMin = true;
     }
 
     if (this.leftKey.isDown)
     {
-        this.minotauro.body.velocity.x = -this.speed;
+        this.minotauro.body.velocity.x = -this.speedMin;
         if(this.downKey.isDown){
             this.minotauro.animations.play("walk");
         }else if(this.upKey.isDown){
@@ -209,14 +206,14 @@ DarkMaze.partidaState.prototype = {
         }
 
         if (this.shiftKey.isDown) {
-            this.minotauro.body.velocity.x = -this.run; 
+            this.minotauro.body.velocity.x = -this.runMin; 
         }
-        this.direccion = 2;
-        this.mov = true;
+        this.direccionMin = 2;
+        this.movMin = true;
     }
     else if (this.rightKey.isDown)
     {
-        this.minotauro.body.velocity.x = this.speed;
+        this.minotauro.body.velocity.x = this.speedMin;
         if(this.downKey.isDown){
             this.minotauro.animations.play("walk");
         }else if(this.upKey.isDown){
@@ -225,41 +222,43 @@ DarkMaze.partidaState.prototype = {
             this.minotauro.animations.play("walkRight");
         }
         if (this.shiftKey.isDown) {
-            this.minotauro.body.velocity.x = this.run; 
+            this.minotauro.body.velocity.x = this.runMin; 
         }
-        this.direccion = 3;
-        this.mov = true;
+        this.direccionMin = 3;
+        this.movMin = true;
     }
-    if(this.mov ===false)
+    if(this.movMin ===false)
     {
-    if (this.direccion === 1) this.minotauro.animations.play("idle");
-    if (this.direccion === 0) this.minotauro.animations.play("idleBack");
-    if (this.direccion === 2) this.minotauro.animations.play("idleLeft");
-    if (this.direccion === 3) this.minotauro.animations.play("idleRight");
+    if (this.direccionMin === 1) this.minotauro.animations.play("idle");
+    if (this.direccionMin === 0) this.minotauro.animations.play("idleBack");
+    if (this.direccionMin === 2) this.minotauro.animations.play("idleLeft");
+    if (this.direccionMin === 3) this.minotauro.animations.play("idleRight");
     }
+
+    //Sire para atrapar a Teseo al pulsar espacio
     if ((Phaser.Math.distance(this.minotauro.x, this.minotauro.y, this.teseo.x, this.teseo.y)<50) && this.spaceKey.isDown ) {
         console.log("atrapado");
         game.state.start('win');
     }
+
+    //Sirve para que el minotauro pueda destrozar la roca de Teseo
     if ((Phaser.Math.distance(this.minotauro.x, this.minotauro.y, this.roca.x, this.roca.y)<50) && this.spaceKey.isDown &&(game.time.now > this.rocaTime)) {
         this.rocaTime = game.time.now + 500;
         this.rocaSalud--;
         console.log(this.rocaSalud);
     }
 
-    if(this.rocaSalud < 1){
+    if(this.rocaSalud < 1){ // 
         this.roca.kill();
         }
-    game.physics.arcade.collide(this.minotauro, this.teseo, collisionHandler, null, this);
-    
-    game.physics.arcade.collide(this.minotauro, this.roca, collisionHandler, null, this);
 
-    function  collisionHandler(obj1, obj2) {
+    //Se aplican el resto de colisiones
+    game.physics.arcade.collide(this.minotauro, this.teseo);
+    game.physics.arcade.collide(this.minotauro, this.roca);
 
-        game.stage.backgroundColor = '#992d2d' ;
-    }
-        
     //LUZ
+
+    //Se llena la capa 3 del mapa de tiles de una tile negra
     for (var i = 0; i < 27; i++) {
         for (var j = 0; j < 18; j++) {
             this.map.putTile(21, i, j, 'Capa3');
@@ -281,10 +280,11 @@ DarkMaze.partidaState.prototype = {
     }
         
     },
+
     render: function() {
 
-        game.debug.body(this.minotauro);
-        game.debug.body(this.teseo);
+        //game.debug.body(this.minotauro);
+        //game.debug.body(this.teseo);
     },
 
 }
