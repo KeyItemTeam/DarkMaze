@@ -9,6 +9,8 @@ DarkMaze.partidaState = function(game) {
     this.rocaTime = 0;
     this.rocaSalud= 3;
     this.rocaTrue = true;
+    this.direccion=1;
+    this.mov = false;
 };
 
 
@@ -67,6 +69,10 @@ DarkMaze.partidaState.prototype = {
         this.minotauro.animations.add('idleBack',[4,5,6,7], 6, true);
         this.minotauro.animations.add('idleLeft',[8,9,10,11], 6, true);
         this.minotauro.animations.add('idleRight',[12,13,14,15], 6, true);
+        this.minotauro.animations.add('walk',[16,17,18,19,20,21,22,23], 6, true);
+        this.minotauro.animations.add('walkBack',[24,25,26,27,28,29,30,31], 6, true);
+        this.minotauro.animations.add('walkLeft',[32,33,34,35,36,37,38,39], 6, true);
+        this.minotauro.animations.add('walkRight',[40,41,42,43,44,45,46,47], 6, true);
         this.minotauro.animations.play("idle");
         
         game.physics.enable(this.minotauro,Phaser.Physics.ARCADE);
@@ -86,7 +92,7 @@ DarkMaze.partidaState.prototype = {
         game.physics.enable(this.teseo,Phaser.Physics.ARCADE);
         //this.teseo.body.immovable = true;
         this.teseo.anchor.setTo(0.5);
-        this.teseo.body.setSize(24, 24, 4, 4);
+        this.teseo.body.setSize(24, 24, 20, 40);
 
         //Rocas
         this.roca= game.add.sprite(0, 0, 'roca');
@@ -108,6 +114,8 @@ DarkMaze.partidaState.prototype = {
         this.physics.arcade.collide(this.teseo, this.layer);
         this.physics.arcade.collide(this.minotauro, this.layer);
 
+        this.mov = false;
+        
 
         if (this.wKey.isDown)
     {
@@ -160,7 +168,7 @@ DarkMaze.partidaState.prototype = {
     }
     if (this.qKey.isDown&&this.rocaTrue)
     {
-        this.roca.reset((this.math.snapToFloor(Math.floor(this.teseo.x), 32) / 32)*32, (this.math.snapToFloor(Math.floor(this.teseo.y), 32) / 32)*32);
+        this.roca.reset((this.math.snapToFloor(Math.floor(this.teseo.body.x), 32) / 32)*32, (this.math.snapToFloor(Math.floor(this.teseo.body.y), 32) / 32)*32);
         this.roca.exists = true;
         this.roca.visible = true;
         this.roca.body.inmovable = true;
@@ -171,54 +179,64 @@ DarkMaze.partidaState.prototype = {
     if (this.upKey.isDown)
     {
        this.minotauro.body.velocity.y = -this.speed;
-       this.minotauro.animations.play("idleBack");
+       this.minotauro.animations.play("walkBack");
        if (this.shiftKey.isDown) {
         this.minotauro.body.velocity.y = -this.run; 
     }
-       
-
+        this.direccion = 0;
+        this.mov = true;
     }
     else if (this.downKey.isDown)
     {
         this.minotauro.body.velocity.y = this.speed;
-        this.minotauro.animations.play("idle");
+        this.minotauro.animations.play("walk");
         if (this.shiftKey.isDown) {
             this.minotauro.body.velocity.y = this.run; 
         }
-
+        this.direccion = 1;
+        this.mov = true;
     }
 
     if (this.leftKey.isDown)
     {
         this.minotauro.body.velocity.x = -this.speed;
         if(this.downKey.isDown){
-            this.minotauro.animations.play("idle");
+            this.minotauro.animations.play("walk");
         }else if(this.upKey.isDown){
-            this.minotauro.animations.play("idleBack");
+            this.minotauro.animations.play("walkBack");
         }else{
-            this.minotauro.animations.play("idleLeft");
+            this.minotauro.animations.play("walkLeft");
         }
 
         if (this.shiftKey.isDown) {
             this.minotauro.body.velocity.x = -this.run; 
         }
+        this.direccion = 2;
+        this.mov = true;
     }
     else if (this.rightKey.isDown)
     {
         this.minotauro.body.velocity.x = this.speed;
         if(this.downKey.isDown){
-            this.minotauro.animations.play("idle");
+            this.minotauro.animations.play("walk");
         }else if(this.upKey.isDown){
-            this.minotauro.animations.play("idleBack");
+            this.minotauro.animations.play("walkBack");
         }else{
-            this.minotauro.animations.play("idleRight");
+            this.minotauro.animations.play("walkRight");
         }
         if (this.shiftKey.isDown) {
             this.minotauro.body.velocity.x = this.run; 
         }
-
+        this.direccion = 3;
+        this.mov = true;
     }
-
+    if(this.mov ===false)
+    {
+    if (this.direccion === 1) this.minotauro.animations.play("idle");
+    if (this.direccion === 0) this.minotauro.animations.play("idleBack");
+    if (this.direccion === 2) this.minotauro.animations.play("idleLeft");
+    if (this.direccion === 3) this.minotauro.animations.play("idleRight");
+    }
     if ((Phaser.Math.distance(this.minotauro.x, this.minotauro.y, this.teseo.x, this.teseo.y)<50) && this.spaceKey.isDown ) {
         console.log("atrapado");
         game.state.start('win');
@@ -233,7 +251,7 @@ DarkMaze.partidaState.prototype = {
         this.roca.kill();
         }
     game.physics.arcade.collide(this.minotauro, this.teseo, collisionHandler, null, this);
-    game.physics.arcade.collide(this.teseo, this.roca, collisionHandler, null, this);
+    
     game.physics.arcade.collide(this.minotauro, this.roca, collisionHandler, null, this);
 
     function  collisionHandler(obj1, obj2) {
