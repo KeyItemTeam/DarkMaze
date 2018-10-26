@@ -40,6 +40,9 @@ DarkMaze.partidaState.prototype = {
         this.dKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
         this.qKey = game.input.keyboard.addKey(Phaser.Keyboard.Q);
 
+        //Prepara el teclado para usar la habilidad de antorcha del minotauro
+        this.pKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
+        
         //Cargamos el mapa, su tileset y sus capas, también añadimos colisiones
 
         this.map = this.add.tilemap('map');
@@ -94,6 +97,11 @@ DarkMaze.partidaState.prototype = {
         //Añade el sprite del pulso
         this.pulso = game.add.sprite(this.teseo.x, this.teseo.y, 'pulso');
         this.roca.visible = false;
+        
+        //Añade el sprite de antorcha
+        this.antorcha = game.add.sprite(this.minotauro.x, this.minotauro.y, 'antorcha');
+        this.antorcha.exists = false;
+        this.antorcha.visible = false;
     },
 
     update: function() {
@@ -258,6 +266,13 @@ DarkMaze.partidaState.prototype = {
         this.roca.kill();
         }
 
+    //Sirve para colocar antorchas con el minotauro
+    if (this.pKey.isDown) {
+        this.antorcha.reset((this.math.snapToFloor(Math.floor(this.minotauro.x), 32) / 32) * 32, (this.math.snapToFloor(Math.floor(this.minotauro.y), 32) / 32) * 32);
+        this.antorcha.exists = true;
+        this.antorcha.visible = true;
+    }    
+        
     //Se aplican el resto de colisiones
     game.physics.arcade.collide(this.minotauro, this.teseo);
     game.physics.arcade.collide(this.minotauro, this.roca);
@@ -277,6 +292,15 @@ DarkMaze.partidaState.prototype = {
     //Luz teseo
     luz(5, this.teseo, this.map);
     
+    //Luz antorcha
+    if (this.antorcha.exists) {
+        for (var i = -2; i < 3; i++) {
+            for (var j = -2; j < 3; j++) {
+                this.map.removeTile(Math.trunc(this.antorcha.x / 32) + i, Math.trunc(this.antorcha.y / 32) + j, 'Capa3');
+            }
+        }
+    }
+        
     },
 
     render: function() {
