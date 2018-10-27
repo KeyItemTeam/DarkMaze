@@ -2,7 +2,8 @@
 // var loopCount;  <-- Ambas variables son para la música
 var perseguidorWIN;
 var partidas = 0;
-
+var winTeseo = 0;
+var winMinotauro = 0;
 
 DarkMaze.partidaState = function(game) {
     
@@ -172,8 +173,12 @@ DarkMaze.partidaState.prototype = {
     if (estaCerca(this.minotauro, this.teseo, 50) && this.spaceKey.isDown ) {
         console.log("atrapado");
         partidas++;
+        winMinotauro++;
         perseguidorWIN = true;
-        game.state.start('win', true, false, perseguidorWIN, partidas);
+        if (partidas == 2) {
+            game.state.start('ranking', winMinotauro, winTeseo);
+        } else {
+        game.state.start('win', true, false, perseguidorWIN, partidas, winMinotauro, winTeseo); }
     }
 
     //Sirve para que el minotauro pueda destrozar la roca de Teseo
@@ -195,9 +200,11 @@ DarkMaze.partidaState.prototype = {
     }    
 
     //Sirve para que Teseo deje un pulso al correr
-    if (this.oKey.isDown) {
+    if (this.oKey.isDown && partidas==0) {
         this.pulso.visible = true;
-    }    
+    } else if (this.shiftKey.isDown && partidas!=0) {
+        this.pulso.visible = true;
+    }
         
      //Se aplican el resto de colisiones
     game.physics.arcade.collide(this.minotauro, this.teseo);
@@ -358,6 +365,10 @@ function moverDir (pj, up, down, left, right, runKey) {
 function endGame(){
     perseguidorWIN = false;
     partidas ++;
-    game.state.start('win', true, false, perseguidorWIN, partidas);
+    winTeseo++;
+    if (partidas == 2) {
+        game.state.start('ranking', winMinotauro, winTeseo);
+    } else {
+    game.state.start('win', true, false, perseguidorWIN, partidas, winMinotauro, winTeseo); }
     
 }
