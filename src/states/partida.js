@@ -11,6 +11,8 @@ DarkMaze.partidaState = function(game) {
     this.rocaTrue = true; // sirve para saber si a Teseo ha usado ya su roca 
     this.direccionMin = 1; //Para saber la direccion del Minotauro
     this.movMin = false; // Detecta si el Minotauro se está moviendo
+    this.direccionTes = 1; //Para saber la direccion del Minotauro
+    this.movTes = false; // Detecta si el Minotauro se está moviendo
     this.tilePulso; // posición del sprite de Pulso
 };
 
@@ -82,6 +84,10 @@ DarkMaze.partidaState.prototype = {
         this.teseo.animations.add('idleBack',[4,5,6,7], 6, true);
         this.teseo.animations.add('idleLeft',[8,9,10,11], 6, true);
         this.teseo.animations.add('idleRight',[12,13,14,15], 6, true);
+        this.teseo.animations.add('walk',[16,17,18,19,20,21,22,23], 12, true);
+        this.teseo.animations.add('walkBack',[24,25,26,27,28,29,30,31], 12, true);
+        this.teseo.animations.add('walkLeft',[32,33,34,35,36,37,38,39], 12, true);
+        this.teseo.animations.add('walkRight',[40,41,42,43,44,45,46,47], 12, true);
         this.teseo.animations.play("idle");
         
         game.physics.enable(this.teseo,Phaser.Physics.ARCADE);
@@ -118,7 +124,8 @@ DarkMaze.partidaState.prototype = {
 
         //Se ponen el movimiento a false para camiar la animación al idle si no se mueve el jugador
         this.movMin = false; 
-        
+        this.movTes = false; 
+
         //El pulso siempre sigue a Teseo pero no es visible si Teseo no está corriendo
         this.tilePulso = this.map.getTile(Math.trunc(this.teseo.x / 32), Math.trunc(this.teseo.y / 32));
         this.pulso.x = this.tilePulso.worldX;
@@ -127,59 +134,60 @@ DarkMaze.partidaState.prototype = {
         
         //Movimiento de Teseo por teclado
 
-    if (this.wKey.isDown)
-    {
-       this.teseo.body.velocity.y = -this.speedTes;
-       this.teseo.animations.play("idleBack");
-       if (this.shiftKey.isDown) {
-            this.teseo.body.velocity.y = -this.runTes;
-            this.pulso.visible = true;
-       }
-       
-    }
-    else if (this.sKey.isDown)
-    {
-        this.teseo.body.velocity.y = this.speedTes;
-        this.teseo.animations.play("idle");
-        if (this.shiftKey.isDown) {
-            this.teseo.body.velocity.y = this.runTes; 
-            this.pulso.visible = true;
+        if (this.wKey.isDown)
+        {
+            this.direccionTes = 0; 
+            this.movTes = true;
+            
         }
-        
-    }
-
-    if (this.aKey.isDown)
-    {
-        this.teseo.body.velocity.x = -this.speedTes;
-        if(this.downKey.isDown){
-            this.teseo.animations.play("idle");
-        }else if(this.upKey.isDown){
-            this.teseo.animations.play("idleBack");
+    
+        if (this.sKey.isDown)
+        {
+            this.direccionTes = 1;
+            this.movTes = true;
+        }
+    
+        if (this.aKey.isDown)
+        {
+            if(this.sKey.isDown){
+                this.direccionTes = 4;
+            }else if(this.wKey.isDown){
+                this.direccionTes = 5;
+            }else{
+                this.direccionTes = 2;
+            }
+            this.movTes = true;
+            
+        }
+        if (this.dKey.isDown)
+        {
+            if(this.sKey.isDown){
+                this.direccionTes = 6;
+            }else if(this.wKey.isDown){
+                this.direccionTes = 7;
+            }else{
+                this.direccionTes = 3;
+            }
+            this.movTes = true;
+            
+        }
+        if(this.movTes ===false)
+        {
+        if (this.direccionTes === 0||this.direccionTes === 4||this.direccionTes === 6) this.teseo.animations.play("idleBack");
+        if (this.direccionTes === 1||this.direccionTes === 5||this.direccionTes === 7) this.teseo.animations.play("idle");
+        if (this.direccionTes === 2) this.teseo.animations.play("idleLeft");
+        if (this.direccionTes === 3) this.teseo.animations.play("idleRight");
         }else{
-            this.teseo.animations.play("idleLeft");
+    
+            if (this.shiftKey.isDown) {
+                mover(this.teseo, this.direccionTes, this.runTes);
+                this.pulso.visible = true;
+             }
+            else 
+            {
+            mover(this.teseo, this.direccionTes, this.speedTes);
+            }
         }
-        if (this.shiftKey.isDown) {
-            this.teseo.body.velocity.x = -this.runTes; 
-            this.pulso.visible = true;
-        }
-        
-    }
-    else if (this.dKey.isDown)
-    {
-        this.teseo.body.velocity.x = this.speedTes;
-        if(this.downKey.isDown){
-            this.teseo.animations.play("idle");
-        }else if(this.upKey.isDown){
-            this.teseo.animations.play("idleBack");
-        }else{
-            this.teseo.animations.play("idleRight");
-        }
-        if (this.shiftKey.isDown) {
-            this.teseo.body.velocity.x = this.runTes; 
-            this.pulso.visible = true;
-        }
-
-    }
 
     //Con q Teseo puede poner rocas
     if (this.qKey.isDown&&this.rocaTrue)
