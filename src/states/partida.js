@@ -142,12 +142,20 @@ DarkMaze.partidaState.prototype = {
         
         //Movimiento de Teseo por teclado
 
-        this.teseo.direction = moverDir(this.teseo, this.wKey,this.sKey, this.aKey, this.dKey, this.oKey);
+        if (partidas == 0){
+            this.teseo.direction = moverDir(this.teseo, this.wKey,this.sKey, this.aKey, this.dKey, this.oKey);
+        } else {
+            this.teseo.direction = moverDir(this.teseo,this.upKey,this.downKey, this.leftKey, this.rightKey, this.shiftKey);
+        }
+        
 
         //Movimiento del minotauro
-
+        if (partidas == 0) {
         this.minotauro.direction = moverDir(this.minotauro, this.upKey,this.downKey, this.leftKey, this.rightKey, this.shiftKey);
-
+        } else {
+            this.minotauro.direction = moverDir(this.minotauro,this.wKey,this.sKey, this.aKey, this.dKey, this.oKey);
+        }
+        
     //Con q Teseo puede poner rocas
     if (this.qKey.isDown&&this.roca.used)
     {
