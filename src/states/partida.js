@@ -2,18 +2,8 @@
 // var loopCount;  <-- Ambas variables son para la música
 
 DarkMaze.partidaState = function(game) {
-    this.speedMin = 200; // velocidad al andar Minotauro
-    this.runMin = 400; // velocidad al correr Minotauro
-    this.speedTes = 100; // velocidad al andar Teseo
-    this.runTes = 300; // velocidad al correr Teseo
-    this.rocaTime = 0; // tiempo hasta que se le pueda dar el siguiente golpe a la roca
-    this.rocaSalud= 3; // puntos de salud de la roca
-    this.rocaTrue = true; // sirve para saber si a Teseo ha usado ya su roca 
-    this.direccionMin = 1; //Para saber la direccion del Minotauro
-    this.movMin = false; // Detecta si el Minotauro se está moviendo
-    this.direccionTes = 1; //Para saber la direccion de Teseo
-    this.movTes = false; // Detecta si Teseo se está moviendo
-    this.tilePulso; // posición del sprite de Pulso
+    
+    
 };
 
 
@@ -79,6 +69,10 @@ DarkMaze.partidaState.prototype = {
         this.minotauro.anchor.setTo(0.5);
         this.minotauro.body.setSize(24, 24, 20, 30); //Hitbox
        
+        this.minotauro.speed = 200;
+        this.minotauro.run = 400;
+        this.minotauro.direction= 1;
+        this.minotauro.mov= false;
 
         //Añade las animaciones de Teseo y activa sus físicas
 
@@ -97,11 +91,21 @@ DarkMaze.partidaState.prototype = {
         this.teseo.anchor.setTo(0.5);
         this.teseo.body.setSize(24, 24, 20, 30); //Hitbox
 
+        this.teseo.speed = 100;
+        this.teseo.run = 200;
+        this.teseo.direction= 1;
+        this.teseo.mov= false;
+
         //Añade el sprite de la roca y activa sus físicas
         this.roca= game.add.sprite(0, 0, 'roca');
         game.physics.enable(this.roca,Phaser.Physics.ARCADE);
         this.roca.exists = false; //La roca no existe hata que Teseo la ponga en el escenario
         this.roca.visible = false;
+        this.roca.time = 0; // tiempo hasta que se le pueda dar el siguiente golpe a la roca
+        this.roca.salud= 3; // puntos de salud de la roca
+        this.roca.used = true; // sirve para saber si a Teseo ha usado ya su roca 
+
+
         
         //Añade el sprite del pulso
         this.pulso = game.add.sprite(this.teseo.x, this.teseo.y, 'pulso');
@@ -125,25 +129,23 @@ DarkMaze.partidaState.prototype = {
         this.physics.arcade.collide(this.minotauro, this.layer);
 
         //Se ponen el movimiento a false para cambiar la animación al idle si no se mueve el jugador
-        this.movMin = false; 
-        this.movTes = false; 
+        this.minotauro.mov = false; 
+        this.teseo.mov = false; 
 
         //El pulso siempre sigue a Teseo pero no es visible si Teseo no está corriendo
-        this.tilePulso = this.map.getTile(Math.trunc(this.teseo.x / 32), Math.trunc(this.teseo.y / 32));
-        this.pulso.x = this.tilePulso.worldX;
-        this.pulso.y = this.tilePulso.worldY;
+        this.pulso.reset((this.math.snapToFloor(Math.floor(this.teseo.body.x), 32) / 32)*32, (this.math.snapToFloor(Math.floor(this.teseo.body.y), 32) / 32)*32);
         this.pulso.visible = false;
         
         //Movimiento de Teseo por teclado
 
-        this.direccionTes = moverDir(this.teseo, this.direccionTes, this.movTes, this.speedTes, this.runTes, this.wKey,this.sKey, this.aKey, this.dKey, this.oKey);
+        this.teseo.direction = moverDir(this.teseo, this.wKey,this.sKey, this.aKey, this.dKey, this.oKey);
 
         //Movimiento del minotauro
 
-        this.direccionMin = moverDir(this.minotauro, this.direccionMin, this.movMin, this.speedMin, this.runMin, this.upKey,this.downKey, this.leftKey, this.rightKey, this.shiftKey);
+        this.minotauro.direction = moverDir(this.minotauro, this.upKey,this.downKey, this.leftKey, this.rightKey, this.shiftKey);
 
     //Con q Teseo puede poner rocas
-    if (this.qKey.isDown&&this.rocaTrue)
+    if (this.qKey.isDown&&this.roca.used)
     {
         this.roca.reset((this.math.snapToFloor(Math.floor(this.teseo.body.x), 32) / 32)*32, (this.math.snapToFloor(Math.floor(this.teseo.body.y), 32) / 32)*32); //Pone la ...
         //... roca en la casilla en la que se encuentre Teseo
@@ -151,7 +153,7 @@ DarkMaze.partidaState.prototype = {
         this.roca.visible = true;
         this.roca.body.inmovable = true;
         this.roca.body.moves=false;
-        this.rocaTrue=false;
+        this.roca.used=false;
     }
    
     //Sire para atrapar a Teseo al pulsar espacio
@@ -161,13 +163,13 @@ DarkMaze.partidaState.prototype = {
     }
 
     //Sirve para que el minotauro pueda destrozar la roca de Teseo
-    if (estaCerca(this.minotauro, this.roca, 50) && this.spaceKey.isDown &&(game.time.now > this.rocaTime)) {
-        this.rocaTime = game.time.now + 500;
-        this.rocaSalud--;
-        console.log(this.rocaSalud);
+    if (estaCerca(this.minotauro, this.roca, 50) && this.spaceKey.isDown &&(game.time.now > this.roca.time)) {
+        this.roca.time = game.time.now + 500;
+        this.roca.salud--;
+        console.log(this.roca.salud);
     }
-    
-    if(this.rocaSalud < 1){ // 
+
+    if(this.roca.salud < 1){ // 
         this.roca.kill();
     }
 
@@ -276,63 +278,64 @@ function mover (pj, direction, vel) {
 
 }
 
-function moverDir (pj, direction, mov, vel, run, up, down, left, right, runKey) {
+// Asigna unas teclas al personaje seleccionado y define su movimiento.
+
+function moverDir (pj, up, down, left, right, runKey) {
 
     if (up.isDown)
     {
-        direction = 0; 
-       mov = true;
-       
+        pj.direction = 0; 
+        pj.mov = true;
     }
 
     if (down.isDown)
     {
         
-        direction = 1;
-       mov = true;
+        pj.direction = 1;
+       pj.mov = true;
     }
 
     if (left.isDown)
     {
         if(down.isDown){
-            direction = 4;
+            pj.direction = 4;
         }else if(up.isDown){
-            direction = 5;
+            pj.direction = 5;
         }else{
-            direction = 2;
+            pj.direction = 2;
         }
         
-       mov = true;
+        pj.mov = true;
         
     }
     if (right.isDown)
     {
         if(down.isDown){
-            direction = 6;
+            pj.direction = 6;
         }else if(up.isDown){
-            direction = 7;
+            pj.direction = 7;
         }else{
-            direction = 3;
+            pj.direction = 3;
         }
         
-       mov = true;
+        pj.mov = true;
         
     }
-    if(mov === false)
+    if(pj.mov === false)
     {
-    if (direction === 0||direction === 4||direction === 6) pj.animations.play("idleBack");
-    if (direction === 1||direction === 5||direction === 7) pj.animations.play("idle");
-    if (direction === 2) pj.animations.play("idleLeft");
-    if (direction === 3) pj.animations.play("idleRight");
+    if (pj.direction === 0||pj.direction === 4||pj.direction === 6) pj.animations.play("idleBack");
+    if (pj.direction === 1||pj.direction === 5||pj.direction === 7) pj.animations.play("idle");
+    if (pj.direction === 2) pj.animations.play("idleLeft");
+    if (pj.direction === 3) pj.animations.play("idleRight");
     }else{
 
         if (runKey.isDown) {
-            mover(pj, direction, run);
+            mover(pj, pj.direction, pj.run);
          }
         else 
         {
-        mover(pj, direction, vel);
+        mover(pj, pj.direction, pj.speed);
         }
     }
-    return direction;
+    return pj.direction;
 }
