@@ -13,7 +13,12 @@ DarkMaze.winState.prototype = {
     },
 
     create: function() {
-        var texto = game.add.text(100, 200, 'Ganaste, wohoo.', {font: '30px Courier', fill: '#ffffff'});
+
+        if (!perseguidorWIN) {
+            var texto = game.add.text(100, 200, 'Ganó Teseo.', {font: '30px Courier', fill: '#ffffff'});
+        } else {
+            var texto = game.add.text(100, 200, 'Ganó el minotauro.', {font: '30px Courier', fill: '#ffffff'});   
+        }
         var texto1 = game.add.text(100, 400, 'Pulsa R para volver al menú principal [debug]', {font: '20px Courier', fill: '#ffffff'});
         var rkey= game.input.keyboard.addKey(Phaser.Keyboard.R);
         rkey.onDown.addOnce(vuelta, this);

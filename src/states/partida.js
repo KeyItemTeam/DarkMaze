@@ -1,5 +1,6 @@
 // var music;
 // var loopCount;  <-- Ambas variables son para la música
+var perseguidorWIN = true;
 
 
 DarkMaze.partidaState = function(game) {
@@ -13,7 +14,7 @@ DarkMaze.partidaState.prototype = {
 
     create: function() {
 
-        game.time.events.add(Phaser.Timer.MINUTE * 5, endGame, this);
+        game.time.events.add(Phaser.Timer.MINUTE * 1, endGame, this);
      /* //Para añadir música
         music = game.add.audio('musica');
         music.play();
@@ -161,7 +162,7 @@ DarkMaze.partidaState.prototype = {
     //Sire para atrapar a Teseo al pulsar espacio
     if (estaCerca(this.minotauro, this.teseo, 50) && this.spaceKey.isDown ) {
         console.log("atrapado");
-        game.state.start('win');
+        game.state.start('win', true, false, perseguidorWIN);
     }
 
     //Sirve para que el minotauro pueda destrozar la roca de Teseo
@@ -344,5 +345,7 @@ function moverDir (pj, up, down, left, right, runKey) {
 }
 
 function endGame(){
-    game.state.start('win');
+    perseguidorWIN = false;
+    game.state.start('win', true, false, perseguidorWIN);
+    
 }
