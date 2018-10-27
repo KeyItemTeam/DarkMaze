@@ -1,6 +1,7 @@
 // var music;
 // var loopCount;  <-- Ambas variables son para la música
-var perseguidorWIN = true;
+var perseguidorWIN;
+var partidas = 0;
 
 
 DarkMaze.partidaState = function(game) {
@@ -14,7 +15,7 @@ DarkMaze.partidaState.prototype = {
 
     create: function() {
 
-        game.time.events.add(Phaser.Timer.MINUTE * 1, endGame, this);
+        game.time.events.add(Phaser.Timer.SECOND * 10, endGame, this);
      /* //Para añadir música
         music = game.add.audio('musica');
         music.play();
@@ -121,7 +122,7 @@ DarkMaze.partidaState.prototype = {
 
     update: function() {
 
-        //Se ponen las velocidadeserrrrrrrrrrd a 0 para que el movimiento no sea infinito
+        //Se ponen las velocidades a 0 para que el movimiento no sea infinito
         this.minotauro.body.velocity.x = 0; 
         this.minotauro.body.velocity.y = 0;
         this.teseo.body.velocity.x = 0;
@@ -162,7 +163,9 @@ DarkMaze.partidaState.prototype = {
     //Sire para atrapar a Teseo al pulsar espacio
     if (estaCerca(this.minotauro, this.teseo, 50) && this.spaceKey.isDown ) {
         console.log("atrapado");
-        game.state.start('win', true, false, perseguidorWIN);
+        partidas++;
+        perseguidorWIN = true;
+        game.state.start('win', true, false, perseguidorWIN, partidas);
     }
 
     //Sirve para que el minotauro pueda destrozar la roca de Teseo
@@ -346,6 +349,7 @@ function moverDir (pj, up, down, left, right, runKey) {
 
 function endGame(){
     perseguidorWIN = false;
-    game.state.start('win', true, false, perseguidorWIN);
+    partidas ++;
+    game.state.start('win', true, false, perseguidorWIN, partidas);
     
 }
