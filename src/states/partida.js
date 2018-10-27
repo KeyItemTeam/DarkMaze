@@ -1,6 +1,7 @@
 // var music;
 // var loopCount;  <-- Ambas variables son para la música
 
+
 DarkMaze.partidaState = function(game) {
     
     
@@ -12,6 +13,7 @@ DarkMaze.partidaState.prototype = {
 
     create: function() {
 
+        game.time.events.add(Phaser.Timer.MINUTE * 5, endGame, this);
      /* //Para añadir música
         music = game.add.audio('musica');
         music.play();
@@ -118,7 +120,7 @@ DarkMaze.partidaState.prototype = {
 
     update: function() {
 
-        //Se ponen las velocidades a 0 para que el movimiento no sea infinito
+        //Se ponen las velocidadeserrrrrrrrrrd a 0 para que el movimiento no sea infinito
         this.minotauro.body.velocity.x = 0; 
         this.minotauro.body.velocity.y = 0;
         this.teseo.body.velocity.x = 0;
@@ -185,7 +187,7 @@ DarkMaze.partidaState.prototype = {
         this.pulso.visible = true;
     }    
         
-    //Se aplican el resto de colisiones
+     //Se aplican el resto de colisiones
     game.physics.arcade.collide(this.minotauro, this.teseo);
     game.physics.arcade.collide(this.minotauro, this.roca);
 
@@ -217,6 +219,7 @@ DarkMaze.partidaState.prototype = {
 
         //game.debug.body(this.minotauro);
         //game.debug.body(this.teseo);
+        game.debug.text("Time until event: " + game.time.events.duration, 32, 32)
     },
 }
 
@@ -338,4 +341,8 @@ function moverDir (pj, up, down, left, right, runKey) {
         }
     }
     return pj.direction;
+}
+
+function endGame(){
+    game.state.start('win');
 }
