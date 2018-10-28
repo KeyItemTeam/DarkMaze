@@ -188,7 +188,7 @@ DarkMaze.partidaState.prototype = {
         
         //Hace invisible a Teseo
         this.teseo.alpha = 1;
-        if (this.mKey.isDown) {
+        if (this.mKey.isDown && (this.map.hasTile(Math.trunc(this.teseo.x / 32), Math.trunc(this.teseo.y / 32), 'Capa3'))) {
             this.teseo.alpha = 0;
         }
         
