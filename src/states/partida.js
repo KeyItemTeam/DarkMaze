@@ -3,8 +3,8 @@ var loopCount;
 
 var perseguidorWIN;
 var partidas = 0;
-var winTeseo = 0;
-var winMinotauro = 0;
+var tj1;
+var tj2;
 
 DarkMaze.partidaState = function(game) {
     
@@ -236,12 +236,12 @@ DarkMaze.partidaState.prototype = {
         console.log("atrapado");
         moo.play();
         partidas++;
-        winMinotauro++;
         perseguidorWIN = true;
+        tiempoJugadores();
         if (partidas == 2) {
-            game.state.start('ranking', winMinotauro, winTeseo);
+            game.state.start('ranking', tj1, tj2);
         } else {
-        game.state.start('win', true, false, perseguidorWIN, partidas, winMinotauro, winTeseo); }
+        game.state.start('win', true, false, perseguidorWIN, partidas, tj1, tj2); }
     }
 
     //Sirve para que el minotauro pueda destrozar la roca de Teseo
@@ -436,11 +436,11 @@ function moverDir (pj, up, down, left, right, runKey) {
 function endGame(){
     perseguidorWIN = false;
     partidas ++;
-    winTeseo++;
+    tiempoJugadores();
     if (partidas == 2) {
-        game.state.start('ranking', winMinotauro, winTeseo);
+        game.state.start('ranking', tj1, tj2);
     } else {
-    game.state.start('win', true, false, perseguidorWIN, partidas, winMinotauro, winTeseo); }
+    game.state.start('win', true, false, perseguidorWIN, partidas, tj1, tj2); }
     
 }
 
@@ -452,3 +452,15 @@ function antorchaCerca (child, pj, dist) {
        console.log(child);
    }
 } 
+
+function tiempoJugadores() {
+    //10 minutos = 600000 milisegundos, si se cambian los minutos hay que cambiar este número
+    if (partidas == 1) {
+        tj1 = (600000-game.time.events.duration)/1000;
+        console.log("tj1");
+        console.log(tj1); } else {
+            tj2 = (600000-game.time.events.duration)/1000;
+        console.log("tj2");
+        console.log(tj2);
+        }
+}

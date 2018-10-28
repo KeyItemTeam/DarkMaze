@@ -7,12 +7,14 @@ DarkMaze.rankingState.prototype = {
 preload: function() {},
 
 create: function() {
-    if (winMinotauro>winTeseo) {
-        var texto = game.add.text(100, 200, '¡Ha ganado el minotauro!', {font: '30px Courier', fill: '#ffffff'});
-    } else if (winMinotauro==winTeseo){
+    console.log(tj1);
+    console.log(tj2);
+    if (tj1>tj2) {
+        var texto = game.add.text(100, 200, '¡Ha ganado el segundo jugador!', {font: '30px Courier', fill: '#ffffff'});
+    } else if (tj1==tj2){
         var texto = game.add.text(100, 200, '¡Empate!', {font: '30px Courier', fill: '#ffffff'});
-    } else {
-        var texto = game.add.text(100, 200, '¡Ha ganado Teseo!', {font: '30px Courier', fill: '#ffffff'});
+    } else if (tj1<tj2) {
+        var texto = game.add.text(100, 200, '¡Ha ganado el primer jugador!', {font: '30px Courier', fill: '#ffffff'});
     }
 },
 
