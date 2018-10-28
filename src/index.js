@@ -1,4 +1,4 @@
-game = new Phaser.Game(864, 576, Phaser.AUTO, 'gameDiv')
+game = new Phaser.Game(864, 640, Phaser.AUTO, 'gameDiv')
 
 game.state.add('boot', DarkMaze.bootState);
 game.state.add('preload', DarkMaze.preloadState);
