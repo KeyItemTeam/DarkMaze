@@ -137,10 +137,22 @@ DarkMaze.partidaState.prototype = {
             b.exists = false;
             b.visible = false;
         }
+        
+        //Interfaz
+        styleTiempo = { font: "30px Arial", fill: "#ffffff", align: "center" };
+        tiempoText = game.add.text(this.world.centerX, 0, "prueba", styleTiempo);
+
+        this.antorchaIcono = game.add.sprite(20, 4, 'antorcha');
+        this.antorchaIcono.scale.setTo(0.8, 0.8);
+        styleHabilidad = { font: "25px Arial", fill: "#ffffff", align: "left" };
+        habilidadText = game.add.text(50, 3, "x0" + this.antorchas.cantidad, styleHabilidad);
     },
 
     update: function() {
-
+        
+        //Se va actualizando la interfaz
+        habilidadText.text = "x0" + this.antorchas.cantidad;
+        
         //Se ponen las velocidades a 0 para que el movimiento no sea infinito
         this.minotauro.body.velocity.x = 0; 
         this.minotauro.body.velocity.y = 0;
