@@ -140,7 +140,7 @@ DarkMaze.partidaState.prototype = {
         
         //Interfaz
         styleTiempo = { font: "30px Arial", fill: "#ffffff", align: "center" };
-        tiempoText = game.add.text(this.world.centerX, 0, "prueba", styleTiempo);
+        tiempoText = game.add.text(this.world.centerX, 0, game.time.events.duration, styleTiempo);
 
         this.antorchaIcono = game.add.sprite(20, 4, 'antorcha');
         this.antorchaIcono.scale.setTo(0.8, 0.8);
@@ -152,6 +152,14 @@ DarkMaze.partidaState.prototype = {
         
         //Se va actualizando la interfaz
         habilidadText.text = "x0" + this.antorchas.cantidad;
+        
+        minutes = Math.floor(game.time.events.duration / 60000) % 60;
+        seconds = Math.floor(game.time.events.duration / 1000) % 60;
+        if (seconds < 10)
+            seconds = '0' + seconds;
+        if (minutes < 10)
+            minutes = '0' + minutes;
+        tiempoText.text = (minutes + ':' + seconds);
         
         //Se ponen las velocidades a 0 para que el movimiento no sea infinito
         this.minotauro.body.velocity.x = 0; 
