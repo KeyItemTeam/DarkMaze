@@ -93,7 +93,7 @@ DarkMaze.partidaState.prototype = {
         this.minotauro.cancelAnim = false; // Para cancelar el resto de animaciones al atacar
 
         //Añade las animaciones de Teseo
-        this.teseo = game.add.sprite(352, 368, 'teseo');
+        this.teseo = game.add.sprite(810, 550, 'teseo');
         this.teseo.animations.add('idle',[0,1,2,3], 6, true);
         this.teseo.animations.add('idleBack',[4,5,6,7], 6, true);
         this.teseo.animations.add('idleLeft',[8,9,10,11], 6, true);
@@ -163,10 +163,13 @@ DarkMaze.partidaState.prototype = {
         habilidadText.text = "x0" + this.antorchas.cantidad;
         minutes = Math.floor(game.time.events.duration / 60000) % 60;
         seconds = Math.floor(game.time.events.duration / 1000) % 60;
+
         if (seconds < 10)
-            seconds = '0' + seconds;
+        seconds = '0' + seconds;
+
         if (minutes < 10)
-            minutes = '0' + minutes;
+        minutes = '0' + minutes;
+
         tiempoText.text = (minutes + ':' + seconds);
         
         //Se ponen las velocidades a 0 para que el movimiento no sea infinito
