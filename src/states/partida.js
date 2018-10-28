@@ -114,9 +114,10 @@ DarkMaze.partidaState.prototype = {
         this.teseo.run = 200;
         this.teseo.direction= 1;
         this.teseo.mov= false;
-
+        this.teseo.cancelAnim=false;
+        
         //Añade el sprite de la roca y activa sus físicas
-        this.roca= game.add.sprite(0, 0, 'roca');
+        this.roca = game.add.sprite(0, 0, 'roca');
         game.physics.enable(this.roca,Phaser.Physics.ARCADE);
         this.roca.exists = false; //La roca no existe hata que Teseo la ponga en el escenario
         this.roca.visible = false;
@@ -135,9 +136,12 @@ DarkMaze.partidaState.prototype = {
         this.antorchas.physicsBodyType = Phaser.Physics.ARCADE;
         this.antorchas.cantidad = 2;
         this.antorchas.time = 0;
+        
         for (var i = 0; i < 2; i++)
         {
             var b = this.antorchas.create(0, 0, 'antorcha');
+            b.animations.add('idle',[0,1,2,3], 6, true);
+            b.animations.play("idle");
             b.name = 'antorcha' + i;
             b.exists = false;
             b.visible = false;
@@ -251,7 +255,11 @@ DarkMaze.partidaState.prototype = {
         this.roca.salud--;
         console.log(this.roca.salud);
     }
-
+    if (this.roca.salud == 2){
+        this.roca.frame=1;
+    }else if(this.roca.salud ===1){
+        this.roca.frame=2;
+    }
     if(this.roca.salud < 1){ // 
         this.roca.kill();
     }
