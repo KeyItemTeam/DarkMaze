@@ -77,6 +77,10 @@ DarkMaze.partidaState.prototype = {
         this.minotauro.animations.add('walkBack',[24,25,26,27,28,29,30,31], 6, true);
         this.minotauro.animations.add('walkLeft',[32,33,34,35,36,37,38,39], 6, true);
         this.minotauro.animations.add('walkRight',[40,41,42,43,44,45,46,47], 6, true);
+        this.minotauro.animations.add('attack',[48,49,50,51], 6, true);
+        this.minotauro.animations.add('attackBack',[52,53,54,55], 6, true);
+        this.minotauro.animations.add('attackLeft',[56,57,58,59], 6, true);
+        this.minotauro.animations.add('attackRight',[60,61,62,63], 6, true);
         this.minotauro.animations.play("idle");
         
         game.physics.enable(this.minotauro,Phaser.Physics.ARCADE);
@@ -87,6 +91,7 @@ DarkMaze.partidaState.prototype = {
         this.minotauro.run = 400;
         this.minotauro.direction= 1;
         this.minotauro.mov= false;
+        this.minotauro.cancelAnim = false;
 
         //Añade las animaciones de Teseo y activa sus físicas
 
@@ -175,6 +180,8 @@ DarkMaze.partidaState.prototype = {
         this.minotauro.mov = false; 
         this.teseo.mov = false; 
 
+        this.minotauro.cancelAnim = false;
+
         //El pulso siempre sigue a Teseo pero no es visible si Teseo no está corriendo
         this.pulso.reset((this.math.snapToFloor(Math.floor(this.teseo.body.x), 32) / 32)*32, (this.math.snapToFloor(Math.floor(this.teseo.body.y), 32) / 32)*32);
         this.pulso.visible = false;
@@ -185,6 +192,16 @@ DarkMaze.partidaState.prototype = {
             this.teseo.alpha = 0;
         }
         
+        //Para la animación de ataque del minotauro
+        if (this.spaceKey.isDown) {
+           
+            if (this.minotauro.direction === 0||this.minotauro.direction === 5||this.minotauro.direction === 7) this.minotauro.animations.play("attackBack");
+            if (this.minotauro.direction === 1||this.minotauro.direction === 4||this.minotauro.direction === 6) this.minotauro.animations.play("attack");
+            if (this.minotauro.direction === 2) this.minotauro.animations.play("attackLeft");
+            if (this.minotauro.direction === 3) this.minotauro.animations.play("attackRight");
+            this.minotauro.cancelAnim=true;
+        }
+
         //Movimiento de Teseo por teclado
 
         if (partidas == 0){
@@ -345,10 +362,12 @@ function mover (pj, direction, vel) {
         default:
             pj.body.velocity.y = -vel;
     }
+    if(pj.cancelAnim === false){
     if (direction === 0||direction === 5||direction === 7) pj.animations.play("walkBack");
     if (direction === 1||direction === 4||direction === 6) pj.animations.play("walk");
     if (direction === 2) pj.animations.play("walkLeft");
     if (direction === 3) pj.animations.play("walkRight");
+    }
 
 }
 
@@ -395,13 +414,13 @@ function moverDir (pj, up, down, left, right, runKey) {
         pj.mov = true;
         
     }
-    if(pj.mov === false)
+    if(pj.mov === false && pj.cancelAnim === false)
     {
     if (pj.direction === 0||pj.direction === 4||pj.direction === 6) pj.animations.play("idleBack");
     if (pj.direction === 1||pj.direction === 5||pj.direction === 7) pj.animations.play("idle");
     if (pj.direction === 2) pj.animations.play("idleLeft");
     if (pj.direction === 3) pj.animations.play("idleRight");
-    }else{
+    }else if(pj.mov===true){
 
         if (runKey.isDown) {
             mover(pj, pj.direction, pj.run);
