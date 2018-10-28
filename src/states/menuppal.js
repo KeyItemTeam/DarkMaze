@@ -5,6 +5,9 @@ DarkMaze.menuppalState = function(game) {
 function irPartida () {
     game.state.start('partida');
 }
+function irControles () {
+    game.state.start('controles');
+}
 
 DarkMaze.menuppalState.prototype = {
 
@@ -14,14 +17,19 @@ DarkMaze.menuppalState.prototype = {
 
     create: function() {
 
-        var nombrejuego = game.add.text(100, 100, 'Dark Maze', {font: '40px Courier', fill: '#f44242'});
-        var instrucinicio = game.add.text(100, 250, 'Pulsa W para iniciar la partida directamente [debug]', {font: '15px Courier', fill: '#ffffff'});
-        var instrucmenu = game.add.text(100, 300, 'Pulsa A para acceder al menú de selección de equipos', {font: '15px Courier', fill: '#ffffff'});
+        var nombrejuego = game.add.text(100, 100, 'Dark Maze', {font: '50px Courier', fill: '#c6f9ac'});
+        var creadores = game.add.text(150, 150, 'Un juego hecho por Key Item Team', {font: '15px Courier', fill: '#ffffff'});
+        var instrucmenu = game.add.text(100, 320, '[DEBUG] Pulsa A para acceder al menú de selección de equipos', {font: '13px Courier', fill: '#ffffff'});
 
-        var wkey = game.input.keyboard.addKey(Phaser.Keyboard.W);
+        button = game.add.button(400, 200, 'bpartida', irPartida);
+        button.scale.setTo(0.5,0.5);
+        button = game.add.button(600, 200, 'bcontroles', irControles);
+        button.scale.setTo(0.5,0.5);
+
+        
         var akey= game.input.keyboard.addKey(Phaser.Keyboard.A);
 
-        wkey.onDown.addOnce(irPartida, this);
+       
         akey.onDown.addOnce(this.start, this);
 
 

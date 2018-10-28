@@ -20,6 +20,8 @@ DarkMaze.preloadState.prototype = {
         game.load.image('tiles', 'assets/tileset.png');
         game.load.image('pulso', 'assets/images/placeholders/pulso.png');
         game.load.image('antorcha', 'assets/images/placeholders/antorcha.png');
+        game.load.image('bpartida', 'assets/images/partida1.png');
+        game.load.image('bcontroles', 'assets/images/controles.png');
         game.load.audio('bgm','assets/sounds/musica.mp3');
         game.load.audio('punch','assets/sounds/punch.mp3');
         game.load.audio('moo','assets/sounds/moo.mp3');
