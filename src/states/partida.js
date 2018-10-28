@@ -116,9 +116,18 @@ DarkMaze.partidaState.prototype = {
         this.pulso = game.add.sprite(this.teseo.x, this.teseo.y, 'pulso');
         
         //Añade el sprite de antorcha
-        this.antorcha = game.add.sprite(this.minotauro.x, this.minotauro.y, 'antorcha');
-        this.antorcha.exists = false;
-        this.antorcha.visible = false;
+        this.antorchas = game.add.group();
+        this.antorchas.enableBody = true;
+        this.antorchas.physicsBodyType = Phaser.Physics.ARCADE;
+        this.antorchas.cantidad = 2;
+        this.antorchas.time = 0;
+        for (var i = 0; i < 2; i++)
+        {
+            var b = this.antorchas.create(0, 0, 'antorcha');
+            b.name = 'antorcha' + i;
+            b.exists = false;
+            b.visible = false;
+        }
     },
 
     update: function() {
@@ -193,11 +202,18 @@ DarkMaze.partidaState.prototype = {
     }
 
     //Sirve para colocar antorchas con el minotauro
-    if (this.pKey.isDown) {
+    if (this.pKey.isDown && this.antorchas.cantidad !== 0 &&(game.time.now > this.antorchas.time)) {
+        this.antorchas.time = game.time.now + 250;
+        this.antorcha = this.antorchas.getFirstExists(false);
         this.antorcha.reset((this.math.snapToFloor(Math.floor(this.minotauro.x), 32) / 32) * 32, (this.math.snapToFloor(Math.floor(this.minotauro.y), 32) / 32) * 32);
+        this.antorchas.activada=true;
+        this.antorchas.cantidad--;
         this.antorcha.exists = true;
-        this.antorcha.visible = true;
-    }    
+        //this.b.visible = true;
+    }  
+
+    this.antorchas.forEach(antorchaCerca,this,true, this.minotauro,50);
+
 
     //Sirve para que Teseo deje un pulso al correr
     if (this.oKey.isDown && partidas==0) {
@@ -220,17 +236,14 @@ DarkMaze.partidaState.prototype = {
     }
         
     //Luz minotauro
-    luz(3, this.minotauro, this.map);
+    luz(this.minotauro, 3, this.map);
 
     //Luz teseo
-    luz(5, this.teseo, this.map);
+    luz(this.teseo, 5, this.map);
     
-    //Luz antorcha
-    if (this.antorcha.exists) {
-
-        luz(3,this.antorcha,this.map);
-
-    }
+     //Luz antorcha
+    
+     this.antorchas.forEach(luz,this,true, 3,this.map);
     
     },
 
@@ -245,7 +258,7 @@ DarkMaze.partidaState.prototype = {
 ////////////////////////////////
 
 //Elimina las tiles oscuras al rededor de un personaje "iluminando" el mapa
-function luz (distancia, pj, mapa) {
+function luz ( pj,distancia, mapa) {
     var dist = -(distancia-1);
     for (var i = dist; i < distancia; i++) {
         for (var j = dist; j < distancia; j++) {
@@ -371,4 +384,13 @@ function endGame(){
     } else {
     game.state.start('win', true, false, perseguidorWIN, partidas, winMinotauro, winTeseo); }
     
+}
+
+function antorchaCerca (child, pj, dist) {
+    if (estaCerca(pj,child, dist) && this.spaceKey.isDown &&(game.time.now > this.antorchas.time)) {
+       this.antorchas.time = game.time.now + 500;
+       this.antorchas.cantidad++;
+       child.exists = false;
+       console.log(child);
+   }
 }
