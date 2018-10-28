@@ -315,8 +315,53 @@ El principal objetivo del arte de DarkMaze es provocar sensación de tensión en
   - Pulso: Sonido generado al correr que solo puede escuchar el Buscador.
   - Correr: Sonido de los pasosal correr que solo puede escuchar el Perseguido.
   
+# 5. Actualización Fase 2
 
-# 5. Equipo de desarrollo
+  ## 5.1. Novedades
+  
+  Nueva pantalla entre rondas
+  
+  ![Pantalla](pantallas/p6.png)
+  
+  Nueva pantalla de controles
+  
+  ![Pantalla](pantallas/p2.png)
+  
+  ## 5.2. Contenido descartado
+  
+  Se han descartado todo lo referente a otros personajes que no sean Teseo y el Minotauro.
+  También se han descartado las habilidades  especiales.
+  
+  Se ha optado por no poner la pantalla de opciones.
+  
+  ## 5.3. Pantallas 
+  
+  Pantalla de título
+  
+  ![Pantalla](pantallas/p1.png)
+  
+  Partida
+  
+  ![Pantalla](pantallas/p5.png)
+  
+  Pantalla resultados
+  
+  ![Pantalla](pantallas/p7.png)
+  
+  ## 5.4. Contenido Temporal
+  
+  Debido a la naturaleza del juego y por el hecho de no jugar en dos ventanas distintas, nos hemos visto obligados a hacer unos cambios temporales en el juego, estos son:
+  
+  * El jugador 2 juega con WASD (+más otras teclas temporales para habilidades)
+  * La interfaz del juego es la del Minotauro en todo momento
+  * Si se pulsa "m" se podrá ver lo que vería el Minotauro en una partida real
+  * Las pantallas de personajes y de selección de grupos se han obviado y se han puesto placeholders en su lugar
+  
+  ![Pantalla](pantallas/p3.png)
+  
+  ![Pantalla](pantallas/p4.png)
+
+# 6. Equipo de desarrollo
 
 Carlos Padina González
 cv.padina@alumnos.urjc.es
