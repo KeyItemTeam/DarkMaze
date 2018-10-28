@@ -8,6 +8,7 @@ game.state.add('menuppal', DarkMaze.menuppalState);
 game.state.add('partida', DarkMaze.partidaState);
 game.state.add('win', DarkMaze.winState);
 game.state.add('ranking', DarkMaze.rankingState);
+game.state.add('controles', DarkMaze.controlesState);
 
 
 game.state.start('boot')
