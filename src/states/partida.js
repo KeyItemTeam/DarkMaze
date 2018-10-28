@@ -49,6 +49,9 @@ DarkMaze.partidaState.prototype = {
         //Prepara el teclado para usar la habilidad de antorcha del minotauro
         this.pKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
         
+        //Tecla para hacer invisible a Teseo
+        this.mKey = game.input.keyboard.addKey(Phaser.Keyboard.M);
+        
         //Cargamos el mapa, su tileset y sus capas, también añadimos colisiones
 
         this.map = this.add.tilemap('map');
@@ -156,6 +159,12 @@ DarkMaze.partidaState.prototype = {
         this.pulso.reset((this.math.snapToFloor(Math.floor(this.teseo.body.x), 32) / 32)*32, (this.math.snapToFloor(Math.floor(this.teseo.body.y), 32) / 32)*32);
         this.pulso.visible = false;
         
+        //Hace invisible a Teseo
+        this.teseo.alpha = 1;
+        if (this.mKey.isDown) {
+            this.teseo.alpha = 0;
+        }
+        
         //Movimiento de Teseo por teclado
 
         if (partidas == 0){
@@ -248,7 +257,9 @@ DarkMaze.partidaState.prototype = {
     luz(this.minotauro, 3, this.map);
 
     //Luz teseo
-    luz(this.teseo, 5, this.map);
+    if (this.teseo.alpha == 1) {
+        luz(5, this.teseo, this.map);
+    }
     
     //Luz antorcha
     this.antorchas.forEach(luz,this,true, 3,this.map);
