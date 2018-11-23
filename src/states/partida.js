@@ -7,6 +7,7 @@ var partidas = 0; // Sirve para llevar cuenta del número de partida actual
 var tj1; // Guarda el tiempo que aguanta el j1 jugando como Teseo
 var tj2; // Guarda el tiempo que aguanta el j2 jugando como Teseo
 var tiempo =5;
+var tt = 0;
 
 DarkMaze.partidaState = function(game) {
     
@@ -284,10 +285,25 @@ DarkMaze.partidaState.prototype = {
         this.antorchas.forEach(antorchaCerca,this,true, this.minotauro,50);
 
         //Sirve para que Teseo deje un pulso al correr
-        if (this.oKey.isDown && partidas==0) 
-        this.pulso.visible = true;
-        else if (this.shiftKey.isDown && partidas!=0) 
-        this.pulso.visible = true;
+        if (this.oKey.isDown && partidas==0) {
+        if (pulsoCount<10) {
+        this.pulso.visible = true; } 
+        pulsoCount++;
+            if (pulsoCount==80) pulsoCount=0;
+        console.log(pulsoCount); } 
+            else if (partidas==0) {
+            pulsoCount=0;
+        }
+
+        if (this.shiftKey.isDown && partidas!=0) {
+        if (pulsoCount<10) {
+            this.pulso.visible = true; } 
+            pulsoCount++;
+                if (pulsoCount==80) pulsoCount=0;
+            console.log(pulsoCount); } 
+                else if (partidas==1) {
+                pulsoCount=0;
+            }
         
         //Se aplican el resto de colisiones
         game.physics.arcade.collide(this.minotauro, this.teseo);
