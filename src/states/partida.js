@@ -7,7 +7,6 @@ var partidas = 0; // Sirve para llevar cuenta del número de partida actual
 var tj1; // Guarda el tiempo que aguanta el j1 jugando como Teseo
 var tj2; // Guarda el tiempo que aguanta el j2 jugando como Teseo
 var tiempo =5;
-var pulsoCount = 0;
 
 DarkMaze.partidaState = function(game) {
     
@@ -128,6 +127,7 @@ DarkMaze.partidaState.prototype = {
 
         //Añade el sprite del pulso
         this.pulso = game.add.sprite(this.teseo.x, this.teseo.y, 'pulso');
+        this.pulso.time = 0;
         
         //Crea un grupo de antorchas, activas sus físicas e inicializa sus variables
         this.antorchas = game.add.group();
@@ -286,25 +286,24 @@ DarkMaze.partidaState.prototype = {
 
         //Sirve para que Teseo deje un pulso al correr
         if (this.oKey.isDown && partidas==0) {
-        if (pulsoCount<10) {
+        if (this.pulso.time<1000) {
         this.pulso.visible = true; } 
-        pulsoCount++;
-            if (pulsoCount==80) pulsoCount=0;
-        console.log(pulsoCount); } 
+        this.pulso.time = this.pulso.time + 100;
+            if (this.pulso.time==4000) this.pulso.time=0; //para cambiar cada cuanto aparece el pulso hay que variar esta condición
+        console.log(this.pulso.time); } 
             else if (partidas==0) {
-            pulsoCount=0;
+            this.pulso.time=0;
         }
 
         if (this.shiftKey.isDown && partidas!=0) {
-        if (pulsoCount<10) {
-            this.pulso.visible = true; } 
-            pulsoCount++;
-                if (pulsoCount==80) pulsoCount=0;
-            console.log(pulsoCount); } 
-                else if (partidas==1) {
-                pulsoCount=0;
-            }
-        
+            if (this.pulso.time<1000) {
+                this.pulso.visible = true; } 
+                this.pulso.time = this.pulso.time + 100;
+                    if (this.pulso.time==4000) this.pulso.time=0;
+                console.log(this.pulso.time); } 
+                    else if (partidas==1) {
+                    this.pulso.time=0;
+                }
         //Se aplican el resto de colisiones
         game.physics.arcade.collide(this.minotauro, this.teseo);
         game.physics.arcade.collide(this.minotauro, this.roca);
