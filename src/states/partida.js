@@ -7,7 +7,7 @@ var partidas = 0; // Sirve para llevar cuenta del número de partida actual
 var tj1; // Guarda el tiempo que aguanta el j1 jugando como Teseo
 var tj2; // Guarda el tiempo que aguanta el j2 jugando como Teseo
 var tiempo =5;
-var tt = 0;
+var pulsoCount = 0;
 
 DarkMaze.partidaState = function(game) {
     
