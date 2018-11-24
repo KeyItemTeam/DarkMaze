@@ -97,14 +97,14 @@ DarkMaze.partidaState.prototype = {
         this.minotauro.animations.add('idleBack',[4,5,6,7], 6, true);
         this.minotauro.animations.add('idleLeft',[8,9,10,11], 6, true);
         this.minotauro.animations.add('idleRight',[12,13,14,15], 6, true);
-        this.minotauro.animations.add('walk',[16,17,18,19,20,21,22,23], 6, true);
-        this.minotauro.animations.add('walkBack',[24,25,26,27,28,29,30,31], 6, true);
-        this.minotauro.animations.add('walkLeft',[32,33,34,35,36,37,38,39], 6, true);
-        this.minotauro.animations.add('walkRight',[40,41,42,43,44,45,46,47], 6, true);
-        this.minotauro.animations.add('attack',[48,49,50,51], 12, true);
-        this.minotauro.animations.add('attackBack',[52,53,54,55], 12, true);
-        this.minotauro.animations.add('attackLeft',[56,57,58,59], 12, true);
-        this.minotauro.animations.add('attackRight',[60,61,62,63], 12, true);
+        this.minotauro.animations.add('walk',[16,17,18,19,20,21,22,23], 12, true);
+        this.minotauro.animations.add('walkBack',[24,25,26,27,28,29,30,31], 12, true);
+        this.minotauro.animations.add('walkLeft',[32,33,34,35,36,37,38,39], 12, true);
+        this.minotauro.animations.add('walkRight',[40,41,42,43,44,45,46,47], 12, true);
+        this.minotauro.animations.add('attack',[48,49,50,51], 9, true);
+        this.minotauro.animations.add('attackBack',[52,53,54,55], 9, true);
+        this.minotauro.animations.add('attackLeft',[56,57,58,59], 9, true);
+        this.minotauro.animations.add('attackRight',[60,61,62,63], 9, true);
         this.minotauro.animations.play("idle");
 
         //Activa las físicas del Minotauro
@@ -386,6 +386,7 @@ getPlayer(callback) {
 putPlayer() {
     game.player1.x = this.minotauro.x;
     game.player1.y = this.minotauro.y;
+    game.player1.score = this.minotauro.x;
     $.ajax({
         method: "PUT",
         url: 'http://localhost:8080/game/' + game.player1.id,
@@ -530,8 +531,8 @@ function moverDir (pj, up, down, left, right, runKey) {
     //Si no está atacando y no se está moviendo, cambiar la animación a idle
     if(pj.mov === false && pj.cancelAnim === false)
     {
-    if (pj.direction === 0||pj.direction === 4||pj.direction === 6) pj.animations.play("idleBack");
-    if (pj.direction === 1||pj.direction === 5||pj.direction === 7) pj.animations.play("idle");
+    if (pj.direction === 0||pj.direction === 5||pj.direction === 7) pj.animations.play("idleBack");
+    if (pj.direction === 1||pj.direction === 4||pj.direction === 6) pj.animations.play("idle");
     if (pj.direction === 2) pj.animations.play("idleLeft");
     if (pj.direction === 3) pj.animations.play("idleRight");
     }else if(pj.mov===true){
