@@ -1,27 +1,18 @@
 var DarkMaze = {}
 
-DarkMaze.bootState = function(game) {
+DarkMaze.bootState = function (game) {
 
 }
 
 DarkMaze.bootState.prototype = {
 
-    preload: function() {
+	preload: function () {
+		// Inicia las físicas
+		game.physics.startSystem(Phaser.Physics.ARCADE);
+	},
 
-    },
-
-    create: function() {
-
-        //Inicia las físicas
-        game.physics.startSystem(Phaser.Physics.ARCADE);
-
-        //Llamada al estado preload
-        game.state.start('preload');
-        
-    },
-
-    update: function() {
-
-    }
-
+	create: function () {
+		// Llamada al estado preload
+		game.state.start('preload');
+	}
 }
