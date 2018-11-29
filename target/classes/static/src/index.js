@@ -1,5 +1,12 @@
 game = new Phaser.Game(864, 640, Phaser.AUTO, 'gameDiv')
 
+game.global = {
+    debug: 1,
+    player1: null,
+    player2: null,
+    roca: null
+}
+
 game.state.add('boot', DarkMaze.bootState);
 game.state.add('preload', DarkMaze.preloadState);
 game.state.add('menuequipos', DarkMaze.menuequiposState);
