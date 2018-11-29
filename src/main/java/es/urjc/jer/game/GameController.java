@@ -2,7 +2,6 @@ package es.urjc.jer.game;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -17,13 +16,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.urjc.jer.game.Player.Type;
+
 @RestController
 public class GameController {
 
 	Map<Long, Player> players = new ConcurrentHashMap<>();
 	AtomicLong nextId = new AtomicLong(0);
-	Random rnd = new Random();
-
 
 	// Con GET recuperamos el número de jugadores
 	@GetMapping(value = "/game")
@@ -37,9 +36,12 @@ public class GameController {
 	public Player newPlayer() {
 		Player player = new Player();
 		long id = nextId.incrementAndGet();
+		if (id == 1) {
+			player.setType(Type.MINOTAURO);
+		} else {
+			player.setType(Type.TESEO);
+		}
 		player.setId(id);
-		player.setX(rnd.nextInt(700));
-		player.setY(rnd.nextInt(500));
 		players.put(player.getId(), player);
 		return player;
 	}
@@ -70,7 +72,7 @@ public class GameController {
 
 	// Con este DELETE borramos el jugador con ID = id
 	@DeleteMapping(value = "/game/{id}")
-	public ResponseEntity<Player> borraJugador(@PathVariable long id) {
+	public ResponseEntity<Player> deleteJugador(@PathVariable long id) {
 		Player savedPlayer = players.get(id);
 		if (savedPlayer != null) {
 			players.remove(savedPlayer.getId());
