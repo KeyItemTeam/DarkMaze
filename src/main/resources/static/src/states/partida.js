@@ -19,8 +19,10 @@ DarkMaze.partidaState.prototype = {
     init() {
         if (game.player1.id == 1) {
             game.player2 = { id: 2 }
+          
         } else {
             game.player2 = { id: 1 }
+         
         }
     },
 
@@ -28,6 +30,7 @@ DarkMaze.partidaState.prototype = {
     preload: function () {
         if (game.debug) {
             console.log(JSON.stringify(game.player1))
+            
         }
     },
 
@@ -44,22 +47,22 @@ DarkMaze.partidaState.prototype = {
                     console.log("Player2 ha elegido a TESEO")
                 }
                 //Añade las animaciones de Teseo
-                pj = game.add.sprite(810, 550, 'teseo');
-                addAnim(game.player2, 100, 100)
+                game.player2 = game.add.sprite(810, 550, 'teseo');
+                addAnim(game.player2, 100, 100);
+                game.player2.id=2;
                 //this.pulso = game.add.sprite(game.player2.x, game.player2.y, 'pulso');
                 //this.pulso.time = 0;
             } else {
                 if (game.debug) {
                     console.log("Player2 ha elegido a MINOTAURO")
                 }
-                pj = game.add.sprite(48, 80, 'minotauro');
-                addAnim(game.player2, 100, 100)
+                game.player2 = game.add.sprite(48, 80, 'minotauro');
                 addAttackAnim(game.player2)
+                addAnim(game.player2, 100, 100)
                 game.player2.animations.play("idle");
+                game.player2.id=1;
             }
-            if (game.debug) {
-                console.log(JSON.stringify(player2Data))
-            }
+        
         })
 
         //Contador que al llegar al final pasa a la siguiente ronda o acaba la partida
@@ -105,15 +108,19 @@ DarkMaze.partidaState.prototype = {
 
         //Añade las animaciones del Minotauro
         if (game.player1.type == "MINOTAURO") {
+        	
             game.player1 = game.add.sprite(48, 80, 'minotauro');
-            addAnim(game.player1, 100, 100);
             addAttackAnim(game.player1);
+            addAnim(game.player1, 100, 100);
             game.player1.animations.play("idle");
+            game.player1.id=1;
         } else {
             //Añade las animaciones de Teseo
+        	
             game.player1 = game.add.sprite(810, 550, 'teseo');
             addAnim(game.player1, 100, 100);
             game.player1.animations.play("idle");
+            game.player1.id=2;
            // this.pulso = game.add.sprite(game.player1.x, game.player1.y, 'pulso');
             // this.pulso.time = 0;
         }
@@ -318,7 +325,10 @@ DarkMaze.partidaState.prototype = {
 
         //Luz minotauro
         luz(game.player1, 3, this.map);
-
+        
+        console.log(" y su id1 es" + game.player1.id);
+        console.log(" y su id2 es" + game.player2.id);
+        
         //Luz antorcha
         //this.antorchas.forEach(luz, this, true, 2, this.map);
 
@@ -337,7 +347,8 @@ DarkMaze.partidaState.prototype = {
             }
             game.player2.run = updatePlayer2.run;
             if (game.debug) {
-                console.log("Posicion de player 2: " + updatePlayer2 + " actualizada");
+                //console.log("Posicion de player 2: " + updatePlayer2 + " actualizada");
+                //console.log(" y su ide es" + game.player2.id);
             }
         })
 
@@ -377,9 +388,9 @@ DarkMaze.partidaState.prototype = {
             headers: {
                 "Content-Type": "application/json"
             }
-        }).done(function (dataPUT) {
+        }).done(function (data) {
             if (game.debug) {
-                console.log("Actualizada posicion de player 1: " + JSON.stringify(dataPUT))
+                //console.log("Actualizada posicion de player 1: " + JSON.stringify(data))
             }
         })
     },
@@ -556,7 +567,7 @@ function tiempoJugadores() {
 
 }
 
-function addAnim(pj, speed, run) {
+function addAnim(pj, sp, rn) {
 
 
     pj.animations.add('idle', [0, 1, 2, 3], 6, true);
@@ -572,8 +583,8 @@ function addAnim(pj, speed, run) {
     pj.anchor.setTo(0.5);
     pj.body.setSize(24, 24, 20, 30);
     pj.direction = 1;
-    pj.run = run;
-    pj.speed = speed;
+    pj.run = rn;
+    pj.speed = sp;
     pj.mov = false;
     pj.cancelAnim = false;
 }
