@@ -29,6 +29,7 @@ DarkMaze.preloadState.prototype = {
         game.load.audio('moo','assets/sounds/moo.mp3');
         game.load.audio('torch','assets/sounds/torch.mp3');
         game.load.audio('stone','assets/sounds/stone.mp3');
+        game.load.audio('clock', 'assets/sounds/clock.mp3');
 
     },
 
