@@ -74,6 +74,7 @@ DarkMaze.partidaState.prototype = {
         moo = game.add.audio('moo');
         torch = game.add.audio('torch');
         stone = game.add.audio('stone');
+        clockSound = game.add.audio('clock');
 
         //Reproduce la música al iniciar la partida
         if (partidas == 0) {
@@ -177,6 +178,11 @@ DarkMaze.partidaState.prototype = {
 
         tiempoText.text = (minutes + ':' + seconds);
 
+        //Cuando quedan 10 segundos de ronda empieza a sonar una cuenta atrás
+        if ((minutes == 0) && (seconds == 10)) {
+            clockSound.play();
+        }
+        
         //Se ponen las velocidades a 0 para que el movimiento no sea infinito
         game.player1.body.velocity.x = 0;
         game.player1.body.velocity.y = 0;
