@@ -7,7 +7,7 @@ var partidas = 0; // Sirve para llevar cuenta del número de partida actual
 var tj1; // Guarda el tiempo que aguanta el j1 jugando como Teseo
 var tj2; // Guarda el tiempo que aguanta el j2 jugando como Teseo
 var tiempo = 5;
-var tipo;
+
 
 DarkMaze.partidaState = function (game) {
 
@@ -51,7 +51,7 @@ DarkMaze.partidaState.prototype = {
                 game.player2= game.add.sprite(810, 550, 'teseo');
                 addAnim(game.player2, 100, 100);
                 game.player2.id=2;
-               
+                
                 //this.pulso = game.add.sprite(game.player2.x, game.player2.y, 'pulso');
                 //this.pulso.time = 0;
             } else {
@@ -112,14 +112,14 @@ DarkMaze.partidaState.prototype = {
 
         //Añade las animaciones del Minotauro
         
-        tipo = game.player1.type;
+        
         if (game.player1.type == "MINOTAURO") {
             game.player1 = game.add.sprite(48, 80, 'minotauro');
             addAttackAnim(game.player1);
             addAnim(game.player1, 100, 100);
             game.player1.animations.play("idle");
             game.player1.id=1;
-            
+            game.player1.type= "MINOTAURO" ;
         } else {
             //Añade las animaciones de Teseo
         	
@@ -129,6 +129,7 @@ DarkMaze.partidaState.prototype = {
             game.player1.id=2;
            // this.pulso = game.add.sprite(game.player1.x, game.player1.y, 'pulso');
             // this.pulso.time = 0;
+            game.player1.type= "TESEO" ;
         }
 
         //Añade el sprite de la roca, activa sus físicas e inicializa sus variables
@@ -219,7 +220,7 @@ DarkMaze.partidaState.prototype = {
         //Se pone a false para cancelar la animación de atacar
         //El pulso siempre sigue a Teseo pero no es visible si Teseo no está corriendo
         //Hace invisible a Teseo al pulsar "m" (debug)
-        if (tipo == "MINOTAURO") {
+        if (game.player1.type == "MINOTAURO") {
             game.player1.cancelAnim = false;
             if (this.spaceKey.isDown) {
                 if (game.player1.direction === 0 || game.player1.direction === 5 || game.player1.direction === 7) game.player1.animations.play("attackBack");
@@ -272,7 +273,7 @@ DarkMaze.partidaState.prototype = {
 
         //Sire para atrapar a Teseo al pulsar espacio
 
-        if (tipo == "MINOTAURO") {
+        if (game.player1.type == "MINOTAURO") {
             if (estaCerca(game.player1, game.player2, 50) && this.spaceKey.isDown) {
                 moo.play();
                 partidas++; //Se pasa a la siguiente ronda
@@ -405,7 +406,7 @@ DarkMaze.partidaState.prototype = {
             run: game.player1.run,
             attack: game.player1.attack,
             time: game.player1.time,
-            type: tipo
+            type: game.player1.type 
         }
 
         $.ajax({
