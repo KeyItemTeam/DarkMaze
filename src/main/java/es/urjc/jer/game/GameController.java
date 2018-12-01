@@ -1,6 +1,7 @@
 package es.urjc.jer.game;
 
 import java.util.Collection;
+import java.util.Vector;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -24,7 +25,7 @@ public class GameController {
 	Map<Long, Player> players = new ConcurrentHashMap<>();
 	AtomicLong nextId = new AtomicLong(0);
 	Roca roca = new Roca();
-	Antorcha antorcha = new Antorcha();
+	Map<int[], Antorcha> antorchas = new ConcurrentHashMap<>();
 
 	// Con GET recuperamos el número de jugadores
 	@GetMapping(value = "/game")
@@ -87,8 +88,16 @@ public class GameController {
 	// Con POST creamos una nueva roca
 	@PostMapping(value = "/roca")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Roca createRoca() {
-		roca = new Roca();
+	public Roca createRoca(@RequestBody Roca roca) {
+		this.roca = roca;
+		return roca;
+	}
+
+	// Con PUT actualizamos la roca
+	@PutMapping(value = "/roca")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Roca updateRoca(@RequestBody Roca roca) {
+		this.roca = roca;
 		return roca;
 	}
 
@@ -98,17 +107,54 @@ public class GameController {
 		return roca;
 	}
 
+	// Con este DELETE borramos la roca
+	@DeleteMapping(value = "/roca")
+	public ResponseEntity<Roca> deleteRoca() {
+		if (this.roca != null) {
+			Roca current = this.roca;
+			this.roca = null;
+			return new ResponseEntity<>(current, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
 	// Con POST creamos una nueva antorcha
 	@PostMapping(value = "/antorcha")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Antorcha createAntorcha() {
-		antorcha = new Antorcha();
+	public Antorcha createAntorcha(@RequestBody Antorcha antorcha) {
+		int[] pos = new int[2];
+		pos[0] = antorcha.getX();
+		pos[1] = antorcha.getY();
+		antorchas.put(pos, antorcha);
 		return antorcha;
 	}
 
 	// Con GET recuperamos la antorcha
-	@GetMapping(value = "/antorcha")
-	public Antorcha getAntorcha() {
-		return antorcha;
+	@GetMapping(value = "/antorchas")
+	public Vector<Antorcha> getAntorcha() {
+		Vector<Antorcha> vector = new Vector<>();
+		if (!antorchas.isEmpty()) {
+			Antorcha[] array = (Antorcha[]) antorchas.values().toArray();
+			for (int i = 0; i < antorchas.size(); i++) {
+				vector.add(array[i]);
+			}
+		}
+		return vector;
+	}
+
+	// Con este DELETE borramos la antorcha
+	@DeleteMapping(value = "/antorcha/{x}/{y}")
+	public ResponseEntity<Antorcha> deleteAntorcha(@PathVariable int x, @PathVariable int y) {
+		int[] pos = new int[2];
+		pos[0] = x;
+		pos[1] = y;
+		Antorcha current = antorchas.get(pos);
+		if (current != null) {
+			antorchas.remove(pos);
+			return new ResponseEntity<>(current, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 }
