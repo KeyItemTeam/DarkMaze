@@ -23,6 +23,8 @@ public class GameController {
 
 	Map<Long, Player> players = new ConcurrentHashMap<>();
 	AtomicLong nextId = new AtomicLong(0);
+	Roca roca = new Roca();
+	Antorcha antorcha = new Antorcha();
 
 	// Con GET recuperamos el número de jugadores
 	@GetMapping(value = "/game")
@@ -80,5 +82,33 @@ public class GameController {
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+	}
+
+	// Con POST creamos una nueva roca
+	@PostMapping(value = "/roca")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Roca createRoca() {
+		roca = new Roca();
+		return roca;
+	}
+
+	// Con GET recuperamos la roca
+	@GetMapping(value = "/roca")
+	public Roca getRoca() {
+		return roca;
+	}
+
+	// Con POST creamos una nueva antorcha
+	@PostMapping(value = "/antorcha")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Antorcha createAntorcha() {
+		antorcha = new Antorcha();
+		return antorcha;
+	}
+
+	// Con GET recuperamos la antorcha
+	@GetMapping(value = "/antorcha")
+	public Antorcha getAntorcha() {
+		return antorcha;
 	}
 }
