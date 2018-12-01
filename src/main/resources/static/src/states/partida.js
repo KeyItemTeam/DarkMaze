@@ -157,15 +157,32 @@ DarkMaze.partidaState.prototype = {
             b.visible = false;
         }
 
-        //Interfaz del tiempo
-        styleTiempo = { font: "30px Arial", fill: "#ffffff", align: "center" };
-        tiempoText = game.add.text(this.world.centerX, 0, game.time.events.duration, styleTiempo);
+        //Interfaz de iconos de los jugadores
+        if (game.player1.type == "MINOTAURO") {
+            this.iconoJugador = game.add.sprite(220, 6, 'iconoMinotauro');
+        } else {
+            this.iconoJugador = game.add.sprite(220, 6, 'iconoTeseo');
+        }
+        this.iconoJugador.scale.setTo(0.7, 0.7);
 
-        //Interfaz del número de antorchas
-        this.antorchaIcono = game.add.sprite(20, 4, 'antorcha');
-        this.antorchaIcono.scale.setTo(0.8, 0.8);
-        styleHabilidad = { font: "25px Arial", fill: "#ffffff", align: "left" };
-        habilidadText = game.add.text(50, 3, "x0" + this.antorchas.cantidad, styleHabilidad);
+        //Interfaz del tiempo
+        this.relojIcono = game.add.sprite(815, 8, 'reloj');
+        this.relojIcono.scale.setTo(0.5, 0.5);
+        styleTiempo = { font: "25px Courier", fill: "#ffffff", align: "center" };
+        tiempoText = game.add.text(730, 2, game.time.events.duration, styleTiempo);
+
+        //Interfaz del número de antorchas o rocas
+        if (game.player1.type == "MINOTAURO") {
+            this.habilidadIcono = game.add.sprite(20, 6, 'antorcha');
+        } else {
+            this.habilidadIcono = game.add.sprite(20, 6, 'roca');
+        }        
+        this.habilidadIcono.scale.setTo(0.6, 0.6);
+        styleHabilidad = { font: "25px Courier", fill: "#ffffff", align: "left" };
+        habilidadText = game.add.text(50, 2, "x0" + this.antorchas.cantidad, styleHabilidad);
+
+        //Interfaz del número de rondas
+        rondaText = game.add.text(380, 2, "RONDA " + (partidas + 1), styleHabilidad);
     },
 
     update: function () {
