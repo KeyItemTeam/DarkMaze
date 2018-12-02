@@ -26,7 +26,29 @@ public class GameController {
 	AtomicLong nextId = new AtomicLong(0);
 	Roca roca = null;
 	Map<int[], Antorcha> antorchas = new ConcurrentHashMap<>();
+	
+	// Con POST creamos una ronda
+	@PostMapping(value = "/ronda")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Ronda createRonda(@RequestBody Ronda ronda) {
+		this.ronda = ronda;
+		return ronda;
+	}
 
+	// Con PUT actualizamos el número de ronda y reiniciamos el tiempo
+	@PutMapping(value = "/ronda")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Ronda updateRonda(@RequestBody Ronda ronda) {
+		this.ronda = ronda;
+		return ronda;
+	}
+
+	// Con GET recuperamos el número y el tiempo de ronda
+	@GetMapping(value = "/ronda")
+	public Ronda getRonda() {
+		return ronda;
+	}
+	
 	// Con GET recuperamos el número de jugadores
 	@GetMapping(value = "/game")
 	public Collection<Player> getPlayers() {
