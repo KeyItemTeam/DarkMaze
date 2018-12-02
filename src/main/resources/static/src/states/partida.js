@@ -7,6 +7,7 @@ var partidas = 0; // Sirve para llevar cuenta del número de partida actual
 var tj1; // Guarda el tiempo que aguanta el j1 jugando como Teseo
 var tj2; // Guarda el tiempo que aguanta el j2 jugando como Teseo
 var tiempo = 5;
+var timeRonda = 0;
 
 
 DarkMaze.partidaState = function (game) {
@@ -37,6 +38,17 @@ DarkMaze.partidaState.prototype = {
 
     create: function () {
 
+        //El jugador 2 crea un contador que al llegar al final pasa a la siguiente ronda o acaba la partida
+        if (game.global.player1.type == "TESEO") {
+            game.time.events.add(Phaser.Timer.MINUTE * tiempo, endGame, this);
+            timeRonda = game.time.events.duration;
+        }
+
+        //El jugador 2 crea la información de la ronda al empezar la partida
+        if ((game.global.player1.type == "TESEO") && (partidas == 0)) {
+            this.createRonda();
+        }
+        
         // Obtenemos la posición del jugador 2 y lo pintamos. No nos importa la física, ya que será
         // el otro jugador en su propia pantalla el que gestione dicho dato. Sólo necesitamos pintarlo
         // para verlo. Utilizamos un callback (player2Data) para que UNA VEZ tengamos la posición
@@ -70,8 +82,21 @@ DarkMaze.partidaState.prototype = {
 
         })
 
-        //Contador que al llegar al final pasa a la siguiente ronda o acaba la partida
-        game.time.events.add(Phaser.Timer.MINUTE * tiempo, endGame, this);
+        //El jugador 2 actualiza el tiempo de ronda
+        if (game.global.player1.type == "TESEO") {
+            this.putRonda();
+        }
+
+        //El jugador 1 recibe el tiempo de ronda
+        if (game.global.player1.type == "MINOTAURO") {
+            this.getRonda(function (updateRonda) {
+                partidas = updateRonda.numRonda;
+                timeRonda = updateRonda.tiempoRonda;
+                if (game.debug) {
+                    console.log("Información de la ronda: " + toString(updateRonda) + " actualizada");
+                }
+            });
+        }
 
         //Para añadir música
         music = game.add.audio('bgm');
@@ -175,7 +200,7 @@ DarkMaze.partidaState.prototype = {
         this.relojIcono = game.add.sprite(815, 8, 'reloj');
         this.relojIcono.scale.setTo(0.5, 0.5);
         styleTiempo = { font: "25px Courier", fill: "#ffffff", align: "center" };
-        tiempoText = game.add.text(730, 2, game.time.events.duration, styleTiempo);
+        tiempoText = game.add.text(730, 2, timeRonda, styleTiempo);
 
         //Interfaz del número de antorchas o rocas
         if (game.global.player1.type == "MINOTAURO") {
@@ -196,10 +221,31 @@ DarkMaze.partidaState.prototype = {
 
     update: function () {
 
+        //El jugador 2 va actualizando el tiempo que queda de ronda
+        if (game.global.player1.type == "TESEO") {
+            timeRonda = game.time.events.duration;
+        }
+
+        //El jugador 2 va mandando la información de la ronda
+        if (game.global.player1.type == "TESEO") {
+            this.putRonda();
+        }
+
+        //El jugador 1 va recibiendo el tiempo de ronda
+        if (game.global.player1.type == "MINOTAURO") {
+            this.getRonda(function (updateRonda) {
+                partidas = updateRonda.numRonda;
+                timeRonda = updateRonda.tiempoRonda;
+                if (game.debug) {
+                    console.log("Información de la ronda: " + toString(updateRonda) + " actualizada");
+                }
+            });
+        }
+        
         //Se va actualizando la interfaz con el tiempo
         habilidadText.text = "x0" + game.global.antorchas.cantidad;
-        minutes = Math.floor(game.time.events.duration / 60000) % 60;
-        seconds = Math.floor(game.time.events.duration / 1000) % 60;
+        minutes = Math.floor(timeRonda / 60000) % 60;
+        seconds = Math.floor(timeRonda / 1000) % 60;
 
         if (seconds < 10)
             seconds = '0' + seconds;
@@ -210,7 +256,7 @@ DarkMaze.partidaState.prototype = {
         tiempoText.text = (minutes + ':' + seconds);
 
         //Cuando quedan 10 segundos de ronda empieza a sonar una cuenta atrás
-        if ((minutes == 0) && (seconds == 10)) {
+        if (timeRonda == 10) {
             clockSound.play();
         }
 
@@ -563,10 +609,59 @@ DarkMaze.partidaState.prototype = {
             callback(data);
         })
     },
+    
+    createRonda() {
+        var data = {
+            numRonda: game.partidas,
+            tiempoRonda: game.timeRonda,
+        }
 
+        $.ajax({
+            method: "POST",
+            url: 'http://localhost:8080/ronda',
+            data: JSON.stringify(data),
+            processData: false,
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }).done(function (data) {
+           // console.log("Ronda created: " + JSON.stringify(data));
+        })
+    },
 
+    putRonda() {
+        var data = {
+            numRonda: partidas,
+            tiempoRonda: timeRonda,
+        }
 
+        $.ajax({
+            method: "PUT",
+            url: 'http://localhost:8080/ronda/',
+            data: JSON.stringify(data),
+            processData: false,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).done(function (data) {
+            if (game.debug) {
+                //console.log("Actualizado número y posición de ronda: " + JSON.stringify(data))
+            }
+        })
+    },
 
+    getRonda(callback) {
+        $.ajax({
+            method: "GET",
+            url: 'http://localhost:8080/ronda/',
+            processData: false,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).done(function (data) {
+            callback(data);
+        })
+    },
 
     render: function () {
 
