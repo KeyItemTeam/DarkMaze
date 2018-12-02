@@ -235,6 +235,11 @@ DarkMaze.partidaState.prototype = {
         //Se pone a false para cancelar la animación de atacar
         //El pulso siempre sigue a Teseo pero no es visible si Teseo no está corriendo
         //Hace invisible a Teseo al pulsar "m" (debug)
+        game.global.player2.alpha = 1;
+        if (this.map.hasTile(Math.trunc(game.global.player2.x / 32), Math.trunc(game.global.player2.y / 32), 'Capa3')) {
+            game.global.player2.alpha = 0;
+        }
+
         if (this.spaceKey.isDown && game.global.player1.type == "MINOTAURO") {
             game.global.player1.attacking = true;
             if (game.global.player1.direction === 0 || game.global.player1.direction === 5 || game.global.player1.direction === 7) game.global.player1.animations.play("attackBack");
@@ -251,15 +256,6 @@ DarkMaze.partidaState.prototype = {
             if (game.global.player2.direction === 3) game.global.player2.animations.play("attackRight");
             game.global.player2.cancelAnim = true;
         }
-
-
-        if (game.debug) {
-            game.global.player2.alpha = 1;
-            if (this.mKey.isDown && (this.map.hasTile(Math.trunc(game.global.player2.x / 32), Math.trunc(game.global.player2.y / 32), 'Capa3'))) {
-                game.global.player2.alpha = 0;
-            }
-        }
-
 
         // configuramos teclas
         game.global.player1.direction = moverDir(game.global.player1, this.upKey, this.downKey, this.leftKey, this.rightKey, this.shiftKey);
