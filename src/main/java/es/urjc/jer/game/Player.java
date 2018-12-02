@@ -6,7 +6,8 @@ public class Player {
 	private int x, y;
 	private int time;
 	private int direction;
-	private boolean attack, run;
+	private int pulsoX, pulsoY;
+	private boolean attacking, running;
 
 
 	public enum Type {
@@ -17,8 +18,8 @@ public class Player {
 
 	Player() {
 		this.time = 0;
-		this.run = false;
-		this.attack = false;
+		this.running = false;
+		this.attacking = false;
 		this.direction = 1;
 
 	}
@@ -31,20 +32,36 @@ public class Player {
 		this.type = type;
 	}
 
-	public boolean isAttack() {
-		return attack;
+	public int getPulsoX() {
+		return pulsoX;
 	}
 
-	public void setAttack(boolean attack) {
-		this.attack = attack;
+	public void setPulsoX(int pulsoX) {
+		this.pulsoX = pulsoX;
 	}
 
-	public boolean isRun() {
-		return run;
+	public int getPulsoY() {
+		return pulsoY;
 	}
 
-	public void setRun(boolean run) {
-		this.run = run;
+	public void setPulsoY(int pulsoY) {
+		this.pulsoY = pulsoY;
+	}
+
+	public boolean isAttacking() {
+		return attacking;
+	}
+
+	public void setAttacking(boolean attacking) {
+		this.attacking = attacking;
+	}
+
+	public boolean isRunning() {
+		return running;
+	}
+
+	public void setRunning(boolean running) {
+		this.running = running;
 	}
 
 	public int getDirection() {
@@ -90,6 +107,9 @@ public class Player {
 	@Override
 	public String toString() {
 		return "Player [id=" + id + ", x=" + x + ", y=" + y + ", time=" + time + ", direction=" + direction
-				+ ", attack=" + attack + ", run=" + run + ", type=" + type + "]";
+				+ ", pulsoX=" + pulsoX + ", pulsoY=" + pulsoY + ", attacking=" + attacking + ", running=" + running
+				+ ", type=" + type + "]";
 	}
+
+	
 }
