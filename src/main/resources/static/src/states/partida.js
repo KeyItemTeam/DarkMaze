@@ -18,11 +18,11 @@ DarkMaze.partidaState.prototype = {
     // De esta forma creamos un "JSON" con la id y podemos aprovechar 
     // this.getPlayer sin hacer cambios evidentes.
     init() {
-        if (game.player1.id == 1) {
-            game.player2 = { id: 2 }
+        if (game.global.player1.id == 1) {
+            game.global.player2 = { id: 2 }
           
         } else {
-            game.player2 = { id: 1 }
+            game.global.player2 = { id: 1 }
          
         }
     },
@@ -30,7 +30,7 @@ DarkMaze.partidaState.prototype = {
     //Funciones de Level (preload, create y update)
     preload: function () {
         if (game.debug) {
-            //console.log(JSON.stringify(game.player1))
+            //console.log(JSON.stringify(game.global.player1))
             
         }
     },
@@ -42,27 +42,27 @@ DarkMaze.partidaState.prototype = {
         // para verlo. Utilizamos un callback (player2Data) para que UNA VEZ tengamos la posición
         // del player 2, la pintemos en escenario y así evitar un undefined.
         this.getPlayer(function (player2Data) {
-            //game.player2 = JSON.parse(JSON.stringify(player2Data));
+            //game.global.player2 = JSON.parse(JSON.stringify(player2Data));
             if (player2Data.type == "TESEO") {
                 if (game.debug) {
                     console.log("Player2 ha elegido a TESEO")
                 }
                 //Añade las animaciones de Teseo
-                game.player2= game.add.sprite(810, 550, 'teseo');
-                addAnim(game.player2, 100, 100);
-                game.player2.id=2;
+                game.global.player2= game.add.sprite(810, 550, 'teseo');
+                addAnim(game.global.player2, 100, 100);
+                game.global.player2.id=2;
                 
-                //this.pulso = game.add.sprite(game.player2.x, game.player2.y, 'pulso');
+                //this.pulso = game.add.sprite(game.global.player2.x, game.global.player2.y, 'pulso');
                 //this.pulso.time = 0;
             } else {
                 if (game.debug) {
                     console.log("Player2 ha elegido a MINOTAURO")
                 }
-                game.player2 = game.add.sprite(48, 80, 'minotauro');
-                addAttackAnim(game.player2)
-                addAnim(game.player2, 100, 100)
-                game.player2.animations.play("idle");
-                game.player2.id=1;
+                game.global.player2 = game.add.sprite(48, 80, 'minotauro');
+                addAttackAnim(game.global.player2)
+                addAnim(game.global.player2, 100, 100)
+                game.global.player2.animations.play("idle");
+                game.global.player2.id=1;
            
             }
         
@@ -123,23 +123,23 @@ DarkMaze.partidaState.prototype = {
         //Añade las animaciones del Minotauro
         
         
-        if (game.player1.type == "MINOTAURO") {
-            game.player1 = game.add.sprite(48, 80, 'minotauro');
-            addAttackAnim(game.player1);
-            addAnim(game.player1, 100, 100);
-            game.player1.animations.play("idle");
-            game.player1.id=1;
-            game.player1.type= "MINOTAURO" ;
+        if (game.global.player1.type == "MINOTAURO") {
+            game.global.player1 = game.add.sprite(48, 80, 'minotauro');
+            addAttackAnim(game.global.player1);
+            addAnim(game.global.player1, 100, 100);
+            game.global.player1.animations.play("idle");
+            game.global.player1.id=1;
+            game.global.player1.type= "MINOTAURO" ;
         } else {
             //Añade las animaciones de Teseo
         	
-            game.player1 = game.add.sprite(810, 550, 'teseo');
-            addAnim(game.player1, 100, 100);
-            game.player1.animations.play("idle");
-            game.player1.id=2;
-           // this.pulso = game.add.sprite(game.player1.x, game.player1.y, 'pulso');
+            game.global.player1 = game.add.sprite(810, 550, 'teseo');
+            addAnim(game.global.player1, 100, 100);
+            game.global.player1.animations.play("idle");
+            game.global.player1.id=2;
+           // this.pulso = game.add.sprite(game.global.player1.x, game.global.player1.y, 'pulso');
             // this.pulso.time = 0;
-            game.player1.type= "TESEO" ;
+            game.global.player1.type= "TESEO" ;
         }
 
         //Añade el sprite de la roca, activa sus físicas e inicializa sus variables
@@ -169,7 +169,7 @@ DarkMaze.partidaState.prototype = {
         }
 
         //Interfaz de iconos de los jugadores
-        if (game.player1.type == "MINOTAURO") {
+        if (game.global.player1.type == "MINOTAURO") {
             this.iconoJugador = game.add.sprite(220, 6, 'iconoMinotauro');
         } else {
             this.iconoJugador = game.add.sprite(220, 6, 'iconoTeseo');
@@ -183,7 +183,7 @@ DarkMaze.partidaState.prototype = {
         tiempoText = game.add.text(730, 2, game.time.events.duration, styleTiempo);
 
         //Interfaz del número de antorchas o rocas
-        if (game.player1.type == "MINOTAURO") {
+        if (game.global.player1.type == "MINOTAURO") {
             this.habilidadIcono = game.add.sprite(20, 6, 'antorcha');
         } else {
             this.habilidadIcono = game.add.sprite(20, 6, 'roca');
@@ -217,63 +217,63 @@ DarkMaze.partidaState.prototype = {
         }
         
         //Se ponen las velocidades a 0 para que el movimiento no sea infinito
-        game.player1.body.velocity.x = 0;
-        game.player1.body.velocity.y = 0;
+        game.global.player1.body.velocity.x = 0;
+        game.global.player1.body.velocity.y = 0;
 
         //Se activan las colisiones con el escenario
-        this.physics.arcade.collide(game.player1, this.layer);
+        this.physics.arcade.collide(game.global.player1, this.layer);
 
         //Se ponen el movimiento a false para cambiar la animación al idle si no se mueve el jugador
-        game.player1.mov = false;
-        game.player2.mov = false;
+        game.global.player1.mov = false;
+        game.global.player2.mov = false;
 
         //Se pone a false para cancelar la animación de atacar
         //El pulso siempre sigue a Teseo pero no es visible si Teseo no está corriendo
         //Hace invisible a Teseo al pulsar "m" (debug)
-        if (game.player1.type == "MINOTAURO") {
-            game.player1.cancelAnim = false;
+        if (game.global.player1.type == "MINOTAURO") {
+            game.global.player1.cancelAnim = false;
             if (this.spaceKey.isDown) {
-                if (game.player1.direction === 0 || game.player1.direction === 5 || game.player1.direction === 7) game.player1.animations.play("attackBack");
-                if (game.player1.direction === 1 || game.player1.direction === 4 || game.player1.direction === 6) game.player1.animations.play("attack");
-                if (game.player1.direction === 2) game.player1.animations.play("attackLeft");
-                if (game.player1.direction === 3) game.player1.animations.play("attackRight");
-                game.player1.cancelAnim = true;
+                if (game.global.player1.direction === 0 || game.global.player1.direction === 5 || game.global.player1.direction === 7) game.global.player1.animations.play("attackBack");
+                if (game.global.player1.direction === 1 || game.global.player1.direction === 4 || game.global.player1.direction === 6) game.global.player1.animations.play("attack");
+                if (game.global.player1.direction === 2) game.global.player1.animations.play("attackLeft");
+                if (game.global.player1.direction === 3) game.global.player1.animations.play("attackRight");
+                game.global.player1.cancelAnim = true;
             }
-           /* this.pulso.reset((this.math.snapToFloor(Math.floor(game.player2.body.x), 32) / 32) * 32, (this.math.snapToFloor(Math.floor(game.player2.body.y), 32) / 32) * 32);
+           /* this.pulso.reset((this.math.snapToFloor(Math.floor(game.global.player2.body.x), 32) / 32) * 32, (this.math.snapToFloor(Math.floor(game.global.player2.body.y), 32) / 32) * 32);
             this.pulso.visible = false;
             if (game.debug) {
-                game.player2.alpha = 1;
-                if (this.mKey.isDown && (this.map.hasTile(Math.trunc(game.player2.x / 32), Math.trunc(game.player2.y / 32), 'Capa3'))) {
-                    game.player2.alpha = 0;
+                game.global.player2.alpha = 1;
+                if (this.mKey.isDown && (this.map.hasTile(Math.trunc(game.global.player2.x / 32), Math.trunc(game.global.player2.y / 32), 'Capa3'))) {
+                    game.global.player2.alpha = 0;
                 }
             }*/
         } else {
-            game.player2.cancelAnim = false;
-           // this.pulso.reset((this.math.snapToFloor(Math.floor(game.player1.body.x), 32) / 32) * 32, (this.math.snapToFloor(Math.floor(game.player1.body.y), 32) / 32) * 32);
+            game.global.player2.cancelAnim = false;
+           // this.pulso.reset((this.math.snapToFloor(Math.floor(game.global.player1.body.x), 32) / 32) * 32, (this.math.snapToFloor(Math.floor(game.global.player1.body.y), 32) / 32) * 32);
             // this.pulso.visible = false;
             if (this.spaceKey.isDown) {
-                if (game.player2.direction === 0 || game.player2.direction === 5 || game.player2.direction === 7) game.player2.animations.play("attackBack");
-                if (game.player2.direction === 1 || game.player2.direction === 4 || game.player2.direction === 6) game.player2.animations.play("attack");
-                if (game.player2.direction === 2) game.player2.animations.play("attackLeft");
-                if (game.player2.direction === 3) game.player2.animations.play("attackRight");
-                game.player2.cancelAnim = true;
+                if (game.global.player2.direction === 0 || game.global.player2.direction === 5 || game.global.player2.direction === 7) game.global.player2.animations.play("attackBack");
+                if (game.global.player2.direction === 1 || game.global.player2.direction === 4 || game.global.player2.direction === 6) game.global.player2.animations.play("attack");
+                if (game.global.player2.direction === 2) game.global.player2.animations.play("attackLeft");
+                if (game.global.player2.direction === 3) game.global.player2.animations.play("attackRight");
+                game.global.player2.cancelAnim = true;
             }
            /* if (game.debug) {
-                game.player1.alpha = 1;
-                if (this.mKey.isDown && (this.map.hasTile(Math.trunc(game.player1.x / 32), Math.trunc(game.player1.y / 32), 'Capa3'))) {
-                    game.player1.alpha = 0;
+                game.global.player1.alpha = 1;
+                if (this.mKey.isDown && (this.map.hasTile(Math.trunc(game.global.player1.x / 32), Math.trunc(game.global.player1.y / 32), 'Capa3'))) {
+                    game.global.player1.alpha = 0;
                 }
             }*/
         }
 
         // configuramos teclas
-        game.player1.direction = moverDir(game.player1, this.upKey, this.downKey, this.leftKey, this.rightKey, this.shiftKey);
+        game.global.player1.direction = moverDir(game.global.player1, this.upKey, this.downKey, this.leftKey, this.rightKey, this.shiftKey);
 
         //Con "q" Teseo puede poner rocas
         if (this.qKey.isDown && game.global.roca.used) {
-        	if (game.player1.type == "TESEO") {
+        	if (game.global.player1.type == "TESEO") {
             stone.play(); //Reproduce el sonido de la piedra
-            game.global.roca.reset((this.math.snapToFloor(Math.floor(game.player1.body.x), 32) / 32) * 32, (this.math.snapToFloor(Math.floor(game.player1.body.y), 32) / 32) * 32); //Pone la ...
+            game.global.roca.reset((this.math.snapToFloor(Math.floor(game.global.player1.body.x), 32) / 32) * 32, (this.math.snapToFloor(Math.floor(game.global.player1.body.y), 32) / 32) * 32); //Pone la ...
             //... roca en la casilla en la que se encuentre Teseo
             game.global.roca.exists = true;
             game.global.roca.visible = true;
@@ -291,8 +291,8 @@ DarkMaze.partidaState.prototype = {
 
         //Sire para atrapar a Teseo al pulsar espacio
 
-        if (game.player1.type == "MINOTAURO") {
-            if (estaCerca(game.player1, game.player2, 50) && this.spaceKey.isDown) {
+        if (game.global.player1.type == "MINOTAURO") {
+            if (estaCerca(game.global.player1, game.global.player2, 50) && this.spaceKey.isDown) {
                 moo.play();
                 partidas++; //Se pasa a la siguiente ronda
                 tiempoJugadores(); // Se guarda el tiempo del jugador Teseo
@@ -304,7 +304,7 @@ DarkMaze.partidaState.prototype = {
                     game.state.start('win', true, false);
             }
             //Sirve para que el minotauro pueda destrozar la roca de Teseo
-            if (estaCerca(game.player1, game.global.roca, 50) && this.spaceKey.isDown && (game.time.now > game.global.roca.time)) {
+            if (estaCerca(game.global.player1, game.global.roca, 50) && this.spaceKey.isDown && (game.time.now > game.global.roca.time)) {
                 game.global.roca.time = game.time.now + 500;
                 punch.play();
                 game.global.roca.salud--;
@@ -360,8 +360,8 @@ DarkMaze.partidaState.prototype = {
         }*/
 
         //Se aplican el resto de colisiones
-        game.physics.arcade.collide(game.player1, game.player2);
-        game.physics.arcade.collide(game.player1, game.global.roca);
+        game.physics.arcade.collide(game.global.player1, game.global.player2);
+        game.physics.arcade.collide(game.global.player1, game.global.roca);
 
         //LUZ
 
@@ -372,10 +372,10 @@ DarkMaze.partidaState.prototype = {
         }
 
         //Luz minotauro
-        luz(game.player1, 3, this.map);
+        luz(game.global.player1, 3, this.map);
         
-        //console.log(" y su id1 es" + game.player1.id);
-        //console.log(" y su id2 es" + game.player2.id);
+        //console.log(" y su id1 es" + game.global.player1.id);
+        //console.log(" y su id2 es" + game.global.player2.id);
         
         //Luz antorcha
         //this.antorchas.forEach(luz, this, true, 2, this.map);
@@ -388,17 +388,17 @@ DarkMaze.partidaState.prototype = {
         // Obtiene mediante GET la posición de player 2. Usa un callback para que UNA VEZ tenga su posición,
         // pinte su ubicación.
         this.getPlayer(function (updatePlayer2) {
-            game.player2.x = updatePlayer2.x;
-            game.player2.y = updatePlayer2.y;
-            game.player2.time = updatePlayer2.time;
-            game.player2.direction = updatePlayer2.direction;
-            if (game.player1.type == "MINOTAURO") {
-                game.player2.attack = updatePlayer2.attack;
+            game.global.player2.x = updatePlayer2.x;
+            game.global.player2.y = updatePlayer2.y;
+            game.global.player2.time = updatePlayer2.time;
+            game.global.player2.direction = updatePlayer2.direction;
+            if (game.global.player1.type == "MINOTAURO") {
+                game.global.player2.attack = updatePlayer2.attack;
             }
-            game.player2.run = updatePlayer2.run;
+            game.global.player2.run = updatePlayer2.run;
             if (game.debug) {
                 //console.log("Posicion de player 2: " + updatePlayer2 + " actualizada");
-                //console.log(" y su ide es" + game.player2.id);
+                //console.log(" y su ide es" + game.global.player2.id);
             }
         });
 
@@ -422,7 +422,7 @@ DarkMaze.partidaState.prototype = {
     getPlayer(callback) {
         $.ajax({
             method: "GET",
-            url: 'http://localhost:8080/game/' + game.player2.id,
+            url: 'http://localhost:8080/game/' + game.global.player2.id,
             processData: false,
             headers: {
                 "Content-Type": "application/json"
@@ -435,19 +435,19 @@ DarkMaze.partidaState.prototype = {
     // Con este método modificamos al jugador online (que siempre será considerado PLAYER 2)
     putPlayer() {
         var data = {
-            id: game.player1.id,
-            x: game.player1.x,
-            y: game.player1.y,
-            direction: game.player1.direction,
-            run: game.player1.run,
-            attack: game.player1.attack,
-            time: game.player1.time,
-            type: game.player1.type 
+            id: game.global.player1.id,
+            x: game.global.player1.x,
+            y: game.global.player1.y,
+            direction: game.global.player1.direction,
+            run: game.global.player1.run,
+            attack: game.global.player1.attack,
+            time: game.global.player1.time,
+            type: game.global.player1.type 
         }
 
         $.ajax({
             method: "PUT",
-            url: 'http://localhost:8080/game/' + game.player1.id,
+            url: 'http://localhost:8080/game/' + game.global.player1.id,
             data: JSON.stringify(data),
             processData: false,
             headers: {
