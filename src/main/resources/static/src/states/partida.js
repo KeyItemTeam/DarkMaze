@@ -68,16 +68,6 @@ DarkMaze.partidaState.prototype = {
         
         })
 
-        /*this.getRoca(function (data) {
-            game.global.roca = game.add.sprite(data.x, data.y, 'roca');
-            this.physics.enable(game.global.roca, Phaser.Physics.ARCADE);
-            game.global.roca.exists = true; //La roca no existe hata que Teseo la ponga en el escenario
-            game.global.roca.visible = true;
-            game.global.roca.time = 0; // tiempo hasta que se le pueda dar el siguiente golpe a la roca
-            game.global.roca.salud = data.salud; // puntos de salud de la roca
-            game.global.roca.used = true; // sirve para saber si a Teseo ha usado ya su roca 
-         });*/
-
         //Contador que al llegar al final pasa a la siguiente ronda o acaba la partida
         game.time.events.add(Phaser.Timer.MINUTE * tiempo, endGame, this);
 
@@ -97,7 +87,7 @@ DarkMaze.partidaState.prototype = {
         } //pone el volumen a 0.6 
 
         //Prepara el teclado el jugador 1
-        this.upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
+        this.uqKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
         this.downKey = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
         this.leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
         this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
@@ -153,15 +143,15 @@ DarkMaze.partidaState.prototype = {
         game.global.roca.used = true; // sirve para saber si a Teseo ha usado ya su roca 
 
         //Crea un grupo de antorchas, activas sus físicas e inicializa sus variables
-        this.antorchas = game.add.group();
-        this.antorchas.enableBody = true;
-        this.antorchas.physicsBodyType = Phaser.Physics.ARCADE;
-        this.antorchas.cantidad = 2; //Cantidad de antorchas del Minotauro
-        this.antorchas.time = 0; //Tiempo hasta poner otra antorcha
+        game.global.antorchas = game.add.group();
+        game.global.antorchas.enableBody = true;
+        game.global.antorchas.physicsBodyType = Phaser.Physics.ARCADE;
+        game.global.antorchas.cantidad = 2; //Cantidad de antorchas del Minotauro
+        game.global.antorchas.time = 0; //Tiempo hasta poner otra antorcha
 
         //Se añaden propiedades a cada hijo antorcha del grupo
         for (var i = 0; i < 2; i++) {
-            var b = this.antorchas.create(0, 0, 'antorcha');
+            var b = game.global.antorchas.create(0, 0, 'antorcha');
             b.animations.add('idle', [0, 1, 2, 3], 6, true);
             b.animations.play("idle");
             b.name = 'antorcha' + i;
@@ -191,7 +181,7 @@ DarkMaze.partidaState.prototype = {
         }        
         this.habilidadIcono.scale.setTo(0.6, 0.6);
         styleHabilidad = { font: "25px Courier", fill: "#ffffff", align: "left" };
-        habilidadText = game.add.text(50, 2, "x0" + this.antorchas.cantidad, styleHabilidad);
+        habilidadText = game.add.text(50, 2, "x0" + game.global.antorchas.cantidad, styleHabilidad);
 
         //Interfaz del número de rondas
         rondaText = game.add.text(380, 2, "RONDA " + (partidas + 1), styleHabilidad);
@@ -200,7 +190,7 @@ DarkMaze.partidaState.prototype = {
     update: function () {
 
         //Se va actualizando la interfaz con el tiempo
-        habilidadText.text = "x0" + this.antorchas.cantidad;
+        habilidadText.text = "x0" + game.global.antorchas.cantidad;
         minutes = Math.floor(game.time.events.duration / 60000) % 60;
         seconds = Math.floor(game.time.events.duration / 1000) % 60;
 
@@ -268,7 +258,7 @@ DarkMaze.partidaState.prototype = {
         }
 
         // configuramos teclas
-        game.global.player1.direction = moverDir(game.global.player1, this.upKey, this.downKey, this.leftKey, this.rightKey, this.shiftKey);
+        game.global.player1.direction = moverDir(game.global.player1, this.uqKey, this.downKey, this.leftKey, this.rightKey, this.shiftKey);
 
         //Con "q" Teseo puede poner rocas
         if (this.qKey.isDown && game.global.roca.used) {
@@ -311,7 +301,6 @@ DarkMaze.partidaState.prototype = {
                 game.global.roca.salud--;
                 if (game.global.roca.salud < 1) {
                     stoneBreak.play();
-                }
                 this.putRoca();
             }
         }
@@ -325,18 +314,28 @@ DarkMaze.partidaState.prototype = {
             game.global.roca.kill();
 
         //Sirve para colocar antorchas con el minotauro
-        /*if (this.pKey.isDown && this.antorchas.cantidad !== 0 && (game.time.now > this.antorchas.time)) {
-            torch.play();
-            this.antorchas.time = game.time.now + 250;
-            this.antorcha = this.antorchas.getFirstExists(false);
-            this.antorcha.reset((this.math.snapToFloor(Math.floor(this.minotauro.x), 32) / 32) * 32, (this.math.snapToFloor(Math.floor(this.minotauro.y), 32) / 32) * 32);
-            this.antorchas.activada = true;
-            this.antorchas.cantidad--;
-            this.antorcha.exists = true;
-        }*/
+        if (this.qKey.isDown && game.global.antorchas.cantidad !== 0 && (game.time.now > game.global.antorchas.time)) {
+            if (game.global.player1.type == "MINOTAURO") {
+                torch.play();
+                game.global.antorchas.time = game.time.now + 250;
+                var antorcha = game.global.antorchas.getFirstExists(false);
+                if (antorcha != undefined) {
+                    antorcha.reset((this.math.snapToFloor(Math.floor(game.global.player1.x), 32) / 32) * 32, (this.math.snapToFloor(Math.floor(game.global.player1.y), 32) / 32) * 32);
+                    game.global.antorchas.activada = true;
+                    game.global.antorchas.cantidad--;
+                    antorcha.exists = true;
+
+                    this.createAntorcha(antorcha.x, antorcha.y);
+                    console.log("antorcha creada");
+                }
+            }
+        }
 
         //Se aplica la función para cada hija del grupo antochas (para recogerlas)
-        //this.antorchas.forEach(antorchaCerca, this, true, this.minotauro, 50);
+        if (game.global.player1.type == "MINOTAURO") {
+        game.global.antorchas.forEach(antorchaCerca, this, true, game.global.player1, 50);
+        //tal vez aquí haga falta un this.putAntorcha();
+        }
 
         //Sirve para que Teseo deje un pulso al correr
         /*if (this.oKey.isDown && partidas == 0) {
@@ -382,7 +381,7 @@ DarkMaze.partidaState.prototype = {
         //console.log(" y su id2 es" + game.global.player2.id);
         
         //Luz antorcha
-        //this.antorchas.forEach(luz, this, true, 2, this.map);
+        game.global.antorchas.forEach(luz, this, true, 2, this.map);
 
         // Manda al servidor la posición actualizada de player 1 para que el otro jugador pueda actualizarla.
         this.putPlayer();
@@ -420,6 +419,22 @@ DarkMaze.partidaState.prototype = {
             }
         }
         });
+
+        this.getAntorcha(function (updateAntorcha) {
+            if (updateAntorcha != null) {
+                for (var i = 0; i < updateAntorcha.length; i++) {
+                    var b = game.global.antorchas.children[i];
+                    b.x = updateAntorcha[i].x;
+                    b.y = updateAntorcha[i].y;
+                    b.exists = true;
+                    b.visible = true;
+                }
+            if (game.debug) {
+                //console.log("Posicion de la antorcha: " + toString(updateAntorcha) + " actualizada");
+            }
+        }
+        });
+
 
     },
     // Con este método recuperamos al jugador online (que siempre será considerado PLAYER 2)
@@ -521,6 +536,38 @@ DarkMaze.partidaState.prototype = {
         })
     },
 
+    createAntorcha(antorchaX, antorchaY) {
+        var data = {
+            x: antorchaX,
+            y: antorchaY
+        }
+
+        $.ajax({
+            method: "POST",
+            url: 'http://localhost:8080/antorcha',
+            data: JSON.stringify(data),
+            processData: false,
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }).done(function (data) {
+            console.log("Antorcha created: " + JSON.stringify(data));
+        })
+    },
+
+    getAntorcha(callback) {
+        $.ajax({
+            method: "GET",
+            url: 'http://localhost:8080/antorchas',
+            processData: false,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).done(function (data) {
+            callback(data);
+        })
+    },
+
     
 
     
@@ -557,9 +604,9 @@ function estaCerca(pj1, pj2, dist) {
 // Funcion para recoger antorchas por el minotauro (a la distancia que se le asigne)
 function antorchaCerca(child, pj, dist) {
 
-    if (estaCerca(pj, child, dist) && this.spaceKey.isDown && (game.time.now > this.antorchas.time)) {
-        this.antorchas.time = game.time.now + 500;
-        this.antorchas.cantidad++;
+    if (estaCerca(pj, child, dist) && this.spaceKey.isDown && (game.time.now > game.global.antorchas.time)) {
+        game.global.antorchas.time = game.time.now + 500;
+        game.global.antorchas.cantidad++;
         child.exists = false;
     }
 
