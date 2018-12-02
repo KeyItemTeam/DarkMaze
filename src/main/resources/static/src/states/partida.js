@@ -30,7 +30,7 @@ DarkMaze.partidaState.prototype = {
     //Funciones de Level (preload, create y update)
     preload: function () {
         if (game.debug) {
-            console.log(JSON.stringify(game.player1))
+            //console.log(JSON.stringify(game.player1))
             
         }
     },
@@ -67,6 +67,16 @@ DarkMaze.partidaState.prototype = {
             }
         
         })
+
+        /*this.getRoca(function (data) {
+            game.global.roca = game.add.sprite(data.x, data.y, 'roca');
+            this.physics.enable(game.global.roca, Phaser.Physics.ARCADE);
+            game.global.roca.exists = true; //La roca no existe hata que Teseo la ponga en el escenario
+            game.global.roca.visible = true;
+            game.global.roca.time = 0; // tiempo hasta que se le pueda dar el siguiente golpe a la roca
+            game.global.roca.salud = data.salud; // puntos de salud de la roca
+            game.global.roca.used = true; // sirve para saber si a Teseo ha usado ya su roca 
+         });*/
 
         //Contador que al llegar al final pasa a la siguiente ronda o acaba la partida
         game.time.events.add(Phaser.Timer.MINUTE * tiempo, endGame, this);
@@ -133,13 +143,13 @@ DarkMaze.partidaState.prototype = {
         }
 
         //Añade el sprite de la roca, activa sus físicas e inicializa sus variables
-        this.roca = game.add.sprite(0, 0, 'roca');
-        this.physics.enable(this.roca, Phaser.Physics.ARCADE);
-        this.roca.exists = false; //La roca no existe hata que Teseo la ponga en el escenario
-        this.roca.visible = false;
-        this.roca.time = 0; // tiempo hasta que se le pueda dar el siguiente golpe a la roca
-        this.roca.salud = 3; // puntos de salud de la roca
-        this.roca.used = true; // sirve para saber si a Teseo ha usado ya su roca 
+        game.global.roca = game.add.sprite(0, 0, 'roca');
+        this.physics.enable(game.global.roca, Phaser.Physics.ARCADE);
+        game.global.roca.exists = false; //La roca no existe hata que Teseo la ponga en el escenario
+        game.global.roca.visible = false;
+        game.global.roca.time = 0; // tiempo hasta que se le pueda dar el siguiente golpe a la roca
+        game.global.roca.salud = 3; // puntos de salud de la roca
+        game.global.roca.used = true; // sirve para saber si a Teseo ha usado ya su roca 
 
         //Crea un grupo de antorchas, activas sus físicas e inicializa sus variables
         this.antorchas = game.add.group();
@@ -260,16 +270,24 @@ DarkMaze.partidaState.prototype = {
         game.player1.direction = moverDir(game.player1, this.upKey, this.downKey, this.leftKey, this.rightKey, this.shiftKey);
 
         //Con "q" Teseo puede poner rocas
-        /*if (this.qKey.isDown && this.roca.used) {
+        if (this.qKey.isDown && game.global.roca.used) {
+        	if (game.player1.type == "TESEO") {
             stone.play(); //Reproduce el sonido de la piedra
-            this.roca.reset((this.math.snapToFloor(Math.floor(this.teseo.body.x), 32) / 32) * 32, (this.math.snapToFloor(Math.floor(this.teseo.body.y), 32) / 32) * 32); //Pone la ...
+            game.global.roca.reset((this.math.snapToFloor(Math.floor(game.player1.body.x), 32) / 32) * 32, (this.math.snapToFloor(Math.floor(game.player1.body.y), 32) / 32) * 32); //Pone la ...
             //... roca en la casilla en la que se encuentre Teseo
-            this.roca.exists = true;
-            this.roca.visible = true;
-            this.roca.body.inmovable = true;
-            this.roca.body.moves = false;
-            this.roca.used = false; //Solo una roca por partida
-        }*/
+            game.global.roca.exists = true;
+            game.global.roca.visible = true;
+            game.global.roca.body.inmovable = true;
+            game.global.roca.body.moves = false;
+            game.global.roca.used = false; //Solo una roca por partida
+
+            console.log("ee");
+
+            //Crea la roca
+            this.createRoca();
+            console.log("a");
+        	}
+        }
 
         //Sire para atrapar a Teseo al pulsar espacio
 
@@ -286,20 +304,21 @@ DarkMaze.partidaState.prototype = {
                     game.state.start('win', true, false);
             }
             //Sirve para que el minotauro pueda destrozar la roca de Teseo
-            /*if (estaCerca(game.player1, this.roca, 50) && this.spaceKey.isDown && (game.time.now > this.roca.time)) {
-                this.roca.time = game.time.now + 500;
+            if (estaCerca(game.player1, game.global.roca, 50) && this.spaceKey.isDown && (game.time.now > game.global.roca.time)) {
+                game.global.roca.time = game.time.now + 500;
                 punch.play();
-                this.roca.salud--;
-            }*/
+                game.global.roca.salud--;
+                this.putRoca();
+            }
         }
 
         //Comprueba la vida de la roca yy va cambiando su sprite
-        /*if (this.roca.salud === 2)
-            this.roca.frame = 1;
-        else if (this.roca.salud === 1)
-            this.roca.frame = 2;
-        if (this.roca.salud < 1)
-            this.roca.kill();*/
+        if (game.global.roca.salud === 2)
+            game.global.roca.frame = 1;
+        else if (game.global.roca.salud === 1)
+            game.global.roca.frame = 2;
+        if (game.global.roca.salud < 1)
+            game.global.roca.kill();
 
         //Sirve para colocar antorchas con el minotauro
         /*if (this.pKey.isDown && this.antorchas.cantidad !== 0 && (game.time.now > this.antorchas.time)) {
@@ -342,7 +361,7 @@ DarkMaze.partidaState.prototype = {
 
         //Se aplican el resto de colisiones
         game.physics.arcade.collide(game.player1, game.player2);
-        game.physics.arcade.collide(game.player1, this.roca);
+        game.physics.arcade.collide(game.player1, game.global.roca);
 
         //LUZ
 
@@ -355,14 +374,16 @@ DarkMaze.partidaState.prototype = {
         //Luz minotauro
         luz(game.player1, 3, this.map);
         
-        console.log(" y su id1 es" + game.player1.id);
-        console.log(" y su id2 es" + game.player2.id);
+        //console.log(" y su id1 es" + game.player1.id);
+        //console.log(" y su id2 es" + game.player2.id);
         
         //Luz antorcha
         //this.antorchas.forEach(luz, this, true, 2, this.map);
 
         // Manda al servidor la posición actualizada de player 1 para que el otro jugador pueda actualizarla.
         this.putPlayer();
+        //Manda al servidor la posición actualizada de la roca para que el otro jugador pueda verla
+        //this.putRoca();
 
         // Obtiene mediante GET la posición de player 2. Usa un callback para que UNA VEZ tenga su posición,
         // pinte su ubicación.
@@ -379,7 +400,22 @@ DarkMaze.partidaState.prototype = {
                 //console.log("Posicion de player 2: " + updatePlayer2 + " actualizada");
                 //console.log(" y su ide es" + game.player2.id);
             }
-        })
+        });
+
+        this.getRoca(function (updateRoca) {
+            if (updateRoca != null) {
+            game.global.roca.x = updateRoca.x;
+            game.global.roca.y = updateRoca.y;
+            game.global.roca.salud = updateRoca.life;
+            game.global.roca.exists = true;
+            game.global.roca.visible = true;
+            game.global.roca.body.inmovable = true;
+            game.global.roca.body.moves = false;
+            if (game.debug) {
+                console.log("Posicion de la roca: " + toString(updateRoca) + " actualizada");
+            }
+        }
+        });
 
     },
     // Con este método recuperamos al jugador online (que siempre será considerado PLAYER 2)
@@ -396,7 +432,7 @@ DarkMaze.partidaState.prototype = {
         })
     },
 
-    // Con este método recuperamos al jugador online (que siempre será considerado PLAYER 2
+    // Con este método modificamos al jugador online (que siempre será considerado PLAYER 2)
     putPlayer() {
         var data = {
             id: game.player1.id,
@@ -423,6 +459,67 @@ DarkMaze.partidaState.prototype = {
             }
         })
     },
+
+
+    createRoca() {
+        var data = {
+            x: game.global.roca.x,
+            y: game.global.roca.y,
+            life: game.global.roca.salud
+        }
+
+        $.ajax({
+            method: "POST",
+            url: 'http://localhost:8080/roca',
+            data: JSON.stringify(data),
+            processData: false,
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }).done(function (data) {
+            console.log("Roca created: " + JSON.stringify(data));
+            //game.global.roca = data
+        })
+    },
+
+    putRoca() {
+        var data = {
+            x: game.global.roca.x,
+            y: game.global.roca.y,
+            life: game.global.roca.salud
+        }
+
+        $.ajax({
+            method: "PUT",
+            url: 'http://localhost:8080/roca/',
+            data: JSON.stringify(data),
+            processData: false,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).done(function (data) {
+            if (game.debug) {
+                //console.log("Actualizada posicion de la roca: " + JSON.stringify(data))
+            }
+        })
+    },
+
+    getRoca(callback) {
+        $.ajax({
+            method: "GET",
+            url: 'http://localhost:8080/roca/',
+            processData: false,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).done(function (data) {
+            callback(data);
+        })
+    },
+
+    
+
+    
 
     render: function () {
 
