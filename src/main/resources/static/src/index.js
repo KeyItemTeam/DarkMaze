@@ -5,7 +5,7 @@ game.global = {
     player1: null,
     player2: null,
     roca: null,
-    antorcha: null
+    antorchas: null
 }
 
 game.state.add('boot', DarkMaze.bootState);
