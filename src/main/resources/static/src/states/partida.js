@@ -93,7 +93,7 @@ DarkMaze.partidaState.prototype = {
                 partidas = updateRonda.numRonda;
                 timeRonda = updateRonda.tiempoRonda;
                 if (game.debug) {
-                    console.log("Información de la ronda: " + toString(updateRonda) + " actualizada");
+                    //console.log("Información de la ronda: " + toString(updateRonda) + " actualizada");
                 }
             });
         }
@@ -144,7 +144,7 @@ DarkMaze.partidaState.prototype = {
         if (game.global.player1.type == "MINOTAURO") {
             game.global.player1 = game.add.sprite(48, 80, 'minotauro');
             addAttackAnim(game.global.player1);
-            addAnim(game.global.player1, 150, 225);
+            addAnim(game.global.player1, 175, 250);
             game.global.player1.animations.play("idle");
             game.global.player1.id = 1;
             game.global.player1.running = false;
@@ -154,7 +154,7 @@ DarkMaze.partidaState.prototype = {
             //Añade las animaciones de Teseo
 
             game.global.player1 = game.add.sprite(810, 550, 'teseo');
-            addAnim(game.global.player1, 125, 175);
+            addAnim(game.global.player1, 150, 200);
             game.global.player1.animations.play("idle");
             game.global.player1.id = 2;
             game.global.player1.running = false;
@@ -237,7 +237,7 @@ DarkMaze.partidaState.prototype = {
                 partidas = updateRonda.numRonda;
                 timeRonda = updateRonda.tiempoRonda;
                 if (game.debug) {
-                    console.log("Información de la ronda: " + toString(updateRonda) + " actualizada");
+                   // console.log("Información de la ronda: " + toString(updateRonda) + " actualizada");
                 }
             });
         }
@@ -412,7 +412,10 @@ DarkMaze.partidaState.prototype = {
         }
 
         //Luz minotauro
+        if (game.global.player1.type == "MINOTAURO") 
         luz(game.global.player1, 3, this.map);
+        else
+        luz(game.global.player1, 5, this.map);
 
         //console.log(" y su id1 es" + game.global.player1.id);
         //console.log(" y su id2 es" + game.global.player2.id);
@@ -455,7 +458,7 @@ DarkMaze.partidaState.prototype = {
                 game.global.roca.body.inmovable = true;
                 game.global.roca.body.moves = false;
                 if (game.debug) {
-                    console.log("Posicion de la roca: " + toString(updateRoca) + " actualizada");
+                    //console.log("Posicion de la roca: " + toString(updateRoca) + " actualizada");
                 }
             }
         });
