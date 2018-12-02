@@ -132,14 +132,15 @@ public class GameController {
 
 	// Con GET recuperamos la antorcha
 	@GetMapping(value = "/antorchas")
-	public Vector<Antorcha> getAntorcha() {
-		Vector<Antorcha> vector = new Vector<>();
+	public Vector<Object> getAntorcha() {
+		Vector<Object> vector = new Vector<>();
 		if (!antorchas.isEmpty()) {
-			Antorcha[] array = (Antorcha[]) antorchas.values().toArray();
+			Object[] array = antorchas.values().toArray();
 			for (int i = 0; i < antorchas.size(); i++) {
 				vector.add(array[i]);
 			}
 		}
+		//System.out.println(vector.toString());
 		return vector;
 	}
 
