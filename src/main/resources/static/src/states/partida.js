@@ -354,6 +354,7 @@ DarkMaze.partidaState.prototype = {
 
         //Se aplican el resto de colisiones
         game.physics.arcade.collide(game.global.player1, game.global.player2);
+        if (game.global.player1.type == "MINOTAURO")
         game.physics.arcade.collide(game.global.player1, game.global.roca);
 
         //LUZ
