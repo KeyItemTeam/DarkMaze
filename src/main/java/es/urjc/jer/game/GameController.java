@@ -25,6 +25,7 @@ public class GameController {
 	Map<Long, Player> players = new ConcurrentHashMap<>();
 	AtomicLong nextId = new AtomicLong(0);
 	Roca roca = null;
+	Ronda ronda;
 	Map<int[], Antorcha> antorchas = new ConcurrentHashMap<>();
 	
 	// Con POST creamos una ronda
