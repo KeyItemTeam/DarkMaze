@@ -87,7 +87,7 @@ DarkMaze.partidaState.prototype = {
         } //pone el volumen a 0.6 
 
         //Prepara el teclado el jugador 1
-        this.uqKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
+        this.upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
         this.downKey = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
         this.leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
         this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
@@ -258,7 +258,7 @@ DarkMaze.partidaState.prototype = {
         }
 
         // configuramos teclas
-        game.global.player1.direction = moverDir(game.global.player1, this.uqKey, this.downKey, this.leftKey, this.rightKey, this.shiftKey);
+        game.global.player1.direction = moverDir(game.global.player1, this.upKey, this.downKey, this.leftKey, this.rightKey, this.shiftKey);
 
         //Con "q" Teseo puede poner rocas
         if (this.qKey.isDown && game.global.roca.used) {
