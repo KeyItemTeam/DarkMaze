@@ -24,7 +24,7 @@ public class GameController {
 
 	Map<Long, Player> players = new ConcurrentHashMap<>();
 	AtomicLong nextId = new AtomicLong(0);
-	Roca roca = new Roca();
+	Roca roca = null;
 	Map<int[], Antorcha> antorchas = new ConcurrentHashMap<>();
 
 	// Con GET recuperamos el número de jugadores
