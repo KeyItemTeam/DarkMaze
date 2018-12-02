@@ -305,8 +305,9 @@ DarkMaze.partidaState.prototype = {
                 game.global.roca.salud--;
                 if (game.global.roca.salud < 1) {
                     stoneBreak.play();
-                    this.putRoca();
                 }
+                this.putRoca();
+                
             }
         }
 
