@@ -88,6 +88,7 @@ DarkMaze.partidaState.prototype = {
         torch = game.add.audio('torch');
         stone = game.add.audio('stone');
         clockSound = game.add.audio('clock');
+        stoneBreak = game.add.audio('stoneBreak');
 
         //Reproduce la música al iniciar la partida
         if (partidas == 0) {
@@ -308,6 +309,9 @@ DarkMaze.partidaState.prototype = {
                 game.global.roca.time = game.time.now + 500;
                 punch.play();
                 game.global.roca.salud--;
+                if (game.global.roca.salud < 1) {
+                    stoneBreak.play();
+                }
                 this.putRoca();
             }
         }
