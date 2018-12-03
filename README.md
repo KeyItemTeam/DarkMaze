@@ -121,7 +121,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
    
    __Teseo:__
    
-  ![Personaje](concept/Teseo.png)
+  ![Personaje](src/main/resources/static/concept/Teseo.png)
   
   Héroe ofrecido voluntario para luchar contra el minotauro, pero que se ha perdido un poco.
   
@@ -134,7 +134,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
   __Ariadna:__
   
-  ![Personaje](concept/ariadna.png)
+  ![Personaje](src/main/resources/static/concept/ariadna.png)
   
   Princesa Cretense, ha ido al laberinto en busca de Teseo.
   
@@ -147,7 +147,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
   <b>Ícaro:</b> 
   
-   ![Personaje](concept/icaro.png)
+   ![Personaje](src/main/resources/static/concept/icaro.png)
   
   Joven hijo de Dédalo que intentó huir del laberinto, pero que ha vuelto a caer en él.
   
@@ -162,7 +162,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
   <b>Minotauro:</b> 
   
-  ![Personaje](concept/minotauro2.png)
+  ![Personaje](src/main/resources/static/concept/minotauro2.png)
   
   Guardián del laberinto, es mitad hombre, mitad toro.
   
@@ -175,7 +175,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
   
   <b>Cíclope:</b>
   
-  ![Personaje](concept/ciclope.png)
+  ![Personaje](src/main/resources/static/concept/ciclope.png)
   
   Miembro de la familia de los gigantes que posee un solo ojo. 
     
@@ -188,7 +188,7 @@ En este apartado detallaremos todas las mecánicas de DarkMaze, incluyendo los e
    
   <b>Medusa:</b>
   
-  ![Personaje](concept/medusa1.png)
+  ![Personaje](src/main/resources/static/concept/medusa1.png)
     
   Monstruo capaz de convertir, con su mirada, en piedra.
     
