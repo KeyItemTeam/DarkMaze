@@ -321,11 +321,11 @@ El principal objetivo del arte de DarkMaze es provocar sensación de tensión en
   
   Nueva pantalla entre rondas
   
-  ![Pantalla](pantallas/p6.png)
+  ![Pantalla](src/main/resources/static/pantallas/p6.png)
   
   Nueva pantalla de controles
   
-  ![Pantalla](pantallas/p2.png)
+  ![Pantalla](src/main/resources/static/pantallas/p2.png)
   
   ## 5.2. Contenido descartado
   
@@ -338,15 +338,15 @@ El principal objetivo del arte de DarkMaze es provocar sensación de tensión en
   
   Pantalla de título
   
-  ![Pantalla](pantallas/p1.png)
+  ![Pantalla](src/main/resources/static/pantallas/p1.png)
   
   Partida
   
-  ![Pantalla](pantallas/p5.png)
+  ![Pantalla](src/main/resources/static/pantallas/p5.png)
   
   Pantalla resultados
   
-  ![Pantalla](pantallas/p7.png)
+  ![Pantalla](src/main/resources/static/pantallas/p7.png)
   
   ## 5.4. Contenido Temporal
   
@@ -357,9 +357,9 @@ El principal objetivo del arte de DarkMaze es provocar sensación de tensión en
   * Si se pulsa "m" se podrá ver lo que vería el Minotauro en una partida real
   * Las pantallas de personajes y de selección de grupos se han obviado y se han puesto placeholders en su lugar
   
-  ![Pantalla](pantallas/p3.png)
+  ![Pantalla](src/main/resources/static/pantallas/p3.png)
   
-  ![Pantalla](pantallas/p4.png)
+  ![Pantalla](src/main/resources/static/pantallas/p4.png)
 
 # 6. Equipo de desarrollo
 
