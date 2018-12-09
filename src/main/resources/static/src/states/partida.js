@@ -272,8 +272,7 @@ DarkMaze.partidaState.prototype = {
         game.global.player2.mov = false;
         game.global.player1.running = false;
         game.global.player1.attacking = false;
-        game.global.player2.running = false;
-        game.global.player2.attacking = false;
+    
         game.global.player1.cancelAnim = false;
         game.global.player2.cancelAnim = false;
         this.pulso.visible = false;
@@ -294,8 +293,8 @@ DarkMaze.partidaState.prototype = {
             if (game.global.player1.direction === 3) game.global.player1.animations.play("attackRight");
             game.global.player1.cancelAnim = true;
 
-        } else if (game.global.player2.attacking) {
-
+        } else if (game.global.player2.attacking&& game.global.player1.type == "TESEO") {
+            console.log("ataca");
             if (game.global.player2.direction === 0 || game.global.player2.direction === 5 || game.global.player2.direction === 7) game.global.player2.animations.play("attackBack");
             if (game.global.player2.direction === 1 || game.global.player2.direction === 4 || game.global.player2.direction === 6) game.global.player2.animations.play("attack");
             if (game.global.player2.direction === 2) game.global.player2.animations.play("attackLeft");
@@ -435,7 +434,7 @@ DarkMaze.partidaState.prototype = {
             game.global.player2.y = updatePlayer2.y;
             game.global.player2.time = updatePlayer2.time;
             game.global.player2.direction = updatePlayer2.direction;
-            if (game.global.player1.type == "MINOTAURO") {
+            if (game.global.player1.type == "TESEO") {
                 game.global.player2.attacking = updatePlayer2.attacking;
             } else {
                 game.global.player2.running = updatePlayer2.running;
