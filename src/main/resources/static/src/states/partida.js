@@ -48,7 +48,7 @@ DarkMaze.partidaState.prototype = {
         if ((game.global.player1.type == "TESEO") && (partidas == 0)) {
             this.createRonda();
         }
-        
+
         // Obtenemos la posición del jugador 2 y lo pintamos. No nos importa la física, ya que será
         // el otro jugador en su propia pantalla el que gestione dicho dato. Sólo necesitamos pintarlo
         // para verlo. Utilizamos un callback (player2Data) para que UNA VEZ tengamos la posición
@@ -237,11 +237,11 @@ DarkMaze.partidaState.prototype = {
                 partidas = updateRonda.numRonda;
                 timeRonda = updateRonda.tiempoRonda;
                 if (game.debug) {
-                   // console.log("Información de la ronda: " + toString(updateRonda) + " actualizada");
+                    // console.log("Información de la ronda: " + toString(updateRonda) + " actualizada");
                 }
             });
         }
-        
+
         //Se va actualizando la interfaz con el tiempo
         habilidadText.text = "x0" + game.global.antorchas.cantidad;
         minutes = Math.floor(timeRonda / 60000) % 60;
@@ -272,7 +272,6 @@ DarkMaze.partidaState.prototype = {
         game.global.player2.mov = false;
         game.global.player1.running = false;
         game.global.player1.attacking = false;
-    
         game.global.player1.cancelAnim = false;
         game.global.player2.cancelAnim = false;
         this.pulso.visible = false;
@@ -293,17 +292,19 @@ DarkMaze.partidaState.prototype = {
             if (game.global.player1.direction === 3) game.global.player1.animations.play("attackRight");
             game.global.player1.cancelAnim = true;
 
-        } else if (game.global.player2.attacking&& game.global.player1.type == "TESEO") {
-            console.log("ataca");
+        } else if (game.global.player2.attacking && game.global.player1.type == "TESEO") {
             if (game.global.player2.direction === 0 || game.global.player2.direction === 5 || game.global.player2.direction === 7) game.global.player2.animations.play("attackBack");
             if (game.global.player2.direction === 1 || game.global.player2.direction === 4 || game.global.player2.direction === 6) game.global.player2.animations.play("attack");
             if (game.global.player2.direction === 2) game.global.player2.animations.play("attackLeft");
             if (game.global.player2.direction === 3) game.global.player2.animations.play("attackRight");
             game.global.player2.cancelAnim = true;
+        } else {
+
         }
 
         // configuramos teclas
         game.global.player1.direction = moverDir(game.global.player1, this.upKey, this.downKey, this.leftKey, this.rightKey, this.shiftKey);
+        gestionAnim(game.global.player2)
 
         //Con "q" Teseo puede poner rocas
         if (this.qKey.isDown) {
@@ -391,7 +392,7 @@ DarkMaze.partidaState.prototype = {
             }
             this.pulso.time = this.pulso.time + 100;
             if (this.pulso.time == 4000) this.pulso.time = 0;
-           
+
         } else if (game.global.player2.running) {
             this.pulso.reset(game.global.player2.pulsoX, game.global.player2.pulsoY)
             this.pulso.visible = true;
@@ -400,7 +401,7 @@ DarkMaze.partidaState.prototype = {
         //Se aplican el resto de colisiones
         game.physics.arcade.collide(game.global.player1, game.global.player2);
         if (game.global.player1.type == "MINOTAURO")
-        game.physics.arcade.collide(game.global.player1, game.global.roca);
+            game.physics.arcade.collide(game.global.player1, game.global.roca);
 
         //LUZ
 
@@ -411,10 +412,10 @@ DarkMaze.partidaState.prototype = {
         }
 
         //Luz minotauro
-        if (game.global.player1.type == "MINOTAURO") 
-        luz(game.global.player1, 3, this.map);
+        if (game.global.player1.type == "MINOTAURO")
+            luz(game.global.player1, 3, this.map);
         else
-        luz(game.global.player1, 5, this.map);
+            luz(game.global.player1, 5, this.map);
 
         //console.log(" y su id1 es" + game.global.player1.id);
         //console.log(" y su id2 es" + game.global.player2.id);
@@ -611,7 +612,7 @@ DarkMaze.partidaState.prototype = {
             callback(data);
         })
     },
-    
+
     createRonda() {
         var data = {
             numRonda: game.partidas,
@@ -627,7 +628,7 @@ DarkMaze.partidaState.prototype = {
                 "Content-Type": "application/json"
             },
         }).done(function (data) {
-           // console.log("Ronda created: " + JSON.stringify(data));
+            // console.log("Ronda created: " + JSON.stringify(data));
         })
     },
 
@@ -739,12 +740,6 @@ function mover(pj, direction, vel) {
     }
 
     //Si no está atacando, reproducir animaciones de movimiento
-    if (pj.cancelAnim === false) {
-        if (direction === 0 || direction === 5 || direction === 7) pj.animations.play("walkBack");
-        if (direction === 1 || direction === 4 || direction === 6) pj.animations.play("walk");
-        if (direction === 2) pj.animations.play("walkLeft");
-        if (direction === 3) pj.animations.play("walkRight");
-    }
 
 }
 
@@ -789,22 +784,17 @@ function moverDir(pj, up, down, left, right, runKey) {
     }
 
     //Si no está atacando y no se está moviendo, cambiar la animación a idle
-    if (pj.mov === false && pj.cancelAnim === false) {
-        if (pj.direction === 0 || pj.direction === 5 || pj.direction === 7) pj.animations.play("idleBack");
-        if (pj.direction === 1 || pj.direction === 4 || pj.direction === 6) pj.animations.play("idle");
-        if (pj.direction === 2) pj.animations.play("idleLeft");
-        if (pj.direction === 3) pj.animations.play("idleRight");
-    } else if (pj.mov === true) {
+    gestionAnim(pj);
+    
+    if(pj.mov){
+    if (runKey.isDown)
+        mover(pj, pj.direction, pj.run);
 
-        if (runKey.isDown)
-            mover(pj, pj.direction, pj.run);
-
-        else
-            mover(pj, pj.direction, pj.speed);
-
+    else
+        mover(pj, pj.direction, pj.speed);
     }
-    return pj.direction;
 
+    return pj.direction;
 }
 
 //Termina el juego o avanza a la siguiente ronda
@@ -865,4 +855,23 @@ function addAttackAnim(pj) {
     pj.animations.add('attackBack', [52, 53, 54, 55], 9, true);
     pj.animations.add('attackLeft', [56, 57, 58, 59], 9, true);
     pj.animations.add('attackRight', [60, 61, 62, 63], 9, true);
+}
+
+function gestionAnim(pj) {
+    if (pj.cancelAnim === false) {
+        if (pj.mov === false) {
+            
+            if (pj.direction === 0 || pj.direction === 5 || pj.direction === 7) pj.animations.play("idleBack");
+            if (pj.direction === 1 || pj.direction === 4 || pj.direction === 6) pj.animations.play("idle");
+            if (pj.direction === 2) pj.animations.play("idleLeft");
+            if (pj.direction === 3) pj.animations.play("idleRight");
+           
+        } else {
+            if (pj.direction === 0 || pj.direction === 5 || pj.direction === 7) pj.animations.play("walkBack");
+            if (pj.direction === 1 || pj.direction === 4 || pj.direction === 6) pj.animations.play("walk");
+            if (pj.direction === 2) pj.animations.play("walkLeft");
+            if (pj.direction === 3) pj.animations.play("walkRight");
+           
+        }
+    }
 }
