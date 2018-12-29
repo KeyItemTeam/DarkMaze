@@ -306,6 +306,19 @@ DarkMaze.partidaState.prototype = {
         game.global.player1.direction = moverDir(game.global.player1, this.upKey, this.downKey, this.leftKey, this.rightKey, this.shiftKey);
         gestionAnim(game.global.player2)
 
+        if (WSResponse_createRocamsg) {
+            stone.play(); //Reproduce el sonido de la piedra
+                game.global.roca.reset(nuevaroca.x, nuevaroca.y); //Pone la ...
+                //... roca en la casilla en la que se encuentre Teseo
+                game.global.roca.exists = true;
+                game.global.roca.visible = true;
+                game.global.roca.body.inmovable = true;
+                game.global.roca.body.moves = false;
+                game.global.roca.used = false; //Solo una roca por partida
+                game.global.roca.salud = 3;
+                WSResponse_createRocamsg = false;
+        }
+
         //Con "q" Teseo puede poner rocas
         if (this.qKey.isDown) {
             if ((game.global.player1.type == "TESEO") && game.global.roca.used) {
@@ -317,8 +330,18 @@ DarkMaze.partidaState.prototype = {
                 game.global.roca.body.inmovable = true;
                 game.global.roca.body.moves = false;
                 game.global.roca.used = false; //Solo una roca por partida
+                game.global.roca.salud = 3;
                 //Crea la roca
-                this.createRoca();
+                //this.createRoca();
+
+                //CÓDIGO PARA CREAR LA ROCA CON WEBSOCKETS
+                mensaje = {
+                    "protocolo": "createRoca_msg",
+                    "thisposX": game.global.roca.x,
+                    "thisposY": game.global.roca.y
+                };
+                game.global.connection.send(JSON.stringify(mensaje));
+
 
             } else if ((game.global.player1.type == "MINOTAURO") && game.global.antorchas.cantidad !== 0 && (game.time.now > game.global.antorchas.time)) {
                 torch.play();
@@ -448,7 +471,7 @@ DarkMaze.partidaState.prototype = {
             }
         });
 
-        this.getRoca(function (updateRoca) {
+        /*this.getRoca(function (updateRoca) {
             if (updateRoca != null) {
                 game.global.roca.x = updateRoca.x;
                 game.global.roca.y = updateRoca.y;
@@ -461,7 +484,7 @@ DarkMaze.partidaState.prototype = {
                     //console.log("Posicion de la roca: " + toString(updateRoca) + " actualizada");
                 }
             }
-        });
+        });*/
 
         this.getAntorcha(function (updateAntorcha) {
             if (updateAntorcha != null) {
@@ -613,7 +636,9 @@ DarkMaze.partidaState.prototype = {
         })
     },
 
-    createRonda: function () {
+    //RONDAS CON WEBSOCKETS
+    
+    /*createRonda: function () {
 
         data = {
             type: 'CREATE_RONDA'
@@ -635,9 +660,8 @@ DarkMaze.partidaState.prototype = {
             type: 'GET_RONDA'
         }
         ws.send(JSON.stringify(data));
-    },
+    }, */
 
-    /*
     createRonda() {
         var data = {
             numRonda: game.partidas,
@@ -656,9 +680,7 @@ DarkMaze.partidaState.prototype = {
             // console.log("Ronda created: " + JSON.stringify(data));
         })
     },
-    */
 
-    /*
     putRonda() {
         var data = {
             numRonda: partidas,
@@ -679,9 +701,7 @@ DarkMaze.partidaState.prototype = {
             }
         })
     },
-    */
 
-    /*
     getRonda(callback) {
         $.ajax({
             method: "GET",
@@ -694,7 +714,6 @@ DarkMaze.partidaState.prototype = {
             callback(data);
         })
     },
-    */
 
     render: function () {
 

@@ -2,6 +2,13 @@ DarkMaze.matchmakingState = function (game) {
 
 }
 
+nuevaroca = {
+	x: 0,
+	y: 0
+}
+
+WSResponse_createRocamsg = false;
+
 DarkMaze.matchmakingState.prototype = {
 	
 	// Obtenemos el número de jugadores creados con this.getNumPlayers. Si ya hay 
@@ -9,7 +16,7 @@ DarkMaze.matchmakingState.prototype = {
 	init: function () {
 		
 		//CREA EL WEBSOCKET
-		game.global.connection = new WebSocket('ws://127.0.0.1:8080/game');
+		game.global.connection = new WebSocket('ws://localhost:8080/websocket'); // es igual a local host
 	    game.global.connection.onerror = function (e) {
 	        console.log("WS error: " + e);
 	    }
@@ -17,7 +24,20 @@ DarkMaze.matchmakingState.prototype = {
 	    game.global.connection.onmessage = function(msg) {
 	        console.log("WS message: " + msg.data);
 	        misdatos = JSON.parse(msg.data);
+	        
+	        WSResponse_createRocamsg = false;
+	        
 	        switch(misdatos.protocolo){
+	        
+	        case "createRoca_msg":
+	        	nuevaroca = {
+	                x: misdatos.otherposX,
+	                y: misdatos.otherposY
+	            };
+	        	 WSResponse_createRocamsg = true;
+	        	break;
+	        
+	        
 	        default:
 				System.out.println("ERROR: Mensaje no soportado");
 	        }
