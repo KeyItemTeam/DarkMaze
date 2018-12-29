@@ -39,7 +39,31 @@ public class WebsocketHandler extends TextWebSocketHandler {
 		
 		switch (node.get("protocolo").asText()) {
 		//un case para cada tipo de mensaje y un default
-		case "CREATE_RONDA":
+		
+		case "createRoca_msg":
+			//lee el mensaje
+			Roca pedrolo = new Roca();
+			pedrolo.setX(node.get("thisposX").asInt());
+			pedrolo.setY(node.get("thisposY").asInt());
+			
+			//le manda la respuesta al otro jugador
+			ObjectNode newRocaMsg = mapper.createObjectNode();
+			newRocaMsg.put("protocolo", "createRoca_msg");
+			newRocaMsg.put("otherposX", pedrolo.getX());
+			newRocaMsg.put("otherposY", pedrolo.getY());
+			sendMessageToAllBut(newRocaMsg, session);
+			break;
+			
+		case "breakRoca_msg":
+			//lee el mensaje
+			
+			//le manda la respuesta al otro jugador
+			
+			break;
+			
+		//CASES PARA GESTIONAR LAS RONDAS
+			
+		/*case "CREATE_RONDA":
 			gameController.createRonda();
 			break;
 		case "UPDATE_RONDA":
@@ -47,11 +71,28 @@ public class WebsocketHandler extends TextWebSocketHandler {
 			break;
 		case "GET_RONDA":
 			gameController.getRonda();
-			break;
+			break; */
+			
 		default:
 			System.out.println("ERROR: Mensaje no soportado");
 		}
 		
+	}
+	
+	private void sendMessageToAllBut (ObjectNode msg, WebSocketSession dont) throws IOException {
+		for(WebSocketSession websocket : sessions.values()) {
+			if(!websocket.getId().equals(dont.getId())) {
+				websocket.sendMessage(new TextMessage(msg.toString()));
+				System.out.println("Message sent: " + msg.toString());
+			}
+		}
+	}
+	
+	private void sendMessageToAll (ObjectNode msg) throws IOException {
+		for(WebSocketSession websocket : sessions.values()) {
+			websocket.sendMessage(new TextMessage(msg.toString()));
+			System.out.println("Message sent: " + msg.toString());
+		}
 	}
 
 }
