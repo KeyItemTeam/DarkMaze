@@ -613,6 +613,31 @@ DarkMaze.partidaState.prototype = {
         })
     },
 
+    createRonda: function () {
+
+        data = {
+            type: 'CREATE_RONDA'
+        }
+        ws.send(JSON.stringify(data));
+    },
+
+    putRonda: function () {
+
+        data = {
+            type: 'PUT_RONDA'
+        }
+        ws.send(JSON.stringify(data));
+    },
+
+    getRonda: function (callback) {
+
+        data = {
+            type: 'GET_RONDA'
+        }
+        ws.send(JSON.stringify(data));
+    },
+
+    /*
     createRonda() {
         var data = {
             numRonda: game.partidas,
@@ -631,7 +656,9 @@ DarkMaze.partidaState.prototype = {
             // console.log("Ronda created: " + JSON.stringify(data));
         })
     },
+    */
 
+    /*
     putRonda() {
         var data = {
             numRonda: partidas,
@@ -652,7 +679,9 @@ DarkMaze.partidaState.prototype = {
             }
         })
     },
+    */
 
+    /*
     getRonda(callback) {
         $.ajax({
             method: "GET",
@@ -665,6 +694,7 @@ DarkMaze.partidaState.prototype = {
             callback(data);
         })
     },
+    */
 
     render: function () {
 
