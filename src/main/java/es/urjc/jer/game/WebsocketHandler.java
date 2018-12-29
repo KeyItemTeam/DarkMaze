@@ -39,6 +39,15 @@ public class WebsocketHandler extends TextWebSocketHandler {
 		
 		switch (node.get("protocolo").asText()) {
 		//un case para cada tipo de mensaje y un default
+		case "CREATE_RONDA":
+			gameController.createRonda();
+			break;
+		case "UPDATE_RONDA":
+			gameController.updateRonda();
+			break;
+		case "GET_RONDA":
+			gameController.getRonda();
+			break;
 		default:
 			System.out.println("ERROR: Mensaje no soportado");
 		}
