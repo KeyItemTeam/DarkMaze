@@ -318,7 +318,7 @@ DarkMaze.partidaState.prototype = {
                 WSResponse_createRocamsg = false;
         }
 
-        if (WSResponse_createAntorchamsg || (!WSResponse_createAntorchamsg && game.global.total==1)) {
+        if (WSResponse_createAntorchamsg) {
             console.log("llega hasta aquí al menos");
             var antorcha = game.global.antorchas.getFirstExists(false);
                 if (antorcha != undefined) {
@@ -327,7 +327,6 @@ DarkMaze.partidaState.prototype = {
                     game.global.antorchas.activada = true;
                     game.global.antorchas.cantidad--;
                     antorcha.exists = true;
-                    game.global.total++;
                     
                     WSResponse_createAntorchamsg = false;
                         
