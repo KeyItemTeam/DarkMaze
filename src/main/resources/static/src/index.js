@@ -6,7 +6,6 @@ game.global = {
     player2: null,
     roca: null,
     antorchas: null,
-    total: 0,
     connection: null
 }
 
