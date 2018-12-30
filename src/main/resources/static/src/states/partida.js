@@ -308,8 +308,7 @@ DarkMaze.partidaState.prototype = {
 
         if (WSResponse_createRocamsg) {
             stone.play(); //Reproduce el sonido de la piedra
-                game.global.roca.reset(nuevaroca.x, nuevaroca.y); //Pone la ...
-                //... roca en la casilla en la que se encuentre Teseo
+                game.global.roca.reset(nuevaroca.x, nuevaroca.y); 
                 game.global.roca.exists = true;
                 game.global.roca.visible = true;
                 game.global.roca.body.inmovable = true;
@@ -317,6 +316,22 @@ DarkMaze.partidaState.prototype = {
                 game.global.roca.used = false; //Solo una roca por partida
                 game.global.roca.salud = 3;
                 WSResponse_createRocamsg = false;
+        }
+
+        if (WSResponse_createAntorchamsg || (!WSResponse_createAntorchamsg && game.global.total==1)) {
+            console.log("llega hasta aquí al menos");
+            var antorcha = game.global.antorchas.getFirstExists(false);
+                if (antorcha != undefined) {
+                    console.log("Antorcha vale: "+antorcha);
+                    antorcha.reset(nuevatorch.x, nuevatorch.y);
+                    game.global.antorchas.activada = true;
+                    game.global.antorchas.cantidad--;
+                    antorcha.exists = true;
+                    game.global.total++;
+                    
+                    WSResponse_createAntorchamsg = false;
+                        
+                    }
         }
 
         //Con "q" Teseo puede poner rocas
@@ -352,9 +367,20 @@ DarkMaze.partidaState.prototype = {
                     game.global.antorchas.activada = true;
                     game.global.antorchas.cantidad--;
                     antorcha.exists = true;
+                    console.log("Antorcha vale: "+antorcha);
+                    
 
-                    this.createAntorcha(antorcha.x, antorcha.y);
-                    console.log("antorcha creada");
+                    // CÓDIGO PARA CREAR ANTORCHA(S) CON WEBSOCKETS
+
+                    mensaje = {
+                        "protocolo": "createAntorcha_msg",
+                        "thisposX": antorcha.x,
+                        "thisposY": antorcha.y
+                    };
+                    game.global.connection.send(JSON.stringify(mensaje));
+
+                    //this.createAntorcha(antorcha.x, antorcha.y);
+                    console.log("Antorcha creada en: "+antorcha.x+" - "+antorcha.y);
 
                 }
             }

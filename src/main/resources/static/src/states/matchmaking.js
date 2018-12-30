@@ -9,6 +9,13 @@ nuevaroca = {
 
 WSResponse_createRocamsg = false;
 
+nuevatorch = {
+	x: 0,
+	y: 0
+}
+
+WSResponse_createAntorchamsg = false;
+
 DarkMaze.matchmakingState.prototype = {
 	
 	// Obtenemos el número de jugadores creados con this.getNumPlayers. Si ya hay 
@@ -35,7 +42,16 @@ DarkMaze.matchmakingState.prototype = {
 	                y: misdatos.otherposY
 	            };
 	        	 WSResponse_createRocamsg = true;
-	        	break;
+				break;
+			
+			case "createAntorcha_msg":
+			nuevatorch = {
+				x: misdatos.otherposX,
+				y: misdatos.otherposY
+			};
+			
+			WSResponse_createAntorchamsg = true;
+				break;
 	        
 	        
 	        default:
