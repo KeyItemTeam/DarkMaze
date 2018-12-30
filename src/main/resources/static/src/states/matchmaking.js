@@ -21,6 +21,12 @@ nuevatorch = {
 
 WSResponse_createAntorchamsg = false;
 
+nuevopj = {
+		x: 0,
+		y: 0
+	}
+WSResponse_createPjmsg = false;
+
 DarkMaze.matchmakingState.prototype = {
 	
 	// Obtenemos el número de jugadores creados con this.getNumPlayers. Si ya hay 
@@ -63,7 +69,13 @@ DarkMaze.matchmakingState.prototype = {
 				
 				WSResponse_createAntorchamsg = true;
 				break;
-	        
+			case "createPj_msg":
+	        	nuevopj = {
+	                x: misdatos.otherposX,
+	                y: misdatos.otherposY
+	            };
+	        	 WSResponse_createPjmsg = true;
+	        	break;
 	        
 	        default:
 				System.out.println("ERROR: Mensaje no soportado");
