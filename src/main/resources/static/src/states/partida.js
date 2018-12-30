@@ -53,34 +53,10 @@ DarkMaze.partidaState.prototype = {
         // el otro jugador en su propia pantalla el que gestione dicho dato. Sólo necesitamos pintarlo
         // para verlo. Utilizamos un callback (player2Data) para que UNA VEZ tengamos la posición
         // del player 2, la pintemos en escenario y así evitar un undefined.
-        this.getPlayer(function (player2Data) {
+        
             //game.global.player2 = JSON.parse(JSON.stringify(player2Data));
-            if (player2Data.type == "TESEO") {
-                if (game.debug) {
-                    console.log("Player2 ha elegido a TESEO")
-                }
-                //Añade las animaciones de Teseo
-                game.global.player2 = game.add.sprite(810, 550, 'teseo');
-                addAnim(game.global.player2, 100, 100);
-                game.global.player2.id = 2;
-                game.global.player2.running = false;
-                game.global.player2.attacking = false;
+            
 
-            } else {
-                if (game.debug) {
-                    console.log("Player2 ha elegido a MINOTAURO")
-                }
-                game.global.player2 = game.add.sprite(48, 80, 'minotauro');
-                addAttackAnim(game.global.player2)
-                addAnim(game.global.player2, 100, 100)
-                game.global.player2.running = false;
-                game.global.player2.attacking = false;
-                game.global.player2.animations.play("idle");
-                game.global.player2.id = 1;
-
-            }
-
-        })
 
         //El jugador 2 actualiza el tiempo de ronda
         if (game.global.player1.type == "TESEO") {
@@ -224,6 +200,30 @@ DarkMaze.partidaState.prototype = {
 
         this.pulso = game.add.sprite(200, 200, 'pulso');
         this.pulso.time = 0;
+        if (game.global.player1.type == "MINOTAURO") {
+            if (game.debug) {
+                console.log("Player2 ha elegido a TESEO")
+            }
+            //Añade las animaciones de Teseo
+            game.global.player2 = game.add.sprite(810, 550, 'teseo');
+            addAnim(game.global.player2, 100, 100);
+            game.global.player2.id = 2;
+            game.global.player2.running = false;
+            game.global.player2.attacking = false;
+
+        } else {
+            if (game.debug) {
+                console.log("Player2 ha elegido a MINOTAURO")
+            }
+            game.global.player2 = game.add.sprite(48, 80, 'minotauro');
+            addAttackAnim(game.global.player2)
+            addAnim(game.global.player2, 100, 100)
+            game.global.player2.running = false;
+            game.global.player2.attacking = false;
+            game.global.player2.animations.play("idle");
+            game.global.player2.id = 1;
+
+        }
     },
 
     update: function () {
@@ -516,76 +516,39 @@ DarkMaze.partidaState.prototype = {
         //Luz antorcha
         game.global.antorchas.forEach(luz, this, true, 2, this.map);
 
-        // Manda al servidor la posición actualizada de player 1 para que el otro jugador pueda actualizarla.
-        this.putPlayer();
-        //Manda al servidor la posición actualizada de la roca para que el otro jugador pueda verla
-        //this.putRoca();
-
-        // Obtiene mediante GET la posición de player 2. Usa un callback para que UNA VEZ tenga su posición,
-        // pinte su ubicación.
-        this.getPlayer(function (updatePlayer2) {
-            game.global.player2.x = updatePlayer2.x;
-            game.global.player2.y = updatePlayer2.y;
-            game.global.player2.time = updatePlayer2.time;
-            game.global.player2.direction = updatePlayer2.direction;
-            if (game.global.player1.type == "TESEO") {
-                game.global.player2.attacking = updatePlayer2.attacking;
-            } else {
-                game.global.player2.running = updatePlayer2.running;
-                game.global.player2.pulsoX = updatePlayer2.pulsoX;
-                game.global.player2.pulsoY = updatePlayer2.pulsoY;
-            }
-            if (game.debug) {
-                //console.log("Posicion de player 2: " + updatePlayer2 + " actualizada");
-                //console.log(" y su ide es" + game.global.player2.id);
-            }
-        });
-
+        if(WSResponse_createPjmsg) {
+            game.global.player2.x = nuevopj.x;
+             game.global.player2.y = nuevopj.y;
+        
+             //game.global.player2.time = updatePlayer2.time;
+             game.global.player2.direction = nuevopj.direction;
+             if (game.global.player1.type == "TESEO") {
+                 game.global.player2.attacking = nuevopj.attacking;
+             } else {
+                 game.global.player2.running = nuevopj.running;
+                 game.global.player2.pulsoX = nuevopj.x;
+                 game.global.player2.pulsoY = nuevopj.y;
+             }
+             WSResponse_createPjmsg = false;
+             if (game.debug) {
+                 //console.log("Posicion de player 2: " + updatePlayer2 + " actualizada");
+                 //console.log(" y su ide es" + game.global.player2.id);
+             }
+         };
+        mensaje = {
+                "protocolo": "createPj_msg",
+                "thisposX": game.global.player1.x,
+                "thisposY": game.global.player1.y,
+                "thisDir": game.global.player1.direction,
+                "thisAtk": game.global.player1.attacking,
+                "thisRun": game.global.player1.running
+            };
+            game.global.connection.send(JSON.stringify(mensaje));
+            
 
     },
     // Con este método recuperamos al jugador online (que siempre será considerado PLAYER 2)
-    getPlayer(callback) {
-        $.ajax({
-            method: "GET",
-            url: 'http://localhost:8080/game/' + game.global.player2.id,
-            processData: false,
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).done(function (data) {
-            callback(data);
-        })
-    },
-
-    // Con este método modificamos al jugador online (que siempre será considerado PLAYER 2)
-    putPlayer() {
-        var data = {
-            id: game.global.player1.id,
-            x: game.global.player1.x,
-            y: game.global.player1.y,
-            direction: game.global.player1.direction,
-            running: game.global.player1.running,
-            pulsoX: game.global.player1.pulsoX,
-            pulsoY: game.global.player1.pulsoY,
-            attacking: game.global.player1.attacking,
-            time: game.global.player1.time,
-            type: game.global.player1.type
-        }
-
-        $.ajax({
-            method: "PUT",
-            url: 'http://localhost:8080/game/' + game.global.player1.id,
-            data: JSON.stringify(data),
-            processData: false,
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).done(function (data) {
-            if (game.debug) {
-                //console.log("Actualizada posicion de player 1: " + JSON.stringify(data))
-            }
-        })
-    },
+   
 
 
    
