@@ -59,6 +59,24 @@ public class WebsocketHandler extends TextWebSocketHandler {
 			
 			//le manda la respuesta al otro jugador
 			
+		case "createAntorcha_msg":
+			//lee el mensaje
+			int total = 0;
+			if (total<2) {
+			Antorcha torch = new Antorcha();
+			torch.setX(node.get("thisposX").asInt());
+			torch.setY(node.get("thisposY").asInt());
+			total ++;
+			
+			//le manda la respuesta al otro jugador
+			ObjectNode newAntorchaMsg = mapper.createObjectNode();
+			newAntorchaMsg.put("protocolo", "createAntorcha_msg");
+			newAntorchaMsg.put("otherposX", torch.getX());
+			newAntorchaMsg.put("otherposY", torch.getY());
+			sendMessageToAllBut(newAntorchaMsg, session);
+			}
+			
+			
 			break;
 			
 		//CASES PARA GESTIONAR LAS RONDAS
