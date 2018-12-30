@@ -50,15 +50,6 @@ DarkMaze.partidaState.prototype = {
             this.createRonda();
         }
 
-        // Obtenemos la posición del jugador 2 y lo pintamos. No nos importa la física, ya que será
-        // el otro jugador en su propia pantalla el que gestione dicho dato. Sólo necesitamos pintarlo
-        // para verlo. Utilizamos un callback (player2Data) para que UNA VEZ tengamos la posición
-        // del player 2, la pintemos en escenario y así evitar un undefined.
-        
-            //game.global.player2 = JSON.parse(JSON.stringify(player2Data));
-            
-
-
         //El jugador 2 actualiza el tiempo de ronda
         if (game.global.player1.type == "TESEO") {
             this.putRonda();
@@ -87,8 +78,8 @@ DarkMaze.partidaState.prototype = {
         //Reproduce la música al iniciar la partida
         if (partidas == 0) {
             music.play();
-            music.loopFull(0.6);
-        } //pone el volumen a 0.6 
+            music.loopFull(0.6); //Pone el volumen a 0.6 
+        } 
 
         //Prepara el teclado el jugador 1
         this.upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
@@ -116,8 +107,6 @@ DarkMaze.partidaState.prototype = {
         this.map.setCollision(14, true, this.layer);
 
         //Añade las animaciones del Minotauro
-
-
         if (game.global.player1.type == "MINOTAURO") {
             game.global.player1 = game.add.sprite(48, 80, 'minotauro');
             addAttackAnim(game.global.player1);
@@ -129,7 +118,6 @@ DarkMaze.partidaState.prototype = {
             game.global.player1.type = "MINOTAURO";
         } else {
             //Añade las animaciones de Teseo
-
             game.global.player1 = game.add.sprite(810, 550, 'teseo');
             addAnim(game.global.player1, 150, 200);
             game.global.player1.animations.play("idle");
@@ -198,14 +186,16 @@ DarkMaze.partidaState.prototype = {
         
         //Interfaz del número de rondas
         rondaText = game.add.text(380, 2, "RONDA " + (partidas + 1), styleHabilidad);
-
+        
+        //Añade el pulso
         this.pulso = game.add.sprite(200, 200, 'pulso');
         this.pulso.time = 0;
+        
         if (game.global.player1.type == "MINOTAURO") {
             if (game.debug) {
                 console.log("Player2 ha elegido a TESEO")
             }
-            //Añade las animaciones de Teseo
+            //Añade las animaciones de Teseo (del jugador 2)
             game.global.player2 = game.add.sprite(810, 550, 'teseo');
             addAnim(game.global.player2, 100, 100);
             game.global.player2.id = 2;
@@ -216,6 +206,7 @@ DarkMaze.partidaState.prototype = {
             if (game.debug) {
                 console.log("Player2 ha elegido a MINOTAURO")
             }
+            //Añade las animaciones de Minotauro (del jugador 2)
             game.global.player2 = game.add.sprite(48, 80, 'minotauro');
             addAttackAnim(game.global.player2)
             addAnim(game.global.player2, 100, 100)
@@ -299,6 +290,7 @@ DarkMaze.partidaState.prototype = {
             game.global.player2.alpha = 0;
         }
 
+        //Controla las animaciones de Minotaurio al atacar
         if (this.spaceKey.isDown && game.global.player1.type == "MINOTAURO") {
             game.global.player1.attacking = true;
             if (game.global.player1.direction === 0 || game.global.player1.direction === 5 || game.global.player1.direction === 7) game.global.player1.animations.play("attackBack");
@@ -306,7 +298,7 @@ DarkMaze.partidaState.prototype = {
             if (game.global.player1.direction === 2) game.global.player1.animations.play("attackLeft");
             if (game.global.player1.direction === 3) game.global.player1.animations.play("attackRight");
             game.global.player1.cancelAnim = true;
-
+        //El jugador Teseo también puede ver las animaciones de ataque de Minotaurio
         } else if (game.global.player2.attacking && game.global.player1.type == "TESEO") {
             if (game.global.player2.direction === 0 || game.global.player2.direction === 5 || game.global.player2.direction === 7) game.global.player2.animations.play("attackBack");
             if (game.global.player2.direction === 1 || game.global.player2.direction === 4 || game.global.player2.direction === 6) game.global.player2.animations.play("attack");
@@ -321,6 +313,7 @@ DarkMaze.partidaState.prototype = {
         game.global.player1.direction = moverDir(game.global.player1, this.upKey, this.downKey, this.leftKey, this.rightKey, this.shiftKey);
         gestionAnim(game.global.player2)
 
+        //Si Minotaurio pone una roca el otro jugador lo recibe por Websocket
         if (WSResponse_createRocamsg) {
             stone.play(); //Reproduce el sonido de la piedra
             game.global.roca.reset(nuevaroca.x, nuevaroca.y);
@@ -333,6 +326,7 @@ DarkMaze.partidaState.prototype = {
             WSResponse_createRocamsg = false;
         }
 
+        //Si Minotaurio pone una antorcha el otro jugador lo recibe por Websocket
         if (WSResponse_createAntorchamsg) {
             console.log("llega hasta aquí al menos");
             var antorcha = game.global.antorchas.getFirstExists(false);
@@ -348,8 +342,9 @@ DarkMaze.partidaState.prototype = {
             }
         }
 
-        //Con "q" Teseo puede poner rocas
+        //Si pulsas la tecla Q
         if (this.qKey.isDown) {
+            //Si eres Teseo colocas una roca
             if ((game.global.player1.type == "TESEO") && game.global.roca.used) {
                 stone.play(); //Reproduce el sonido de la piedra
                 game.global.roca.reset((this.math.snapToFloor(Math.floor(game.global.player1.body.x), 32) / 32) * 32, (this.math.snapToFloor(Math.floor(game.global.player1.body.y), 32) / 32) * 32); //Pone la ...
@@ -360,10 +355,8 @@ DarkMaze.partidaState.prototype = {
                 game.global.roca.body.moves = false;
                 game.global.roca.used = false; //Solo una roca por partida
                 game.global.roca.salud = 3;
-                //Crea la roca
-                //this.createRoca();
 
-                //CÓDIGO PARA CREAR LA ROCA CON WEBSOCKETS
+                //Crea la roca por websockets para enviarla al otro jugador
                 mensaje = {
                     "protocolo": "createRoca_msg",
                     "thisposX": game.global.roca.x,
@@ -371,7 +364,7 @@ DarkMaze.partidaState.prototype = {
                 };
                 game.global.connection.send(JSON.stringify(mensaje));
 
-
+            //Si eres Minotaurio colocas una antorcha
             } else if ((game.global.player1.type == "MINOTAURO") && game.global.antorchas.cantidad !== 0 && (game.time.now > game.global.antorchas.time)) {
                 torch.play();
                 game.global.antorchas.time = game.time.now + 250;
@@ -383,9 +376,7 @@ DarkMaze.partidaState.prototype = {
                     antorcha.exists = true;
                     console.log("Antorcha vale: " + antorcha);
 
-
-                    // CÓDIGO PARA CREAR ANTORCHA(S) CON WEBSOCKETS
-
+                    //Crea la antorcha por websockets para enviarla al otro jugador
                     mensaje = {
                         "protocolo": "createAntorcha_msg",
                         "thisposX": antorcha.x,
@@ -395,12 +386,11 @@ DarkMaze.partidaState.prototype = {
 
                     //this.createAntorcha(antorcha.x, antorcha.y);
                     console.log("Antorcha creada en: " + antorcha.x + " - " + antorcha.y);
-
                 }
             }
         }
-        //Sire para atrapar a Teseo al pulsar espacio
-
+        
+        //Sirve para atrapar a Teseo al pulsar espacio cuando eres Minotaurio
         if (game.global.player1.type == "MINOTAURO") {
             if (estaCerca(game.global.player1, game.global.player2, 50) && this.spaceKey.isDown) {
                 moo.play();
@@ -413,8 +403,8 @@ DarkMaze.partidaState.prototype = {
                 else
                     game.state.start('win', true, false);
             }
+            
             //Sirve para que el minotauro pueda destrozar la roca de Teseo
-
             if (game.global.player1.type == "MINOTAURO" && estaCerca(game.global.player1, game.global.roca, 50) && this.spaceKey.isDown && (game.time.now > game.global.roca.time)) {
                 game.global.roca.time = game.time.now + 500;
                 punch.play();
@@ -423,18 +413,16 @@ DarkMaze.partidaState.prototype = {
                     stoneBreak.play();
                 }
 
-
-                //CÓDIGO PARA ELIMINAR LA ROCA CON WEBSOCKETS
+                //Elimina la roca por websocket para que el otro jugador lo reciba
                 mensajeDeleteRoca = {
                     "protocolo": "deleteRoca_msg",
                     "vida": game.global.roca.salud
                 };
                 game.global.connection.send(JSON.stringify(mensajeDeleteRoca));
-
-
             }
         }
         
+        //Teseo recibe el mensaje por websocket de que se ha eliminado la roca y la elimina también
         if (WSResponse_deleteRocamsg) {
             punch.play();
             game.global.roca.salud = viejaroca.life;
@@ -469,11 +457,9 @@ DarkMaze.partidaState.prototype = {
         //Se aplica la función para cada hija del grupo antochas (para recogerlas)
         if (game.global.player1.type == "MINOTAURO") {
             game.global.antorchas.forEach(antorchaCerca, this, true, game.global.player1, 50);
-            //tal vez aquí haga falta un this.putAntorcha();
         }
 
         //Sirve para que Teseo deje un pulso al correr
-
         if (this.shiftKey.isDown && game.global.player1.type == "TESEO") {
             game.global.player1.pulsoX = (this.math.snapToFloor(Math.floor(game.global.player1.body.x), 32) / 32) * 32;
             game.global.player1.pulsoY = (this.math.snapToFloor(Math.floor(game.global.player1.body.y), 32) / 32) * 32;
@@ -498,7 +484,6 @@ DarkMaze.partidaState.prototype = {
             game.physics.arcade.collide(game.global.player1, game.global.roca);
 
         //LUZ
-
         //Se llena la capa 3 del mapa de tiles de una tile negra
         for (var i = 0; i < 27; i++) {
             for (var j = 0; j < 20; j++)
@@ -511,12 +496,10 @@ DarkMaze.partidaState.prototype = {
         else
             luz(game.global.player1, 5, this.map);
 
-        //console.log(" y su id1 es" + game.global.player1.id);
-        //console.log(" y su id2 es" + game.global.player2.id);
-
-        //Luz antorcha
+         //Luz antorcha
         game.global.antorchas.forEach(luz, this, true, 2, this.map);
 
+        //Recibe la información del personaje por websocket
         if(WSResponse_createPjmsg) {
             game.global.player2.x = nuevopj.x;
              game.global.player2.y = nuevopj.y;
@@ -551,37 +534,8 @@ DarkMaze.partidaState.prototype = {
          }
 
     },
-    // Con este método recuperamos al jugador online (que siempre será considerado PLAYER 2)
-   
 
-
-   
-    //RONDAS CON WEBSOCKETS
-
-    /*createRonda: function () {
-
-        data = {
-            type: 'CREATE_RONDA'
-        }
-        ws.send(JSON.stringify(data));
-    },
-
-    putRonda: function () {
-
-        data = {
-            type: 'PUT_RONDA'
-        }
-        ws.send(JSON.stringify(data));
-    },
-
-    getRonda: function (callback) {
-
-        data = {
-            type: 'GET_RONDA'
-        }
-        ws.send(JSON.stringify(data));
-    }, */
-
+    //Función para crear la información de ronda (api rest)  
     createRonda() {
         var data = {
             numRonda: game.partidas,
@@ -600,7 +554,8 @@ DarkMaze.partidaState.prototype = {
             // console.log("Ronda created: " + JSON.stringify(data));
         })
     },
-
+    
+    //Función para actualizar la información de ronda (api rest)  
     putRonda() {
         var data = {
             numRonda: partidas,
@@ -621,7 +576,8 @@ DarkMaze.partidaState.prototype = {
             }
         })
     },
-
+    
+    //Función para recibir la información de ronda (api rest)  
     getRonda(callback) {
         $.ajax({
             method: "GET",
@@ -796,6 +752,8 @@ function tiempoJugadores() {
 
 }
 
+// ANIMACIONES
+
 function addAnim(pj, sp, rn) {
 
 
@@ -826,6 +784,7 @@ function addAttackAnim(pj) {
     pj.animations.add('attackRight', [60, 61, 62, 63], 9, true);
 }
 
+//Gestiona las animaciones de los personajes
 function gestionAnim(pj) {
     if (pj.cancelAnim === false) {
         if (pj.mov === false) {
