@@ -17,6 +17,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
 	
 	private Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>(); //guarda los websockets que se crean
 	private ObjectMapper mapper = new ObjectMapper(); //hace posible la lectura de objetos json con jackson
+	private Roca roca;
 	
 	@Override //crea sesión cuando te conectas
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -43,21 +44,29 @@ public class WebsocketHandler extends TextWebSocketHandler {
 		case "createRoca_msg":
 			//lee el mensaje
 			Roca pedrolo = new Roca();
-			pedrolo.setX(node.get("thisposX").asInt());
-			pedrolo.setY(node.get("thisposY").asInt());
+			roca = pedrolo;
+			roca.setX(node.get("thisposX").asInt());
+			roca.setY(node.get("thisposY").asInt());
 			
 			//le manda la respuesta al otro jugador
 			ObjectNode newRocaMsg = mapper.createObjectNode();
 			newRocaMsg.put("protocolo", "createRoca_msg");
-			newRocaMsg.put("otherposX", pedrolo.getX());
-			newRocaMsg.put("otherposY", pedrolo.getY());
+			newRocaMsg.put("otherposX", roca.getX());
+			newRocaMsg.put("otherposY", roca.getY());
 			sendMessageToAllBut(newRocaMsg, session);
 			break;
 			
-		case "breakRoca_msg":
+		case "deleteRoca_msg":
 			//lee el mensaje
-			
+			roca.setLife(node.get("vida").asInt());
 			//le manda la respuesta al otro jugador
+			ObjectNode oldRocaMsg = mapper.createObjectNode();
+			oldRocaMsg.put("protocolo", "deleteRoca_msg");
+			oldRocaMsg.put("vida", roca.getLife());
+			sendMessageToAllBut(oldRocaMsg, session);
+			if (roca.getLife() == 0) {
+				roca = null; }
+			break;
 			
 		case "createAntorcha_msg":
 			//lee el mensaje
