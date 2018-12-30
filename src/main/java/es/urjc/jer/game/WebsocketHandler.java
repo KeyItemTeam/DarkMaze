@@ -42,7 +42,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
 		switch (node.get("protocolo").asText()) {
 		//un case para cada tipo de mensaje y un default
 		
-		case "createPj_msg":
+		case "createPj_msg": //Crea la información de un jugador
 			//lee el mensaje
 			Player pj = new Player();
 			player=pj;
@@ -64,7 +64,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
 			sendMessageToAllBut(newPjMsg, session);
 			break;
 			
-		case "createRoca_msg":
+		case "createRoca_msg": //Crea la roca en una determinada posición
 			//lee el mensaje
 			Roca pedrolo = new Roca();
 			roca = pedrolo;
@@ -79,7 +79,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
 			sendMessageToAllBut(newRocaMsg, session);
 			break;
 			
-		case "deleteRoca_msg":
+		case "deleteRoca_msg": //Elimina la roca cuando su salud sea 0
 			//lee el mensaje
 			roca.setLife(node.get("vida").asInt());
 			//le manda la respuesta al otro jugador
@@ -91,7 +91,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
 				roca = null; }
 			break;
 			
-		case "createAntorcha_msg":
+		case "createAntorcha_msg": //Crea la antorcha en una determinada posición
 			//lee el mensaje
 			int total = 0;
 			if (total<2) {
@@ -106,23 +106,9 @@ public class WebsocketHandler extends TextWebSocketHandler {
 			newAntorchaMsg.put("otherposX", torch.getX());
 			newAntorchaMsg.put("otherposY", torch.getY());
 			sendMessageToAllBut(newAntorchaMsg, session);
-			}
-			
-			
+			}	
 			break;
-			
-		//CASES PARA GESTIONAR LAS RONDAS
-			
-		/*case "CREATE_RONDA":
-			gameController.createRonda();
-			break;
-		case "UPDATE_RONDA":
-			gameController.updateRonda();
-			break;
-		case "GET_RONDA":
-			gameController.getRonda();
-			break; */
-			
+		
 		default:
 			System.out.println("ERROR: Mensaje no soportado");
 		}
