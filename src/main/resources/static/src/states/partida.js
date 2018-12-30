@@ -8,7 +8,8 @@ var tj1; // Guarda el tiempo que aguanta el j1 jugando como Teseo
 var tj2; // Guarda el tiempo que aguanta el j2 jugando como Teseo
 var tiempo = 5;
 var timeRonda = 0;
-
+var antPosx=0;
+var antPosy=0;
 
 DarkMaze.partidaState = function (game) {
 
@@ -535,7 +536,8 @@ DarkMaze.partidaState.prototype = {
                  //console.log(" y su ide es" + game.global.player2.id);
              }
          };
-        mensaje = {
+         if(antPosx !=  game.global.player1.x || antPosy !=  game.global.player1.y){
+        	 mensaje = {
                 "protocolo": "createPj_msg",
                 "thisposX": game.global.player1.x,
                 "thisposY": game.global.player1.y,
@@ -543,8 +545,10 @@ DarkMaze.partidaState.prototype = {
                 "thisAtk": game.global.player1.attacking,
                 "thisRun": game.global.player1.running
             };
+        	 antPosx=game.global.player1.x;
+        	 antPosy=game.global.player1.y;
             game.global.connection.send(JSON.stringify(mensaje));
-            
+         }
 
     },
     // Con este método recuperamos al jugador online (que siempre será considerado PLAYER 2)
