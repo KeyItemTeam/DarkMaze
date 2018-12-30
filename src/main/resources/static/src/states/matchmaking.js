@@ -7,7 +7,12 @@ nuevaroca = {
 	y: 0
 }
 
+viejaroca = {
+	life: 0
+}
+
 WSResponse_createRocamsg = false;
+WSResponse_deleteRocamsg = false;
 
 nuevatorch = {
 	x: 0,
@@ -32,8 +37,6 @@ DarkMaze.matchmakingState.prototype = {
 	        console.log("WS message: " + msg.data);
 	        misdatos = JSON.parse(msg.data);
 	        
-	        WSResponse_createRocamsg = false;
-	        
 	        switch(misdatos.protocolo){
 	        
 	        case "createRoca_msg":
@@ -43,14 +46,22 @@ DarkMaze.matchmakingState.prototype = {
 	            };
 	        	 WSResponse_createRocamsg = true;
 				break;
+
+			case "deleteRoca_msg":
+				viejaroca = {
+					life: misdatos.vida
+				};
+				 WSResponse_deleteRocamsg = true;
+				 console.log("bool de borrar: "+WSResponse_deleteRocamsg);
+				 break;
 			
 			case "createAntorcha_msg":
-			nuevatorch = {
+				nuevatorch = {
 				x: misdatos.otherposX,
 				y: misdatos.otherposY
-			};
-			
-			WSResponse_createAntorchamsg = true;
+				};
+				
+				WSResponse_createAntorchamsg = true;
 				break;
 	        
 	        

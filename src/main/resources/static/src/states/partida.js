@@ -210,8 +210,15 @@ DarkMaze.partidaState.prototype = {
         }
         this.habilidadIcono.scale.setTo(0.6, 0.6);
         styleHabilidad = { font: "25px Courier", fill: "#ffffff", align: "left" };
-        habilidadText = game.add.text(50, 2, "x0" + game.global.antorchas.cantidad, styleHabilidad);
-
+    
+        if (game.global.player1.type == "MINOTAURO") {
+        	habilidadText = game.add.text(50, 2, "x0" + game.global.antorchas.cantidad, styleHabilidad);
+        } else {
+        	var rocas = 1;
+        	if (!game.global.roca.used) rocas = 0;
+        	habilidadText = game.add.text(50, 2, "x0" + rocas, styleHabilidad);
+        }
+        
         //Interfaz del número de rondas
         rondaText = game.add.text(380, 2, "RONDA " + (partidas + 1), styleHabilidad);
 
@@ -243,7 +250,14 @@ DarkMaze.partidaState.prototype = {
         }
 
         //Se va actualizando la interfaz con el tiempo
-        habilidadText.text = "x0" + game.global.antorchas.cantidad;
+        if (game.global.player1.type == "MINOTAURO") {
+        	habilidadText.text = "x0" + game.global.antorchas.cantidad;
+        } else {
+        	var rocas = 1;
+        	if (!game.global.roca.used) rocas = 0;
+        	habilidadText.text = "x0" + rocas;
+        }
+        
         minutes = Math.floor(timeRonda / 60000) % 60;
         seconds = Math.floor(timeRonda / 1000) % 60;
 
@@ -308,29 +322,29 @@ DarkMaze.partidaState.prototype = {
 
         if (WSResponse_createRocamsg) {
             stone.play(); //Reproduce el sonido de la piedra
-                game.global.roca.reset(nuevaroca.x, nuevaroca.y); 
-                game.global.roca.exists = true;
-                game.global.roca.visible = true;
-                game.global.roca.body.inmovable = true;
-                game.global.roca.body.moves = false;
-                game.global.roca.used = false; //Solo una roca por partida
-                game.global.roca.salud = 3;
-                WSResponse_createRocamsg = false;
+            game.global.roca.reset(nuevaroca.x, nuevaroca.y);
+            game.global.roca.exists = true;
+            game.global.roca.visible = true;
+            game.global.roca.body.inmovable = true;
+            game.global.roca.body.moves = false;
+            game.global.roca.used = false; //Solo una roca por partida
+            game.global.roca.salud = 3;
+            WSResponse_createRocamsg = false;
         }
 
         if (WSResponse_createAntorchamsg) {
             console.log("llega hasta aquí al menos");
             var antorcha = game.global.antorchas.getFirstExists(false);
-                if (antorcha != undefined) {
-                    console.log("Antorcha vale: "+antorcha);
-                    antorcha.reset(nuevatorch.x, nuevatorch.y);
-                    game.global.antorchas.activada = true;
-                    game.global.antorchas.cantidad--;
-                    antorcha.exists = true;
-                    
-                    WSResponse_createAntorchamsg = false;
-                        
-                    }
+            if (antorcha != undefined) {
+                console.log("Antorcha vale: " + antorcha);
+                antorcha.reset(nuevatorch.x, nuevatorch.y);
+                game.global.antorchas.activada = true;
+                game.global.antorchas.cantidad--;
+                antorcha.exists = true;
+
+                WSResponse_createAntorchamsg = false;
+
+            }
         }
 
         //Con "q" Teseo puede poner rocas
@@ -366,8 +380,8 @@ DarkMaze.partidaState.prototype = {
                     game.global.antorchas.activada = true;
                     game.global.antorchas.cantidad--;
                     antorcha.exists = true;
-                    console.log("Antorcha vale: "+antorcha);
-                    
+                    console.log("Antorcha vale: " + antorcha);
+
 
                     // CÓDIGO PARA CREAR ANTORCHA(S) CON WEBSOCKETS
 
@@ -379,7 +393,7 @@ DarkMaze.partidaState.prototype = {
                     game.global.connection.send(JSON.stringify(mensaje));
 
                     //this.createAntorcha(antorcha.x, antorcha.y);
-                    console.log("Antorcha creada en: "+antorcha.x+" - "+antorcha.y);
+                    console.log("Antorcha creada en: " + antorcha.x + " - " + antorcha.y);
 
                 }
             }
@@ -399,16 +413,47 @@ DarkMaze.partidaState.prototype = {
                     game.state.start('win', true, false);
             }
             //Sirve para que el minotauro pueda destrozar la roca de Teseo
-            if (estaCerca(game.global.player1, game.global.roca, 50) && this.spaceKey.isDown && (game.time.now > game.global.roca.time)) {
+
+            if (game.global.player1.type == "MINOTAURO" && estaCerca(game.global.player1, game.global.roca, 50) && this.spaceKey.isDown && (game.time.now > game.global.roca.time)) {
                 game.global.roca.time = game.time.now + 500;
                 punch.play();
                 game.global.roca.salud--;
                 if (game.global.roca.salud < 1) {
                     stoneBreak.play();
                 }
-                this.putRoca();
+                //this.putRoca();
+
+                //CÓDIGO PARA ELIMINAR LA ROCA CON WEBSOCKETS
+                mensajeDeleteRoca = {
+                    "protocolo": "deleteRoca_msg",
+                    "vida": game.global.roca.salud
+                };
+                game.global.connection.send(JSON.stringify(mensajeDeleteRoca));
+
 
             }
+        }
+        
+        if (WSResponse_deleteRocamsg) {
+            punch.play();
+            game.global.roca.salud = viejaroca.life;
+            console.log("Vida de la roca: " + game.global.roca.salud);
+            if (game.global.roca.salud == 0) {
+                stoneBreak.play();
+            }
+            console.log("Cambio de sprites");
+            if (game.global.roca.salud == 2) {
+                game.global.roca.frame = 1;
+            }
+            else if (game.global.roca.salud == 1) {
+                game.global.roca.frame = 2;
+            }
+            if (game.global.roca.salud == 0) {
+                game.global.roca.kill();
+            }
+
+            WSResponse_deleteRocamsg = false;
+            console.log("bool de borrar ahora: " + WSResponse_deleteRocamsg);
         }
 
         //Comprueba la vida de la roca yy va cambiando su sprite
@@ -662,7 +707,7 @@ DarkMaze.partidaState.prototype = {
     },
 
     //RONDAS CON WEBSOCKETS
-    
+
     /*createRonda: function () {
 
         data = {
@@ -859,13 +904,13 @@ function moverDir(pj, up, down, left, right, runKey) {
 
     //Si no está atacando y no se está moviendo, cambiar la animación a idle
     gestionAnim(pj);
-    
-    if(pj.mov){
-    if (runKey.isDown)
-        mover(pj, pj.direction, pj.run);
 
-    else
-        mover(pj, pj.direction, pj.speed);
+    if (pj.mov) {
+        if (runKey.isDown)
+            mover(pj, pj.direction, pj.run);
+
+        else
+            mover(pj, pj.direction, pj.speed);
     }
 
     return pj.direction;
@@ -934,18 +979,18 @@ function addAttackAnim(pj) {
 function gestionAnim(pj) {
     if (pj.cancelAnim === false) {
         if (pj.mov === false) {
-            
+
             if (pj.direction === 0 || pj.direction === 5 || pj.direction === 7) pj.animations.play("idleBack");
             if (pj.direction === 1 || pj.direction === 4 || pj.direction === 6) pj.animations.play("idle");
             if (pj.direction === 2) pj.animations.play("idleLeft");
             if (pj.direction === 3) pj.animations.play("idleRight");
-           
+
         } else {
             if (pj.direction === 0 || pj.direction === 5 || pj.direction === 7) pj.animations.play("walkBack");
             if (pj.direction === 1 || pj.direction === 4 || pj.direction === 6) pj.animations.play("walk");
             if (pj.direction === 2) pj.animations.play("walkLeft");
             if (pj.direction === 3) pj.animations.play("walkRight");
-           
+
         }
     }
 }
