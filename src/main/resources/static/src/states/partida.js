@@ -487,7 +487,7 @@ DarkMaze.partidaState.prototype = {
             if (this.pulso.time == 4000) this.pulso.time = 0;
 
         } else if (game.global.player2.running) {
-            this.pulso.reset(game.global.player2.pulsoX, game.global.player2.pulsoY)
+            this.pulso.reset((this.math.snapToFloor(Math.floor(game.global.player2.body.x), 32) / 32) * 32, (this.math.snapToFloor(Math.floor(game.global.player2.body.y), 32) / 32) * 32)
             this.pulso.visible = true;
         }
 

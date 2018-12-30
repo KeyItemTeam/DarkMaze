@@ -23,7 +23,10 @@ WSResponse_createAntorchamsg = false;
 
 nuevopj = {
 		x: 0,
-		y: 0
+		y: 0,
+		direction:0,
+		attacking:false,
+		running:false
 	}
 WSResponse_createPjmsg = false;
 
@@ -72,7 +75,10 @@ DarkMaze.matchmakingState.prototype = {
 			case "createPj_msg":
 	        	nuevopj = {
 	                x: misdatos.otherposX,
-	                y: misdatos.otherposY
+	                y: misdatos.otherposY,
+	                direction: misdatos.otherDir,
+	                attacking: misdatos.otherAtk,
+	                running: misdatos.otherRun
 	            };
 	        	 WSResponse_createPjmsg = true;
 	        	break;
