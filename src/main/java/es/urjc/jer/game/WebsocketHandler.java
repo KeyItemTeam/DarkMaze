@@ -18,6 +18,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
 	private Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>(); //guarda los websockets que se crean
 	private ObjectMapper mapper = new ObjectMapper(); //hace posible la lectura de objetos json con jackson
 	private Roca roca;
+	private Player player;
 	
 	@Override //crea sesión cuando te conectas
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -41,6 +42,28 @@ public class WebsocketHandler extends TextWebSocketHandler {
 		switch (node.get("protocolo").asText()) {
 		//un case para cada tipo de mensaje y un default
 		
+		case "createPj_msg":
+			//lee el mensaje
+			Player pj = new Player();
+			player=pj;
+			player.setX(node.get("thisposX").asInt());
+			player.setY(node.get("thisposY").asInt());
+			player.setDirection(node.get("thisDir").asInt());
+			player.setAttacking(node.get("thisAtk").asBoolean());
+			player.setRunning(node.get("thisRun").asBoolean());
+			
+			//le manda la respuesta al otro jugador
+			ObjectNode newPjMsg = mapper.createObjectNode();
+			newPjMsg.put("protocolo", "createPj_msg");
+			newPjMsg.put("otherposX", player.getX());
+			newPjMsg.put("otherposY", player.getY());
+			newPjMsg.put("otherDir", player.getDirection());
+			newPjMsg.put("otherAtk", player.isAttacking());
+			newPjMsg.put("otherRun", player.isRunning());
+			
+			sendMessageToAllBut(newPjMsg, session);
+			break;
+			
 		case "createRoca_msg":
 			//lee el mensaje
 			Roca pedrolo = new Roca();
