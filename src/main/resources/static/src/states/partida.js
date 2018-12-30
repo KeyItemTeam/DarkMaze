@@ -421,7 +421,7 @@ DarkMaze.partidaState.prototype = {
                 if (game.global.roca.salud < 1) {
                     stoneBreak.play();
                 }
-                //this.putRoca();
+
 
                 //CÓDIGO PARA ELIMINAR LA ROCA CON WEBSOCKETS
                 mensajeDeleteRoca = {
@@ -541,36 +541,6 @@ DarkMaze.partidaState.prototype = {
             }
         });
 
-        /*this.getRoca(function (updateRoca) {
-            if (updateRoca != null) {
-                game.global.roca.x = updateRoca.x;
-                game.global.roca.y = updateRoca.y;
-                game.global.roca.salud = updateRoca.life;
-                game.global.roca.exists = true;
-                game.global.roca.visible = true;
-                game.global.roca.body.inmovable = true;
-                game.global.roca.body.moves = false;
-                if (game.debug) {
-                    //console.log("Posicion de la roca: " + toString(updateRoca) + " actualizada");
-                }
-            }
-        });*/
-
-        this.getAntorcha(function (updateAntorcha) {
-            if (updateAntorcha != null) {
-                for (var i = 0; i < updateAntorcha.length; i++) {
-                    var b = game.global.antorchas.children[i];
-                    b.x = updateAntorcha[i].x;
-                    b.y = updateAntorcha[i].y;
-                    b.exists = true;
-                    b.visible = true;
-                }
-                if (game.debug) {
-                    //console.log("Posicion de la antorcha: " + toString(updateAntorcha) + " actualizada");
-                }
-            }
-        });
-
 
     },
     // Con este método recuperamos al jugador online (que siempre será considerado PLAYER 2)
@@ -618,94 +588,7 @@ DarkMaze.partidaState.prototype = {
     },
 
 
-    createRoca() {
-        var data = {
-            x: game.global.roca.x,
-            y: game.global.roca.y,
-            life: game.global.roca.salud
-        }
-
-        $.ajax({
-            method: "POST",
-            url: 'http://localhost:8080/roca',
-            data: JSON.stringify(data),
-            processData: false,
-            headers: {
-                "Content-Type": "application/json"
-            },
-        }).done(function (data) {
-            console.log("Roca created: " + JSON.stringify(data));
-            //game.global.roca = data
-        })
-    },
-
-    putRoca() {
-        var data = {
-            x: game.global.roca.x,
-            y: game.global.roca.y,
-            life: game.global.roca.salud
-        }
-
-        $.ajax({
-            method: "PUT",
-            url: 'http://localhost:8080/roca/',
-            data: JSON.stringify(data),
-            processData: false,
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).done(function (data) {
-            if (game.debug) {
-                //console.log("Actualizada posicion de la roca: " + JSON.stringify(data))
-            }
-        })
-    },
-
-    getRoca(callback) {
-        $.ajax({
-            method: "GET",
-            url: 'http://localhost:8080/roca/',
-            processData: false,
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).done(function (data) {
-            callback(data);
-        })
-    },
-
-    createAntorcha(antorchaX, antorchaY) {
-        var data = {
-            x: antorchaX,
-            y: antorchaY
-        }
-
-        $.ajax({
-            method: "POST",
-            url: 'http://localhost:8080/antorcha',
-            data: JSON.stringify(data),
-            processData: false,
-            headers: {
-                "Content-Type": "application/json"
-            },
-        }).done(function (data) {
-            console.log("Antorcha created: " + JSON.stringify(data));
-        })
-    },
-
-    getAntorcha(callback) {
-        $.ajax({
-            method: "GET",
-            url: 'http://localhost:8080/antorchas',
-            processData: false,
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).done(function (data) {
-            callback(data);
-        })
-    },
-
+   
     //RONDAS CON WEBSOCKETS
 
     /*createRonda: function () {
