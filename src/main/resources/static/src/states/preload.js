@@ -21,6 +21,7 @@ DarkMaze.preloadState.prototype = {
         game.load.image('pulso', 'assets/images/placeholders/pulso.png'); // Pulso
         game.load.image('button','assets/images/placeholders/button.png'); //Botón
         game.load.image('bpartida', 'assets/images/partida1.png'); // Botón de partida
+        game.load.image('pr', 'assets/images/pr.png'); // Botón de partida
         game.load.image('bcontroles', 'assets/images/controles.png'); // Botón de controles
         game.load.image('reloj', 'assets/sprites/reloj.png'); // Icono de reloj
         game.load.image('iconoMinotauro', 'assets/sprites/iconoMinotauro.png'); //Icono del minotauro
